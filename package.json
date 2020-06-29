@@ -26,15 +26,33 @@
     "help": "nx help"
   },
   "private": true,
-  "dependencies": {},
+  "dependencies": {
+    "@aws-cdk/core": "^1.46.0",
+    "source-map-support": "^0.5.19"
+  },
   "devDependencies": {
-    "@nrwl/workspace": "9.4.5",
+    "@aws-cdk/assert": "^1.46.0",
+    "@aws-cdk/aws-cognito": "^1.47.0",
+    "@aws-cdk/aws-lambda": "^1.47.0",
+    "@aws-cdk/aws-lambda-nodejs": "^1.47.0",
+    "@nrwl/eslint-plugin-nx": "9.4.5",
+    "@nrwl/jest": "^9.5.0",
+    "@nrwl/workspace": "^9.4.5",
+    "@nx-plug/aws-cdk": "0.0.4",
+    "@nx-plug/aws-lambda": "0.0.2",
+    "@types/jest": "25.1.4",
     "@types/node": "~8.9.4",
+    "@typescript-eslint/eslint-plugin": "2.19.2",
+    "@typescript-eslint/parser": "2.19.2",
+    "aws-cdk": "^1.47.0",
     "dotenv": "6.2.0",
+    "eslint": "6.8.0",
+    "eslint-config-prettier": "6.0.0",
+    "jest": "25.2.3",
+    "prettier": "2.0.4",
+    "ts-jest": "25.2.1",
     "ts-node": "~7.0.0",
     "tslint": "~6.0.0",
-    "eslint": "6.8.0",
-    "typescript": "~3.8.3",
-    "prettier": "2.0.4"
+    "typescript": "~3.8.3"
   }
 }
