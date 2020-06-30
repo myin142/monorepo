@@ -7,7 +7,7 @@ jobs:
         steps:
             - checkout
             - node/install-packages:
-                  override-ci-command: npm install
+                  cache-path: ./node_modules
             - run: npm run build
             - run: sh ./scripts/gh-deploy $GH_TOKEN
     test:
@@ -15,14 +15,14 @@ jobs:
         steps:
             - checkout
             - node/install-packages:
-                  override-ci-command: npm install
+                  cache-path: ./node_modules
             - run: npm test
     integration:
         executor: node/default
         steps:
             - checkout
             - node/install-packages:
-                  override-ci-command: npm install
+                  cache-path: ./node_modules
             - run: npm run e2e
 
 workflows:

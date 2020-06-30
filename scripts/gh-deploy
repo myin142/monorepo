@@ -7,8 +7,8 @@ BRANCH=master
 
 echo "Deploying to Github Pages"
 
-git config user.email "build@circleci.com"
-git config user.name "Circle CI"
+git config --global user.email "build@circleci.com"
+git config --global user.name "Circle CI"
 
 git clone --quiet --branch=$BRANCH $REPO $REPO_TARGET
 
