@@ -2,12 +2,13 @@ version: 2.1
 orbs:
     node: circleci/node@3.0.0
 jobs:
-    build:
+    deploy:
         executor: node/default
         steps:
             - checkout
             - node/install-packages
             - run: npm run build
+            - run: ./scripts/gh-deploy $GH_TOKEN
     test:
         executor: node/default
         steps:

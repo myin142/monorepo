@@ -1,0 +1,29 @@
+#!/bin/sh
+
+TOKEN=$1
+REPO="https://$TOKEN@github.com:myin142/myin142.github.io.git"
+REPO_TARGET="ci-website"
+DEPLOY_FOLDERS=(
+    apps/admin
+)
+
+echo "Deploying to Github Pages"
+
+git config user.email "build@circleci.com"
+git config user.name "Circle CI"
+
+git clone --quiet $REPO $REPO_TARGET > /dev/null
+
+echo "Copying Folders"
+for app in ${DEPLOY_FOLDERS[@]}; do
+    cp "dist/${app}" $REPO_TARGET -r
+done
+
+cd $REPO_TARGET
+git add -f .
+if git commit -m "Deploy with CircleCI"; then
+    echo "Pushing to Github Pages"
+    git push -fq origin master > /dev/null
+else
+    echo "Skip deployment. Nothing changed"
+fi
