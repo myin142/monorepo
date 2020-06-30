@@ -1,8 +1,12 @@
-import * as cdk from '@aws-cdk/core';
-import { UserPool, UserPoolClientIdentityProvider, OAuthScope } from '@aws-cdk/aws-cognito';
+import { Stack, Construct, StackProps } from '@aws-cdk/core';
+import {
+    UserPool,
+    UserPoolClientIdentityProvider,
+    OAuthScope,
+} from '@aws-cdk/aws-cognito';
 
-export class AuthenticationStack extends cdk.Stack {
-    constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
+export class AuthenticationStack extends Stack {
+    constructor(scope: Construct, id: string, props?: StackProps) {
         super(scope, id, props);
 
         const userPoolName = 'MyinUserPool';
@@ -13,7 +17,9 @@ export class AuthenticationStack extends cdk.Stack {
         const userPool = new UserPool(this, 'userpool', { userPoolName });
 
         const client = userPool.addClient(userPoolClientName, {
-            supportedIdentityProviders: [UserPoolClientIdentityProvider.COGNITO],
+            supportedIdentityProviders: [
+                UserPoolClientIdentityProvider.COGNITO,
+            ],
             oAuth: {
                 flows: { implicitCodeGrant: true },
                 scopes: [

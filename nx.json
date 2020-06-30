@@ -1,26 +1,26 @@
 {
-  "npmScope": "myin",
-  "implicitDependencies": {
-    "workspace.json": "*",
-    "package.json": {
-      "dependencies": "*",
-      "devDependencies": "*"
+    "npmScope": "myin",
+    "implicitDependencies": {
+        "workspace.json": "*",
+        "package.json": {
+            "dependencies": "*",
+            "devDependencies": "*"
+        },
+        "tsconfig.json": "*",
+        "tslint.json": "*",
+        "nx.json": "*"
     },
-    "tsconfig.json": "*",
-    "tslint.json": "*",
-    "nx.json": "*"
-  },
-  "tasksRunnerOptions": {
-    "default": {
-      "runner": "@nrwl/workspace/tasks-runners/default",
-      "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e"]
-      }
+    "tasksRunnerOptions": {
+        "default": {
+            "runner": "@nrwl/workspace/tasks-runners/default",
+            "options": {
+                "cacheableOperations": ["build", "lint", "test", "e2e"]
+            }
+        }
+    },
+    "projects": {
+        "cloud-stacks": {
+            "tags": []
+        }
     }
-  },
-  "projects": {
-    "cloud-stacks": {
-      "tags": []
-    }
-  }
 }

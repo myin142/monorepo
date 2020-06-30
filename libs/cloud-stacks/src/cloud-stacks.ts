@@ -1,4 +1,3 @@
-
 import 'source-map-support/register';
 import * as cdk from '@aws-cdk/core';
 import { AuthenticationStack } from './lib/authentication-stack';
