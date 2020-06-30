@@ -3,7 +3,9 @@
 TOKEN=$1
 REPO="https://$TOKEN@github.com:myin142/myin142.github.io.git"
 REPO_TARGET="ci-website"
-DEPLOY_FOLDERS=("admin")
+
+declare -a DEPLOY_FOLDERS
+DEPLOY_FOLDERS[0]="admin"
 
 echo "Deploying to Github Pages"
 
