@@ -5,7 +5,7 @@
     "scripts": {
         "nx": "nx",
         "start": "nx serve",
-        "build": "nx affected:build --base=origin/master~1 --head=origin/master",
+        "build": "nx run-many --target=build --all",
         "test": "nx affected:test",
         "lint": "nx affected:lint",
         "e2e": "nx affected:e2e",
