@@ -26,9 +26,9 @@ workflows:
     build-and-test:
         jobs:
             - deploy:
-              requires:
-                  - test
-                  - integration
+                  requires:
+                      - test
+                      - integration
             - test
             - integration:
                   filters:
