@@ -9,7 +9,7 @@ jobs:
             - node/install-packages:
                   override-ci-command: npm install
             - run: npm run build
-            - run: ./scripts/gh-deploy $GH_TOKEN
+            - run: sh ./scripts/gh-deploy $GH_TOKEN
     test:
         executor: node/default
         steps:
