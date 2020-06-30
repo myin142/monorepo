@@ -3,9 +3,7 @@
 TOKEN=$1
 REPO="https://$TOKEN@github.com:myin142/myin142.github.io.git"
 REPO_TARGET="ci-website"
-DEPLOY_FOLDERS=(
-    "apps/admin"
-)
+DEPLOY_FOLDERS=("admin")
 
 echo "Deploying to Github Pages"
 
@@ -16,7 +14,7 @@ git clone --quiet $REPO $REPO_TARGET > /dev/null
 
 echo "Copying Folders"
 for app in ${DEPLOY_FOLDERS[@]}; do
-    cp "dist/${app}" $REPO_TARGET -r
+    cp "dist/apps/${app}" $REPO_TARGET -r
 done
 
 cd $REPO_TARGET
