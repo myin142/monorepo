@@ -23,7 +23,7 @@ jobs:
             - run: npm run e2e
 
 workflows:
-    build-and-test:
+    test-and-deploy:
         jobs:
             - test
             - deploy:
