@@ -6,20 +6,26 @@ jobs:
         executor: node/default
         steps:
             - checkout
-            - node/install-packages
+            - node/install-packages:
+                  cache-path: ~/project/node_modules
+                  override-ci-command: npm install
             - run: npm run build
             - run: sh ./scripts/gh-deploy $GH_TOKEN
     test:
         executor: node/default
         steps:
             - checkout
-            - node/install-packages
+            - node/install-packages:
+                  cache-path: ~/project/node_modules
+                  override-ci-command: npm install
             - run: npm test
     integration:
         executor: node/default
         steps:
             - checkout
-            - node/install-packages
+            - node/install-packages:
+                  cache-path: ~/project/node_modules
+                  override-ci-command: npm install
             - run: npm run e2e
 
 workflows:
