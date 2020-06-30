@@ -14,13 +14,15 @@ jobs:
         executor: node/default
         steps:
             - checkout
-            - node/install-packages
+            - node/install-packages:
+                  override-ci-command: npm install
             - run: npm test
     integration:
         executor: node/default
         steps:
             - checkout
-            - node/install-packages
+            - node/install-packages:
+                  override-ci-command: npm install
             - run: npm run e2e
 
 workflows:
