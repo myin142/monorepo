@@ -5,7 +5,7 @@ REPO="https://$TOKEN@github.com/myin142/myin142.github.io.git"
 REPO_TARGET="ci-website"
 BRANCH=master
 
-DEPLOY_FOLDERS=(
+declare -a DEPLOY_FOLDERS=(
     "admin"
 )
 
