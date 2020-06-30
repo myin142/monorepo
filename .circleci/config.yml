@@ -25,12 +25,13 @@ jobs:
 workflows:
     build-and-test:
         jobs:
+            - test
             - deploy:
                   requires:
                       - test
-                      - integration
-            - test
             - integration:
+                  requires:
+                      - deploy
                   filters:
                       branches:
                           only:
