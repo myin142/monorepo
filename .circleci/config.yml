@@ -6,23 +6,20 @@ jobs:
         executor: node/default
         steps:
             - checkout
-            - node/install-packages:
-                  cache-path: ./node_modules
+            - node/install-packages
             - run: npm run build
             - run: sh ./scripts/gh-deploy $GH_TOKEN
     test:
         executor: node/default
         steps:
             - checkout
-            - node/install-packages:
-                  cache-path: ./node_modules
+            - node/install-packages
             - run: npm test
     integration:
         executor: node/default
         steps:
             - checkout
-            - node/install-packages:
-                  cache-path: ./node_modules
+            - node/install-packages
             - run: npm run e2e
 
 workflows:
