@@ -14,8 +14,8 @@ git clone --quiet --branch=$BRANCH $REPO $REPO_TARGET
 
 echo "Copying Folders"
 
-# Arrays do not work, have to manually copy each folder
-cp "dist/apps/admin" $REPO_TARGET -r
+# Copy all apps for now
+cp "dist/apps/*" $REPO_TARGET -r
 
 cd $REPO_TARGET
 git add -f .
