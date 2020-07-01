@@ -1,10 +1,9 @@
 version: 2.1
-orbs:
-    node: circleci/node@1.1.6
 commands:
     install-with-cache:
         description: 'Npm install with restorable cache'
         steps:
+            - run: node --version
             - restore_cache:
                   keys:
                       - node-cache-{{ checksum "package-lock.json" }}
@@ -15,20 +14,23 @@ commands:
                       - node_modules/
 jobs:
     test:
-        executor: node/default
+        docker:
+            image: 'node:latest'
         steps:
             - checkout
             - install-with-cache
             - run: npm test
     deploy:
-        executor: node/default
+        docker:
+            image: 'node:latest'
         steps:
             - checkout
             - install-with-cache
-            - run: NODE_OPTIONS=--max_old_space_size=4096 npm run build
+            - run: npm run build
             - run: sh ./scripts/gh-deploy $GH_TOKEN
     integration:
-        executor: node/default
+        docker:
+            image: 'node:latest'
         steps:
             - checkout
             - install-with-cache
