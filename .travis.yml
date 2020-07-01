@@ -4,13 +4,17 @@ node_js:
 
 cache: npm
 
+before_script:
+    - COMMITS=($(echo $TRAVIS_COMMIT_RANGE | sed 's/\.\+/ /'))
+    - BASE=${COMMITS[0]}
+    - HEAD=${COMMITS[1]}
+    - echo $BASE
+    - echo $HEAD
+
 jobs:
     include:
-        - script:
-              - echo $TRAVIS_COMMIT
-              - echo $TRAVIS_COMMIT_RANGE
-              - npm test
-        - script: npm run build
+        - script: npm test -- --base=$BASE --head=$HEAD
+        - script: npm run build -- --base=$BASE --head=$HEAD
           deploy:
               provider: pages
               skip_cleanup: true
@@ -21,4 +25,4 @@ jobs:
               on:
                   branch: travis
         - if: branch = master
-          script: npm run e2e
+        - script: npm run e2e -- --base=$BASE --head=$HEAD
