@@ -25,4 +25,4 @@ jobs:
               on:
                   branch: travis
         - if: branch = master
-        - script: npm run e2e -- --base=$BASE --head=$HEAD
+          script: npm run e2e -- --base=$BASE --head=$HEAD

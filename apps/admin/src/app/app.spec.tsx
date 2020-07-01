@@ -23,6 +23,6 @@ describe('App', () => {
             </BrowserRouter>
         );
 
-        expect(getByText('Welcome to Admin!')).toBeTruthy();
+        expect(getByText('Welcome to admin!')).toBeTruthy();
     });
 });
