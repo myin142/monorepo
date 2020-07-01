@@ -24,6 +24,6 @@ jobs:
         local_dir: dist/apps/
         repo: myin142/myin142.github.io
         on:
-            branch: circleci-project-setup
+            branch: travis
     - stage: integration
       script: npm run e2e
