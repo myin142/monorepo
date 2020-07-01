@@ -1,0 +1,30 @@
+#!/bin/sh
+
+TOKEN="$1"
+REPO="https://$TOKEN@github.com/myin142/myin142.github.io.git"
+REPO_TARGET="ci-website"
+BRANCH=master
+
+echo "Deploying to Github Pages"
+
+git config --global user.email "build@travis-ci.com"
+git config --global user.name "Travis CI"
+
+git clone --quiet --branch=$BRANCH $REPO $REPO_TARGET
+
+echo "Copying Folders"
+
+# Copy all apps for now
+if [ -d "dist/apps" ]; then
+    cp "dist/apps/*" $REPO_TARGET -r
+fi
+
+cd $REPO_TARGET
+git add -f .
+
+if git commit -m "Deploy with TravisCI"; then
+    echo "Pushing to Github Pages"
+    git push -f origin $BRANCH
+else
+    echo "Skip deployment. Nothing changed"
+fi

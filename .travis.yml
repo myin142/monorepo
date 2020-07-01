@@ -14,16 +14,8 @@ before_script:
 jobs:
     include:
         - script: npm test -- --base=$BASE --head=$HEAD
-        - script: npm run build -- --base=$BASE --head=$HEAD
-          deploy:
-              provider: pages
-              skip_cleanup: true
-              github_token: $GITHUB_TOKEN
-              target_branch: master
-              local_dir: dist/apps/
-              repo: myin142/myin142.github.io
-              on:
-                  branch: travis
-                  condition: -d dist/apps/
+        - script:
+              - npm run build -- --base=$BASE --head=$HEAD
+              - ./scripts/gh-deploy $GITHUB_TOKEN
         - if: branch = master
           script: npm run e2e -- --base=$BASE --head=$HEAD
