@@ -1,43 +1,39 @@
 version: 2.1
 orbs:
     node: circleci/node@3.0.0
+commands:
+    install-with-cache:
+        description: 'Npm install with restorable cache'
+        steps:
+            - restore_cache:
+                  keys:
+                      - node-cache-{{ checksum "package-lock.json" }}
+            - node/install-packages:
+                  override-ci-command: npm install
+            - save_cache:
+                  key: node-cache-{{ checksum "package-lock.json" }}
+                  paths:
+                      - node_modules/
 jobs:
     test:
         executor: node/default
         steps:
             - checkout
-            - restore_cache:
-                  keys:
-                      - node-cache-{{ checksum "package-lock.json" }}
-            - node/install-packages
-            - save_cache:
-                  key: node-cache-{{ checksum "package-lock.json" }}
-                  paths:
-                      - node_modules/
+            - install-with-cache
             - run: npm test
     deploy:
         executor: node/default
         steps:
             - checkout
-            - restore_cache:
-                  keys:
-                      - node-cache-{{ checksum "package-lock.json" }}
-            - node/install-packages
+            - install-with-cache
             - run: npm run build
             - run: sh ./scripts/gh-deploy $GH_TOKEN
     integration:
         executor: node/default
         steps:
             - checkout
-            - restore_cache:
-                  keys:
-                      - node-cache-{{ checksum "package-lock.json" }}
-            - node/install-packages
+            - install-with-cache
             - run: npm run e2e
-            - restore_cache:
-                  keys:
-                      - node-cache-{{ checksum "package-lock.json" }}
-
 workflows:
     test-and-deploy:
         jobs:
