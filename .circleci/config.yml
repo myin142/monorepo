@@ -22,7 +22,7 @@ jobs:
             - run: npm test
     deploy:
         docker:
-            - image: 'node:latest'
+            - image: 'node:12'
         steps:
             - checkout
             - install-with-cache
