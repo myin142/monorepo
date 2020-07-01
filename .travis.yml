@@ -27,3 +27,6 @@ jobs:
             branch: travis
     - stage: integration
       script: npm run e2e
+
+script:
+  - npm run build
