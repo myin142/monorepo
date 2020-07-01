@@ -6,9 +6,10 @@ cache: npm
 
 jobs:
     include:
-        - script: npm test
-        - if: branch = master
-          script: npm run e2e
+        - script:
+              - echo $TRAVIS_COMMIT
+              - echo $TRAVIS_COMMIT_RANGE
+              - npm test
         - script: npm run build
           deploy:
               provider: pages
@@ -19,3 +20,5 @@ jobs:
               repo: myin142/myin142.github.io
               on:
                   branch: travis
+        - if: branch = master
+          script: npm run e2e
