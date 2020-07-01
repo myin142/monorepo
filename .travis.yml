@@ -6,7 +6,8 @@ cache: npm
 
 stages:
     - test
-    - deploy
+    - name: deploy
+      if: branch = master
     - name: integration
       if: branch = master
 
