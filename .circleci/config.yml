@@ -15,14 +15,14 @@ commands:
 jobs:
     test:
         docker:
-            image: 'node:latest'
+            - image: 'node:latest'
         steps:
             - checkout
             - install-with-cache
             - run: npm test
     deploy:
         docker:
-            image: 'node:latest'
+            - image: 'node:latest'
         steps:
             - checkout
             - install-with-cache
@@ -30,7 +30,7 @@ jobs:
             - run: sh ./scripts/gh-deploy $GH_TOKEN
     integration:
         docker:
-            image: 'node:latest'
+            - image: 'node:latest'
         steps:
             - checkout
             - install-with-cache
