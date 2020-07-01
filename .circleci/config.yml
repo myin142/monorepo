@@ -5,15 +5,15 @@ jobs:
     test:
         executor: node/default
         steps:
-            - save_cache:
-                  key: node-cache-{{ checksum "package-lock.json" }}
-                  paths:
-                      - node_modules/
             - checkout
             - restore_cache:
                   keys:
                       - node-cache-{{ checksum "package-lock.json" }}
             - node/install-packages
+            - save_cache:
+                  key: node-cache-{{ checksum "package-lock.json" }}
+                  paths:
+                      - node_modules/
             - run: npm test
     deploy:
         executor: node/default
