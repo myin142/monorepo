@@ -7,7 +7,7 @@ commands:
             - restore_cache:
                   keys:
                       - node-cache-{{ checksum "package-lock.json" }}
-            - run: npm ci
+            - run: npm install
             - save_cache:
                   key: node-cache-{{ checksum "package-lock.json" }}
                   paths:
@@ -15,7 +15,7 @@ commands:
 jobs:
     test:
         docker:
-            - image: 'node:latest'
+            - image: 'node:12'
         steps:
             - checkout
             - install-with-cache
@@ -30,7 +30,7 @@ jobs:
             - run: sh ./scripts/gh-deploy $GH_TOKEN
     integration:
         docker:
-            - image: 'node:latest'
+            - image: 'node:12'
         steps:
             - checkout
             - install-with-cache
