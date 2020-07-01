@@ -5,10 +5,10 @@ node_js:
 cache: npm
 
 stages:
-  - test
-  - deploy
-  - integration
-    if: branch = master
+    - test
+    - deploy
+    - name: integration
+      if: branch = master
 
 before_script:
     - COMMITS=($(echo $TRAVIS_COMMIT_RANGE | sed 's/\.\+/ /'))
@@ -23,7 +23,7 @@ jobs:
           script: npm test -- --base=$BASE --head=$HEAD
         - stage: deloy
           script:
-            - npm run build -- --base=$BASE --head=$HEAD
-            - ./scripts/gh-deploy $GITHUB_TOKEN
+              - npm run build -- --base=$BASE --head=$HEAD
+              - ./scripts/gh-deploy $GITHUB_TOKEN
         - stage: integration
           script: npm run e2e -- --base=$BASE --head=$HEAD
