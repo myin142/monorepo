@@ -1,0 +1,30 @@
+language: node_js
+node_js:
+    - 'node'
+
+cache: npm
+
+stages:
+    - test
+    - name: deploy
+      if: branch = master
+    - name: integration
+      if: branch = master
+
+before_script:
+    - COMMITS=($(echo $TRAVIS_COMMIT_RANGE | sed 's/\.\+/ /'))
+    - BASE=${COMMITS[0]}
+    - HEAD=${COMMITS[1]}
+    - echo $BASE
+    - echo $HEAD
+
+jobs:
+    include:
+        - stage: test
+          script: npm test -- --base=$BASE --head=$HEAD
+        - stage: deloy
+          script:
+              - npm run build -- --base=$BASE --head=$HEAD
+              - ./scripts/gh-deploy $GITHUB_TOKEN
+        - stage: integration
+          script: npm run e2e -- --base=$BASE --head=$HEAD
