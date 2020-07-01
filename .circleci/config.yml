@@ -9,6 +9,7 @@ commands:
                   keys:
                       - node-cache-{{ checksum "package-lock.json" }}
             - node/install-packages:
+                  with-cache: false
                   override-ci-command: npm install
             - save_cache:
                   key: node-cache-{{ checksum "package-lock.json" }}
