@@ -25,7 +25,7 @@ jobs:
         steps:
             - checkout
             - install-with-cache
-            - run: npm run build
+            - run: NODE_OPTIONS=--max_old_space_size=4096 npm run build
             - run: sh ./scripts/gh-deploy $GH_TOKEN
     integration:
         executor: node/default
