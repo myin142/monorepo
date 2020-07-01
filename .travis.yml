@@ -4,29 +4,19 @@ node_js:
 
 cache: npm
 
-stages:
-  - test
-  - deploy
-  - integration
-    if: branch = master
-
 jobs:
-  include:
-    - stage: test
-      script: npm test
-    - stage: deploy
-      script: npm run build
-      deploy: &github
-        provider: pages
-        skip_cleanup: true
-        github_token: $GITHUB_TOKEN
-        target_branch: master
-        local_dir: dist/apps/
-        repo: myin142/myin142.github.io
-        on:
-            branch: travis
-    - stage: integration
-      script: npm run e2e
+    include:
+        - script: npm test
+        - script: npm run build
+        - if: branch = master
+          script: npm run e2e
 
-script:
-  - npm run build
+deploy:
+    provider: pages
+    skip_cleanup: true
+    github_token: $GITHUB_TOKEN
+    target_branch: master
+    local_dir: dist/apps/
+    repo: myin142/myin142.github.io
+    on:
+        branch: travis
