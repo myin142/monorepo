@@ -24,6 +24,6 @@ jobs:
               repo: myin142/myin142.github.io
               on:
                   branch: travis
-                  condition: -z dist/apps/
+                  condition: -d dist/apps/
         - if: branch = master
           script: npm run e2e -- --base=$BASE --head=$HEAD
