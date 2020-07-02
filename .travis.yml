@@ -24,7 +24,7 @@ jobs:
     include:
         - stage: test
           script: npm test -- --base=$BASE --head=$HEAD
-        - stage: deloy
+        - stage: deploy
           script:
               - npm run build -- --base=$BASE --head=$HEAD
               - ./scripts/gh-deploy $GITHUB_TOKEN

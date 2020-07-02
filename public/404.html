@@ -5,7 +5,17 @@
         <title>Single Page Apps for GitHub Pages</title>
         <script type="text/javascript">
             sessionStorage.redirect = location.href;
-            console.log(location);
+
+            const segments = 1;
+            const parts = location.pathname
+                .split('/')
+                .filter((x) => x !== '')
+                .filter((x, i) => i < segments);
+
+            // Prevent infinite reload if root path has no index file
+            if (parts.length > 0) {
+                location.href = `/${parts.join('/')}`;
+            }
         </script>
     </head>
 
