@@ -14,7 +14,9 @@ stages:
 before_script:
     - COMMITS=($(echo $TRAVIS_COMMIT_RANGE | sed 's/\.\+/ /'))
     - BASE=${COMMITS[0]}
+    - if [ -z "$BASE" ]; then BASE="origin/master"; fi
     - HEAD=${COMMITS[1]}
+    - if [ -z "$HEAD" ]; then HEAD="$TRAVIS_COMMIT"; fi
     - echo $BASE
     - echo $HEAD
 
