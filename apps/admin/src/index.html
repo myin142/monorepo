@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <!-- Important slash at the end -->
+        <base href="/admin/" />
         <meta charset="utf-8" />
         <title>Admin</title>
-        <base href="/" />
+
+        <!-- Need second base tag, last one will always be overwritten to '/' -->
+        <base href="/admin/" />
 
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" type="image/x-icon" href="favicon.ico" />
@@ -11,4 +15,14 @@
     <body>
         <div id="root"></div>
     </body>
+
+    <script>
+        (function () {
+            var redirect = sessionStorage.redirect;
+            delete sessionStorage.redirect;
+            if (redirect && redirect != location.href) {
+                history.replaceState(null, null, redirect);
+            }
+        })();
+    </script>
 </html>
