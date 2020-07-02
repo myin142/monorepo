@@ -16,11 +16,11 @@ echo "Copying Folders"
 
 # Copy all apps for now
 if [ -d "dist/apps" ]; then
-    cp "dist/apps/*" $REPO_TARGET -r
+    cp dist/apps/* $REPO_TARGET -r
 fi
 
 # Copy files for static hosting
-cp "public/*" $REPO_TARGET -r
+cp public/* $REPO_TARGET -r
 
 cd $REPO_TARGET
 git add -f .
