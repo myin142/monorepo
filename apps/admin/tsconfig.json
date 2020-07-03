@@ -1,15 +1,10 @@
 {
-    "extends": "../../tsconfig.json",
-    "compilerOptions": {
-        "jsx": "react",
-        "allowJs": true,
-        "esModuleInterop": true,
-        "allowSyntheticDefaultImports": true,
-        "types": ["node", "jest"]
-    },
-    "files": [
-        "../../node_modules/@nrwl/react/typings/cssmodule.d.ts",
-        "../../node_modules/@nrwl/react/typings/image.d.ts"
-    ],
-    "include": ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"]
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "jsx": "preserve",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "types": ["webpack-env", "node", "jest"]
+  },
+  "include": ["**/*.ts", "**/*.tsx", "**/*.vue"]
 }

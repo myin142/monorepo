@@ -1,13 +1,13 @@
 module.exports = {
-    name: 'admin',
-    preset: '../../jest.config.js',
-    transform: {
-        '^(?!.*\\.(js|jsx|ts|tsx|css|json)$)': '@nrwl/react/plugins/jest',
-        '^.+\\.[tj]sx?$': [
-            'babel-jest',
-            { cwd: __dirname, configFile: './babel-jest.config.json' },
-        ],
-    },
-    moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'html'],
-    coverageDirectory: '../../coverage/apps/admin',
+  name: 'admin',
+  preset: '../../jest.config.js',
+  transform: {
+    '^.+\\.vue$': 'vue-jest',
+    '.+\\.(css|styl|less|sass|scss|svg|png|jpg|ttf|woff|woff2)$':
+      'jest-transform-stub',
+    '^.+\\.tsx?$': 'ts-jest'
+  },
+  moduleFileExtensions: ['ts', 'tsx', 'vue', 'js', 'json'],
+  coverageDirectory: '../../coverage/apps/admin',
+  snapshotSerializers: ['jest-serializer-vue']
 };

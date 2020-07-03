@@ -32,26 +32,22 @@
             }
         },
         "admin": {
+            "projectType": "application",
             "root": "apps/admin",
             "sourceRoot": "apps/admin/src",
-            "projectType": "application",
-            "schematics": {},
             "architect": {
                 "build": {
-                    "builder": "@nrwl/web:build",
+                    "builder": "@nx-plus/vue-plugin:browser",
                     "options": {
+                        "publicPath": "/admin",
                         "outputPath": "dist/apps/admin",
                         "index": "apps/admin/src/index.html",
-                        "main": "apps/admin/src/main.tsx",
-                        "polyfills": "apps/admin/src/polyfills.ts",
+                        "main": "apps/admin/src/main.ts",
                         "tsConfig": "apps/admin/tsconfig.app.json",
                         "assets": [
                             "apps/admin/src/favicon.ico",
                             "apps/admin/src/assets"
-                        ],
-                        "styles": ["apps/admin/src/styles.css"],
-                        "scripts": [],
-                        "webpackConfig": "@nrwl/react/plugins/webpack"
+                        ]
                     },
                     "configurations": {
                         "production": {
@@ -61,25 +57,14 @@
                                     "with": "apps/admin/src/environments/environment.prod.ts"
                                 }
                             ],
-                            "optimization": true,
+                            "mode": "production",
                             "outputHashing": "all",
-                            "sourceMap": false,
-                            "extractCss": true,
-                            "namedChunks": false,
-                            "extractLicenses": true,
-                            "vendorChunk": false,
-                            "budgets": [
-                                {
-                                    "type": "initial",
-                                    "maximumWarning": "2mb",
-                                    "maximumError": "5mb"
-                                }
-                            ]
+                            "extractCss": true
                         }
                     }
                 },
                 "serve": {
-                    "builder": "@nrwl/web:dev-server",
+                    "builder": "@nx-plus/vue-plugin:dev-server",
                     "options": {
                         "buildTarget": "admin:build"
                     },
@@ -93,11 +78,12 @@
                     "builder": "@nrwl/linter:lint",
                     "options": {
                         "linter": "eslint",
+                        "config": "apps/admin/.eslintrc",
                         "tsConfig": [
                             "apps/admin/tsconfig.app.json",
                             "apps/admin/tsconfig.spec.json"
                         ],
-                        "exclude": ["**/node_modules/**", "!apps/admin/**/*"]
+                        "exclude": ["**/node_modules/**", "!apps/admin/**"]
                     }
                 },
                 "test": {
