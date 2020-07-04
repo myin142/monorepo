@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8" />
-        <title>Single Page Apps for GitHub Pages</title>
+        <title>Not Found</title>
         <script type="text/javascript">
             sessionStorage.redirect = location.href;
 
@@ -12,12 +12,15 @@
                 .filter((x) => x !== '')
                 .filter((x, i) => i < segments);
 
-            // Prevent infinite reload if root path has no index file
-            if (parts.length > 0) {
-                location.href = `/${parts.join('/')}`;
+            // Prevent infinite reload if path does not exist
+            const url = `/${parts.join('/')}`;
+            if (url !== location.pathname) {
+                location.href = url;
             }
         </script>
     </head>
 
-    <body></body>
+    <body>
+        Page not found
+    </body>
 </html>

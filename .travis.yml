@@ -7,9 +7,11 @@ cache: npm
 stages:
     - test
     - name: deploy
-      if: branch = master
+      if: branch = master AND type = push
     - name: integration
-      if: branch = master
+      if: branch = master AND type = push
+    - name: nightly # Run daily for testing if server is operating normally
+      if: type = cron
 
 before_script:
     - COMMITS=($(echo $TRAVIS_COMMIT_RANGE | sed 's/\.\+/ /'))
@@ -23,10 +25,14 @@ before_script:
 jobs:
     include:
         - stage: test
-          script: npm test -- --base=$BASE --head=$HEAD
+          script:
+              - npm test -- --base=$BASE --head=$HEAD
+              - npm run lint -- --base=$BASE --head=$HEAD
         - stage: deploy
           script:
               - npm run build -- --base=$BASE --head=$HEAD
               - ./scripts/gh-deploy $GITHUB_TOKEN
         - stage: integration
           script: npm run e2e -- --base=$BASE --head=$HEAD
+        - stage: nightly
+          script: npm run nightly -- --base=$BASE --head=$HEAD

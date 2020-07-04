@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 TOKEN="$1"
 REPO="https://$TOKEN@github.com/myin142/myin142.github.io.git"
 REPO_TARGET="ci-website"
@@ -24,7 +26,7 @@ if [ -d "dist/apps" ]; then
 fi
 
 # Copy files for static hosting
-cp public/* $REPO_TARGET -r
+cp dist/apps/public/assets/* $REPO_TARGET -r
 
 cd $REPO_TARGET
 git add -f .

@@ -28,6 +28,13 @@
     "admin-e2e": {
       "tags": [],
       "implicitDependencies": ["admin"]
+    },
+    "public": {
+      "tags": []
+    },
+    "public-e2e": {
+      "tags": [],
+      "implicitDependencies": ["public"]
     }
   }
 }

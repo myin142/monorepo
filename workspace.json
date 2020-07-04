@@ -126,6 +126,112 @@
                     }
                 }
             }
+        },
+        "public": {
+            "root": "apps/public",
+            "sourceRoot": "apps/public/src",
+            "projectType": "application",
+            "schematics": {},
+            "architect": {
+                "build": {
+                    "builder": "@nrwl/web:build",
+                    "options": {
+                        "baseHref": "/public/",
+                        "outputPath": "dist/apps/public",
+                        "index": "apps/public/src/index.html",
+                        "main": "apps/public/src/main.ts",
+                        "polyfills": "apps/public/src/polyfills.ts",
+                        "tsConfig": "apps/public/tsconfig.app.json",
+                        "assets": [
+                            "apps/public/src/favicon.ico",
+                            "apps/public/src/assets"
+                        ],
+                        "styles": ["apps/public/src/styles.css"],
+                        "scripts": []
+                    },
+                    "configurations": {
+                        "production": {
+                            "fileReplacements": [
+                                {
+                                    "replace": "apps/public/src/environments/environment.ts",
+                                    "with": "apps/public/src/environments/environment.prod.ts"
+                                }
+                            ],
+                            "optimization": true,
+                            "outputHashing": "all",
+                            "sourceMap": false,
+                            "extractCss": true,
+                            "namedChunks": false,
+                            "extractLicenses": true,
+                            "vendorChunk": false,
+                            "budgets": [
+                                {
+                                    "type": "initial",
+                                    "maximumWarning": "2mb",
+                                    "maximumError": "5mb"
+                                }
+                            ]
+                        }
+                    }
+                },
+                "serve": {
+                    "builder": "@nrwl/web:dev-server",
+                    "options": {
+                        "buildTarget": "public:build"
+                    },
+                    "configurations": {
+                        "production": {
+                            "buildTarget": "public:build:production"
+                        }
+                    }
+                },
+                "lint": {
+                    "builder": "@nrwl/linter:lint",
+                    "options": {
+                        "linter": "eslint",
+                        "tsConfig": [
+                            "apps/public/tsconfig.app.json",
+                            "apps/public/tsconfig.spec.json"
+                        ],
+                        "exclude": ["**/node_modules/**", "!apps/public/**/*"]
+                    }
+                },
+                "test": {
+                    "builder": "@nrwl/jest:jest",
+                    "options": {
+                        "jestConfig": "apps/public/jest.config.js",
+                        "tsConfig": "apps/public/tsconfig.spec.json",
+                        "passWithNoTests": true,
+                        "setupFile": "apps/public/src/test-setup.ts"
+                    }
+                }
+            }
+        },
+        "public-e2e": {
+            "root": "apps/public-e2e",
+            "sourceRoot": "apps/public-e2e/src",
+            "projectType": "application",
+            "architect": {
+                "nightly": {
+                    "builder": "@nrwl/cypress:cypress",
+                    "options": {
+                        "cypressConfig": "apps/public-e2e/cypress.json",
+                        "tsConfig": "apps/public-e2e/tsconfig.e2e.json",
+                        "baseUrl": "https://myin142.github.io/"
+                    }
+                },
+                "lint": {
+                    "builder": "@nrwl/linter:lint",
+                    "options": {
+                        "linter": "eslint",
+                        "tsConfig": ["apps/public-e2e/tsconfig.e2e.json"],
+                        "exclude": [
+                            "**/node_modules/**",
+                            "!apps/public-e2e/**/*"
+                        ]
+                    }
+                }
+            }
         }
     },
     "cli": {
