@@ -1,7 +1,7 @@
 import { notFound, onPage } from '../support/app.po';
 
 // Use timeout to detect infinite reloads
-const visitOpt = { failOnStatusCode: false, timeout: 1000 };
+const visitOpt = { failOnStatusCode: false, timeout: 2000 };
 
 describe('404 Redirect', () => {
     it('Page not found on root', () => {

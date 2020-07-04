@@ -28,6 +28,11 @@ fi
 # Copy files for static hosting
 cp dist/apps/public/assets/* $REPO_TARGET -r
 
+# Append redirect script to every app index file
+# needed for static hosting
+find $REPO_TARGET/* -maxdepth 1 -type f -name "index.html" \
+    -exec sh -c 'echo "<script src="/public/assets/redirect.js" type="text/javascript"></script>" >> {}' \;
+
 cd $REPO_TARGET
 git add -f .
 
