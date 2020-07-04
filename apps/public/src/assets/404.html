@@ -4,8 +4,6 @@
         <meta charset="utf-8" />
         <title>Not Found</title>
         <script type="text/javascript">
-            sessionStorage.redirect = location.href;
-
             const segments = 1;
             const parts = location.pathname
                 .split('/')
@@ -15,6 +13,7 @@
             // Prevent infinite reload if path does not exist
             const url = `/${parts.join('/')}`;
             if (url !== location.pathname) {
+                sessionStorage.redirect = location.href;
                 location.href = url;
             }
         </script>

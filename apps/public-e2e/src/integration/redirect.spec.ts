@@ -17,6 +17,7 @@ describe('404 Redirect', () => {
     it('Stay on existing sub directory', () => {
         cy.visit('/public', visitOpt);
         onPage();
+        cy.url().should('contain', '/public');
     });
 
     it('Stay on existing sub directory including sub path', () => {
