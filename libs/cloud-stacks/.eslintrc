@@ -2,6 +2,7 @@
     "extends": "../../.eslintrc",
     "rules": {},
     "ignorePatterns": [
-        "!**/*"
+        "!**/*",
+        "**/*.js"
     ]
 }

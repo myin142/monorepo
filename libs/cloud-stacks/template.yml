@@ -1,0 +1,61 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+    cloud-stack
+
+Globals:
+    Function:
+        Timeout: 10
+
+Resources:
+    JapaneseHttpApi:
+        Type: AWS::Serverless::Api
+        Properties:
+            StageName: Dev
+    JapaneseCreateGrammar:
+        Type: AWS::Serverless::Function
+        Properties:
+            CodeUri: src/japanese
+            Handler: grammar.createGrammarHandler
+            Runtime: nodejs12.x
+            Events:
+                GetGrammar:
+                    Type: Api
+                    Properties:
+                        RestApiId: !Ref JapaneseHttpApi
+                        Method: GET
+                        Path: /grammar
+            Policies:
+                - Statement:
+                      - Sid: GetFirebaseParameter
+                        Effect: Allow
+                        Action:
+                            - ssm:GetParameter
+                        Resource: !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/firebase_*'
+
+    # User Pool
+    MyinUserPool:
+        Type: AWS::Cognito::UserPool
+        Properties:
+            AdminCreateUserConfig:
+                AllowAdminCreateUserOnly: true
+    MyinUserPoolClient:
+        Type: AWS::Cognito::UserPoolClient
+        Properties:
+            UserPoolId: !Ref MyinUserPool
+            AllowedOAuthFlowsUserPoolClient: true
+            SupportedIdentityProviders:
+                - COGNITO
+            AllowedOAuthFlows:
+                - implicit
+            AllowedOAuthScopes:
+                - email
+                - openid
+            CallbackURLs:
+                - http://localhost:8080/login/oauth2
+                - https://myin142.github.io/login/oauth2
+    MyinUserPoolDomain:
+        Type: AWS::Cognito::UserPoolDomain
+        Properties:
+            Domain: myin-user-domain
+            UserPoolId: !Ref MyinUserPool

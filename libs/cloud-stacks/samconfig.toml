@@ -1,0 +1,9 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "myin-cloud"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-rvbh4jkwy5cv"
+s3_prefix = "myin-cloud"
+region = "eu-central-1"
+capabilities = "CAPABILITY_IAM"

@@ -40,3 +40,8 @@ Thumbs.db
 
 # CI website deployment folder
 /ci-website/
+
+# Cloud Output Files
+.cdk.staging/
+.parcel-cache/
+.aws-sam/
