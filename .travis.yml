@@ -21,18 +21,19 @@ before_script:
     - if [ -z "$HEAD" ]; then HEAD="$TRAVIS_COMMIT"; fi
     - echo $BASE
     - echo $HEAD
+    - BASE_HEAD_ARGS="--base=$BASE --head=$HEAD"
 
 jobs:
     include:
         - stage: test
           script:
-              - npm test -- --base=$BASE --head=$HEAD
-              - npm run lint -- --base=$BASE --head=$HEAD
+              - npm test -- $BASE_HEAD_ARGS
+              - npm run lint -- $BASE_HEAD_ARGS
         - stage: deploy
           script:
-              - npm run build -- --base=$BASE --head=$HEAD
+              - npm run build -- $BASE_HEAD_ARGS
               - ./scripts/gh-deploy $GITHUB_TOKEN
         - stage: integration
-          script: npm run e2e -- --base=$BASE --head=$HEAD
+          script: npm run e2e -- $BASE_HEAD_ARGS
         - stage: nightly
-          script: npm run nightly -- --base=$BASE --head=$HEAD
+          script: npm run nightly -- $BASE_HEAD_ARGS
