@@ -18,6 +18,7 @@ Resources:
             CodeUri: src/japanese
             Handler: grammar.createGrammarHandler
             Runtime: nodejs12.x
+            Role: !Ref FirebaseParamReadRole
             Events:
                 GetGrammar:
                     Type: Api
@@ -25,13 +26,18 @@ Resources:
                         RestApiId: !Ref JapaneseHttpApi
                         Method: GET
                         Path: /grammar
-            Policies:
-                - Statement:
-                      - Sid: GetFirebaseParameter
-                        Effect: Allow
-                        Action:
-                            - ssm:GetParameter
-                        Resource: !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/firebase_*'
+
+    # Firebase Parameter Role
+    FirebaseParamReadRole:
+        Type: AWS::IAM::Role
+        Properties:
+            AssumAssumeRolePolicyDocument:
+                Statement:
+                    - Sid: GetFirebaseParameter
+                      Effect: Allow
+                      Action:
+                          - ssm:GetParameter
+                      Resource: !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/firebase_*'
 
     # User Pool
     MyinUserPool:
