@@ -5,27 +5,41 @@ Description: >
 
 Globals:
     Function:
-        Timeout: 10
+        Timeout: 20
 
 Resources:
     JapaneseHttpApi:
         Type: AWS::Serverless::Api
         Properties:
             StageName: Dev
-    JapaneseCreateGrammar:
+    JapaneseCreateRadical:
         Type: AWS::Serverless::Function
         Properties:
             CodeUri: src/japanese
-            Handler: grammar.createGrammarHandler
+            Handler: radical.createRadicalHandler
             Runtime: nodejs12.x
             Role: !Ref FirebaseParamReadRole
             Events:
-                GetGrammar:
+                CreateRadical:
+                    Type: Api
+                    Properties:
+                        RestApiId: !Ref JapaneseHttpApi
+                        Method: POST
+                        Path: /radical
+    JapaneseGetRadical:
+        Type: AWS::Serverless::Function
+        Properties:
+            CodeUri: src/japanese
+            Handler: radical.getRadicalHandler
+            Runtime: nodejs12.x
+            Role: !Ref FirebaseParamReadRole
+            Events:
+                GetRadical:
                     Type: Api
                     Properties:
                         RestApiId: !Ref JapaneseHttpApi
                         Method: GET
-                        Path: /grammar
+                        Path: /radical
 
     # Firebase Parameter Role
     FirebaseParamReadRole:

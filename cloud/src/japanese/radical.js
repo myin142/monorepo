@@ -39,17 +39,43 @@ async function initialFirebaseSetup() {
     });
 }
 
-const GRAMMAR_COLLECTION = 'grammar';
+const RADICAL_COLLECTION = 'radicals';
 
-exports.createGrammarHandler = async (query, context) => {
-    await initialFirebaseSetup();
-    const body = query.body;
-    console.log(body);
-
-    const result = await admin.firestore().collection(GRAMMAR_COLLECTION).get();
-
-    return {
-        statusCode: 200,
-        body: JSON.stringify(result.docs.map(x => x.data())),
-    };
+const response = {
+    statusCode: 200,
+    body: '',
 };
+
+function statusAndBody(statusCode, body) {
+    return { statusCode, body: JSON.stringify(body) };
+}
+function successAndBody(body) {
+    return statusAndBody(200, body);
+}
+function statusAndError(statusCode, error) {
+    return statusAndBody(statusCode, { error });
+}
+
+exports.createRadicalHandler = async (query, context) => {
+    await initialFirebaseSetup();
+
+    if (!query.body) return statusAndError(400, 'Empty body');
+
+    const { radical, tags } = JSON.parse(query.body);
+    const { writeTime } = await admin.firestore()
+        .collection(RADICAL_COLLECTION)
+        .doc(radical)
+        .set({ tags });
+
+    return successAndBody({ msg: `Created ${writeTime}` });
+};
+
+exports.getRadicalHandler = async (query, context) => {
+    await initialFirebaseSetup();
+
+    const result = await admin.firestore()
+        .collection(RADICAL_COLLECTION)
+        .get();
+
+    return successAndBody(result.docs.map(x => x.data()));
+}
