@@ -41,11 +41,6 @@ async function initialFirebaseSetup() {
 
 const RADICAL_COLLECTION = 'radicals';
 
-const response = {
-    statusCode: 200,
-    body: '',
-};
-
 function statusAndBody(statusCode, body) {
     return { statusCode, body: JSON.stringify(body) };
 }
