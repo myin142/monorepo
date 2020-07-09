@@ -57,7 +57,8 @@ exports.createRadicalHandler = async (query, context) => {
     if (!query.body) return statusAndError(400, 'Empty body');
 
     const { radical, tags } = JSON.parse(query.body);
-    const { writeTime } = await admin.firestore()
+    const { writeTime } = await admin
+        .firestore()
         .collection(RADICAL_COLLECTION)
         .doc(radical)
         .set({ tags });
@@ -68,9 +69,7 @@ exports.createRadicalHandler = async (query, context) => {
 exports.getRadicalHandler = async (query, context) => {
     await initialFirebaseSetup();
 
-    const result = await admin.firestore()
-        .collection(RADICAL_COLLECTION)
-        .get();
+    const result = await admin.firestore().collection(RADICAL_COLLECTION).get();
 
-    return successAndBody(result.docs.map(x => x.data()));
-}
+    return successAndBody(result.docs.map((x) => x.data()));
+};

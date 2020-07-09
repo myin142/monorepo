@@ -20,7 +20,8 @@
         "update": "nx migrate latest",
         "workspace-schematic": "nx workspace-schematic",
         "dep-graph": "nx dep-graph",
-        "help": "nx help"
+        "help": "nx help",
+        "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points"
     },
     "private": true,
     "dependencies": {
@@ -35,7 +36,17 @@
         "react-router-dom": "5.2.0",
         "source-map-support": "^0.5.19",
         "vue": "^2.6.11",
-        "vue-router": "^3.2.0"
+        "vue-router": "^3.2.0",
+        "@angular/animations": "^9.1.0",
+        "@angular/common": "^9.1.0",
+        "@angular/compiler": "^9.1.0",
+        "@angular/core": "^9.1.0",
+        "@angular/forms": "^9.1.0",
+        "@angular/platform-browser": "^9.1.0",
+        "@angular/platform-browser-dynamic": "^9.1.0",
+        "@angular/router": "^9.1.0",
+        "rxjs": "~6.5.4",
+        "zone.js": "^0.10.2"
     },
     "devDependencies": {
         "@aws-cdk/assert": "^1.49.1",
@@ -49,6 +60,7 @@
         "@babel/preset-env": "7.9.6",
         "@babel/preset-react": "7.9.4",
         "@babel/preset-typescript": "7.9.0",
+        "@nrwl/angular": "^9.5.1",
         "@nrwl/cypress": "9.5.0",
         "@nrwl/eslint-plugin-nx": "9.4.5",
         "@nrwl/jest": "^9.5.1",
@@ -85,6 +97,11 @@
         "ts-node": "~7.0.0",
         "tslint": "~6.0.0",
         "typescript": "~3.8.3",
-        "vue-template-compiler": "^2.6.11"
+        "vue-template-compiler": "^2.6.11",
+        "@angular/compiler-cli": "^9.1.0",
+        "@angular/language-service": "^9.1.0",
+        "@angular-devkit/build-angular": "0.901.0",
+        "codelyzer": "~5.0.1",
+        "jest-preset-angular": "8.1.2"
     }
 }

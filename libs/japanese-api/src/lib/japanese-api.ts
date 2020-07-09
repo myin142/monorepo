@@ -8,7 +8,7 @@ export enum Stage {
     LOCAL = 'http://localhost:3000',
 }
 
-export const apiUrl = (stage: Stage): string => {
+const apiUrl = (stage: Stage): string => {
     let url = API_URL;
     if (stage.startsWith('http://')) {
         url = stage;
