@@ -1,40 +1,43 @@
 {
-    "npmScope": "myin",
-    "implicitDependencies": {
-        "workspace.json": "*",
-        "package.json": {
-            "dependencies": "*",
-            "devDependencies": "*"
-        },
-        "tsconfig.json": "*",
-        "tslint.json": "*",
-        "nx.json": "*"
+  "npmScope": "myin",
+  "implicitDependencies": {
+    "workspace.json": "*",
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
     },
-    "tasksRunnerOptions": {
-        "default": {
-            "runner": "@nrwl/workspace/tasks-runners/default",
-            "options": {
-                "cacheableOperations": ["build", "lint", "test", "e2e"]
-            }
-        }
-    },
-    "projects": {
-        "public": {
-            "tags": []
-        },
-        "public-e2e": {
-            "tags": [],
-            "implicitDependencies": ["public"]
-        },
-        "japanese-api": {
-            "tags": []
-        },
-        "admin": {
-            "tags": []
-        },
-        "admin-e2e": {
-            "tags": [],
-            "implicitDependencies": ["admin"]
-        }
+    "tsconfig.json": "*",
+    "tslint.json": "*",
+    "nx.json": "*"
+  },
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "@nrwl/workspace/tasks-runners/default",
+      "options": {
+        "cacheableOperations": ["build", "lint", "test", "e2e"]
+      }
     }
+  },
+  "projects": {
+    "public": {
+      "tags": []
+    },
+    "public-e2e": {
+      "tags": [],
+      "implicitDependencies": ["public"]
+    },
+    "japanese-api": {
+      "tags": []
+    },
+    "admin": {
+      "tags": []
+    },
+    "admin-e2e": {
+      "tags": [],
+      "implicitDependencies": ["admin"]
+    },
+    "utils-shared": {
+      "tags": []
+    }
+  }
 }

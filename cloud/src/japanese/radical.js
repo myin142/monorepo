@@ -42,7 +42,14 @@ async function initialFirebaseSetup() {
 const RADICAL_COLLECTION = 'radicals';
 
 function statusAndBody(statusCode, body) {
-    return { statusCode, body: JSON.stringify(body) };
+    return {
+        statusCode,
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'OPTIONS,POST,GET,PUT',
+        },
+        body: JSON.stringify(body),
+    };
 }
 function successAndBody(body) {
     return statusAndBody(200, body);
