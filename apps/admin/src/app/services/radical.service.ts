@@ -8,7 +8,7 @@ import { Page } from '@myin/utils/shared';
 export class RadicalService {
     constructor() {}
 
-    getRadicals(): Promise<Radical[]> {
+    getRadicals(): Promise<Page<Radical[]>> {
         return getRadicals();
     }
 }

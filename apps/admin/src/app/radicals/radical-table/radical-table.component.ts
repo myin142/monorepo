@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Radical } from '@myin/japanese-api';
 import { Page } from '@myin/utils/shared';
+import { Radical } from '@myin/japanese-api';
 
 @Component({
     selector: 'myin-radical-table',
@@ -8,12 +8,12 @@ import { Page } from '@myin/utils/shared';
     styleUrls: ['./radical-table.component.css'],
 })
 export class RadicalTableComponent implements OnInit {
-    @Input() radicals: Page<Radical>;
+    @Input() radicals: Page<Radical[]>;
     @Input() columns = ['radical', 'tags'];
 
-    constructor() {}
+    constructor() { }
 
-    ngOnInit(): void {}
+    ngOnInit(): void { }
 
     getRadical({ radical }: Radical): string {
         return radical;

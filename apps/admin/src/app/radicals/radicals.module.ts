@@ -13,4 +13,4 @@ import { RouterModule } from '@angular/router';
         RouterModule.forChild([{ path: '', component: RadicalsComponent }]),
     ],
 })
-export class RadicalsModule {}
+export class RadicalsModule { }

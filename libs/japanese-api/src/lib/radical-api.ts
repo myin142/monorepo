@@ -1,11 +1,12 @@
 import { apiRequest } from './japanese-api';
+import { Page } from '@myin/utils/shared';
 
 // TODO: return value
 export const createRadical = (radical: Radical): Promise<any> => {
     return apiRequest({ url: 'radical', method: 'POST', data: radical });
 };
 
-export const getRadicals = (): Promise<Radical[]> => {
+export const getRadicals = (): Promise<Page<Radical[]>> => {
     return apiRequest({ url: 'radical', method: 'GET' });
 };
 

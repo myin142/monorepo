@@ -9,17 +9,11 @@ import { Page } from '@myin/utils/shared';
     styleUrls: ['./radicals.component.css'],
 })
 export class RadicalsComponent implements OnInit {
-    radicals: Page<Radical>;
+    radicals: Promise<Page<Radical[]>>;
 
     constructor(private radicalService: RadicalService) {}
 
     ngOnInit(): void {
-        this.radicalService.getRadicals().then((r) => {
-            this.radicals = {
-                content: r,
-                page: 0,
-                pageSize: 100,
-            };
-        });
+        this.radicals = this.radicalService.getRadicals();
     }
 }
