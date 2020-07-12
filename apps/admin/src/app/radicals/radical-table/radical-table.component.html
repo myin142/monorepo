@@ -37,4 +37,6 @@
         <tr mat-header-row *matHeaderRowDef="columns"></tr>
         <tr mat-row *matRowDef="let myRowData; columns: columns"></tr>
     </table>
+
+    <mat-paginator [pageSize]="radicals.pageSize" [pageIndex]="radicals.page"></mat-paginator>
 </ng-container>

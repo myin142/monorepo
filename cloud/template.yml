@@ -12,15 +12,15 @@ Resources:
         Type: AWS::Serverless::Api
         Properties:
             StageName: Dev
-    JapaneseCreateRadical:
+    JapaneseUpdateRadical:
         Type: AWS::Serverless::Function
         Properties:
             CodeUri: src/japanese
-            Handler: radical.createRadicalHandler
+            Handler: radical.updateRadicalHandler
             Runtime: nodejs12.x
-            Role: !Ref FirebaseParamReadRole
+            Role: !GetAtt MongoDbParamReadRole.Arn
             Events:
-                CreateRadical:
+                UpdateRadical:
                     Type: Api
                     Properties:
                         RestApiId: !Ref JapaneseHttpApi
@@ -32,7 +32,7 @@ Resources:
             CodeUri: src/japanese
             Handler: radical.getRadicalHandler
             Runtime: nodejs12.x
-            Role: !Ref FirebaseParamReadRole
+            Role: !GetAtt MongoDbParamReadRole.Arn
             Events:
                 GetRadical:
                     Type: Api
@@ -41,17 +41,23 @@ Resources:
                         Method: GET
                         Path: /radical
 
-    # Firebase Parameter Role
-    FirebaseParamReadRole:
+    # MongoDb Parameter Role
+    MongoDbParamReadRole:
         Type: AWS::IAM::Role
         Properties:
-            AssumAssumeRolePolicyDocument:
+            AssumeRolePolicyDocument:
                 Statement:
-                    - Sid: GetFirebaseParameter
-                      Effect: Allow
-                      Action:
-                          - ssm:GetParameter
-                      Resource: !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/firebase_*'
+                    - Effect: Allow
+                      Action: sts:AssumeRole
+                      Principal:
+                          Service: lambda.amazonaws.com
+            Policies:
+                - PolicyName: 'MongoDbParamRead'
+                  PolicyDocument:
+                      Statement:
+                          - Effect: Allow
+                            Action: ssm:GetParameter
+                            Resource: !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/mongodb_*'
 
     # User Pool
     MyinUserPool:

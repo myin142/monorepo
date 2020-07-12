@@ -6,7 +6,7 @@ export const updateRadical = (radical: Radical): Promise<void> => {
 };
 
 export const getRadicals = (): Promise<Page<Radical>> => {
-    return apiRequest({ url: 'radical', method: 'GET' });
+    return apiRequest({ url: 'radical?page=1', method: 'GET' });
 };
 
 export interface Radical {

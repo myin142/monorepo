@@ -5,6 +5,7 @@ import { RadicalTableComponent } from './radical-table/radical-table.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -15,6 +16,7 @@ import { ReactiveFormsModule } from '@angular/forms';
         MatTableModule,
         MatIconModule,
         MatButtonModule,
+        MatPaginatorModule,
         ReactiveFormsModule,
         RouterModule.forChild([{ path: '', component: RadicalsComponent }]),
     ],

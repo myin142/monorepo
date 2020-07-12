@@ -1,45 +1,43 @@
-const admin = require('firebase-admin');
 const { SSM } = require('aws-sdk');
+const mongodb = require('mongodb');
 
 const ssm = new SSM();
 
+const RADICAL_TAG_COLLECTION = 'tags';
+const RADICAL_DATABASE = 'radical';
+
+let db
 let initialized = false;
 
-async function loadFirebaseKey() {
-    const keyResponse = await ssm
-        .getParameter({
-            Name: 'firebase_key',
-            WithDecryption: true,
-        })
-        .promise();
-    const emailResponse = await ssm
-        .getParameter({
-            Name: 'firebase_email',
-        })
-        .promise();
+async function loadConnectionDetails() {
+    const urlResponse = await ssm.getParameter({ Name: 'mongodb_url' }).promise();
+    const userResponse = await ssm.getParameter({ Name: 'mongodb_user' }).promise();
+    const passwordResponse = await ssm.getParameter({
+        Name: 'mongodb_password',
+        WithDecryption: true,
+    }).promise();
 
-    const key = keyResponse.Parameter.Value.replace(/\\n/g, '\n');
-    const email = emailResponse.Parameter.Value;
+    const url = urlResponse.Parameter.Value;
+    const user = userResponse.Parameter.Value;
+    const password = encodeURIComponent(passwordResponse.Parameter.Value);
 
-    return { key, email };
+    return { url, user, password };
 }
 
-async function initialFirebaseSetup() {
+async function initMongoDB() {
     if (initialized) return;
 
-    const firebase = await loadFirebaseKey();
-
-    admin.initializeApp({
-        credential: admin.credential.cert({
-            projectId: 'japanese-64585',
-            privateKey: firebase.key,
-            clientEmail: firebase.email,
-        }),
-        databaseURL: 'https://japanese-64585.firebaseio.com',
-    });
+    try {
+        const { password, url, user } = await loadConnectionDetails();
+        const connUrl = `mongodb+srv://${user}:${password}@${url}/${RADICAL_DATABASE}?retryWrites=true&w=majority`;
+        const client = new mongodb.MongoClient(connUrl, { useNewUrlParser: true });
+        db = (await client.connect()).db(RADICAL_DATABASE);
+        console.log('Connected successfully!')
+        initialized = true;
+    } catch (err) {
+        console.log(err);
+    }
 }
-
-const RADICAL_COLLECTION = 'radicals';
 
 function statusAndBody(statusCode, body) {
     return {
@@ -59,27 +57,32 @@ function statusAndError(statusCode, error) {
 }
 
 exports.updateRadicalHandler = async (query, context) => {
-    await initialFirebaseSetup();
+    await initMongoDB();
 
     if (!query.body) return statusAndError(400, 'Empty body');
 
     const { radical, tags } = JSON.parse(query.body);
     if (!radical || !tags) return statusAndError(400, 'Invalid body');
 
-    await admin
-        .firestore()
-        .collection(RADICAL_COLLECTION)
-        .doc(radical)
-        .set({ tags });
+    const updateRadical = { radical, tags };
+    await db.collection(RADICAL_TAG_COLLECTION)
+        .update(updateRadical, updateRadical, { upsert: true });
 
     return successAndBody({});
 };
 
 exports.getRadicalHandler = async (query, context) => {
-    await initialFirebaseSetup();
+    await initMongoDB();
 
-    console.log(query);
-    const result = await admin.firestore().collection(RADICAL_COLLECTION).get();
+    const { page = 1, pageSize = 10 } = query.queryStringParameters || {};
 
-    return successAndBody(result.docs.map((x) => x.data()));
+    const result = await db.collection(RADICAL_TAG_COLLECTION)
+        .find({})
+        .toArray();
+
+    return successAndBody({
+        content: result,
+        page,
+        pageSize,
+    });
 };
