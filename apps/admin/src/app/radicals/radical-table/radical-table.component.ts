@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, ElementRef, ViewChildren, QueryList } from '@angular/core';
 import { Page } from '@myin/utils/shared';
 import { Radical } from '@myin/japanese-api';
 import { FormControl } from '@angular/forms';
@@ -16,7 +16,7 @@ export class RadicalTableComponent implements OnInit {
     editIndex: number;
     editTagControl = new FormControl();
 
-    constructor(private radicalService: RadicalService) {}
+    constructor(private radicalService: RadicalService, private elemRef: ElementRef) {}
 
     ngOnInit(): void {}
 
@@ -31,6 +31,7 @@ export class RadicalTableComponent implements OnInit {
     editMode(radical: Radical, index: number): void {
         this.editTagControl.setValue(this.getTags(radical));
         this.editIndex = index;
+        this.elemRef.nativeElement.querySelector('input').focus();
     }
 
     async saveRadical(radical: Radical) {
@@ -40,7 +41,7 @@ export class RadicalTableComponent implements OnInit {
             tags,
         });
 
-        this.radicals.content[0].tags = tags;
+        this.radicals.content[this.editIndex].tags = tags;
         this.closeEdit();
     }
 

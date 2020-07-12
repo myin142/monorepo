@@ -9,7 +9,7 @@ import {
 describe('Radicals', () => {
     beforeEach(() => {
         cy.server();
-        cy.route('GET', '/radical', 'fixture:radicals.json');
+        cy.route('GET', '/radical?**', 'fixture:radicals.json');
         cy.visit('/radicals');
     });
 
@@ -36,24 +36,26 @@ describe('Radicals', () => {
     });
 
     it('edit radical tags', () => {
-        getRadicalTable().find(`tbody tr:first`).as('radical');
+        getRadicalTable().find(`tbody tr:nth(1)`).as('radical');
 
         cy.route('POST', '/radical', {});
 
+        // Edit with buttons
         cy.get('@radical').find(radicalEditButton).click();
         cy.get('@radical')
             .find(radicalTagEditInput)
-            .should('have.value', 'hook')
+            .should('have.value', 'two')
             .clear()
             .type('new tag');
-
         cy.get('@radical').find(radicalSaveButton).click();
-        cy.get('@radical').should('contain', '亅').and('contain', 'new tag');
-    });
+        cy.get('@radical').should('contain', '二').and('contain', 'new tag');
 
-    it('cancel edit radical tags', () => {
-        getRadicalTable().find(`tbody tr:first`).as('radical');
+        // Edit with enter
+        cy.get('@radical').find(radicalEditButton).click();
+        cy.get('@radical').find(radicalTagEditInput).clear().type('edit with enter{enter}');
+        cy.get('@radical').and('contain', 'edit with enter');
 
+        // Cancel Edit
         cy.get('@radical').find(radicalEditButton).click();
         cy.get('@radical').find(radicalTagEditInput).type('changed');
         cy.get('@radical').find(radicalCancelButton).click();

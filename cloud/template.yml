@@ -4,6 +4,10 @@ Description: >
     cloud-stack
 
 Globals:
+    Api:
+        Cors:
+            AllowOrigin: "'*'"
+            AllowHeaders: "'*'"
     Function:
         Timeout: 20
 
