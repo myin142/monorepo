@@ -32,6 +32,8 @@ describe('Radicals', () => {
     it('edit radical tags', () => {
         getRadicalTable().find(`tbody tr:first`).as('radical');
 
+        cy.route('POST', '/radical', {});
+
         cy.get('@radical').find(radicalEditButton).click();
         cy.get('@radical')
             .find(radicalTagEditInput)
@@ -42,6 +44,6 @@ describe('Radicals', () => {
                 cy.get('@radical').find(radicalSaveButton).click();
             });
 
-        cy.get('@radical').contains('亅').and('contain', 'new tag');
+        cy.get('@radical').should('contain', '亅').and('contain', 'new tag');
     });
 });

@@ -16,7 +16,7 @@
             <th mat-header-cell *matHeaderCellDef>Actions</th>
             <td mat-cell *matCellDef="let radical; let i = index">
                 <ng-container *ngIf="editIndex == i; else editBtn">
-                    <button mat-icon-button data-cy-radical-save>
+                    <button mat-icon-button data-cy-radical-save (click)="saveRadical()">
                         <mat-icon>save</mat-icon>
                     </button>
                     <button mat-icon-button data-cy-radical-edit-cancel>

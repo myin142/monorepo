@@ -58,19 +58,21 @@ function statusAndError(statusCode, error) {
     return statusAndBody(statusCode, { error });
 }
 
-exports.createRadicalHandler = async (query, context) => {
+exports.updateRadicalHandler = async (query, context) => {
     await initialFirebaseSetup();
 
     if (!query.body) return statusAndError(400, 'Empty body');
 
     const { radical, tags } = JSON.parse(query.body);
-    const { writeTime } = await admin
+    if (!radical || !tags) return statusAndError(400, 'Invalid body');
+
+    await admin
         .firestore()
         .collection(RADICAL_COLLECTION)
         .doc(radical)
         .set({ tags });
 
-    return successAndBody({ msg: `Created ${writeTime}` });
+    return successAndBody({});
 };
 
 exports.getRadicalHandler = async (query, context) => {

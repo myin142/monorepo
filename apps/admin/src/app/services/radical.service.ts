@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { getRadicals, Radical } from '@myin/japanese-api';
+import { getRadicals, Radical, updateRadical } from '@myin/japanese-api';
 import { Page } from '@myin/utils/shared';
 
 @Injectable({
@@ -8,7 +8,11 @@ import { Page } from '@myin/utils/shared';
 export class RadicalService {
     constructor() {}
 
-    getRadicals(): Promise<Page<Radical[]>> {
+    getRadicals(): Promise<Page<Radical>> {
         return getRadicals();
+    }
+
+    updateRadical(radical: Radical): Promise<void> {
+        return updateRadical(radical);
     }
 }

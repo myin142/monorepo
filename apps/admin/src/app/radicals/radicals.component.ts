@@ -9,7 +9,7 @@ import { Page } from '@myin/utils/shared';
     styleUrls: ['./radicals.component.css'],
 })
 export class RadicalsComponent implements OnInit {
-    radicals: Promise<Page<Radical[]>>;
+    radicals: Promise<Page<Radical>>;
 
     constructor(private radicalService: RadicalService) {}
 
