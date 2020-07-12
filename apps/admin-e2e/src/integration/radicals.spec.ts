@@ -1,4 +1,10 @@
-import { getRadicalTable, radicalEditButton, radicalTagEditInput, radicalSaveButton } from '../support/radicals.po';
+import {
+    getRadicalTable,
+    radicalEditButton,
+    radicalTagEditInput,
+    radicalSaveButton,
+    radicalCancelButton,
+} from '../support/radicals.po';
 
 describe('Radicals', () => {
     beforeEach(() => {
@@ -39,11 +45,18 @@ describe('Radicals', () => {
             .find(radicalTagEditInput)
             .should('have.value', 'hook')
             .clear()
-            .type('new tag')
-            .then(() => {
-                cy.get('@radical').find(radicalSaveButton).click();
-            });
+            .type('new tag');
 
+        cy.get('@radical').find(radicalSaveButton).click();
         cy.get('@radical').should('contain', '亅').and('contain', 'new tag');
+    });
+
+    it('cancel edit radical tags', () => {
+        getRadicalTable().find(`tbody tr:first`).as('radical');
+
+        cy.get('@radical').find(radicalEditButton).click();
+        cy.get('@radical').find(radicalTagEditInput).type('changed');
+        cy.get('@radical').find(radicalCancelButton).click();
+        cy.get('@radical').should('not.contain', 'changed');
     });
 });

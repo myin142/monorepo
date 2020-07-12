@@ -78,6 +78,7 @@ exports.updateRadicalHandler = async (query, context) => {
 exports.getRadicalHandler = async (query, context) => {
     await initialFirebaseSetup();
 
+    console.log(query);
     const result = await admin.firestore().collection(RADICAL_COLLECTION).get();
 
     return successAndBody(result.docs.map((x) => x.data()));
