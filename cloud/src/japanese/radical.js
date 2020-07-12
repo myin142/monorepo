@@ -1,7 +1,8 @@
-const { SSM } = require('aws-sdk');
+const { SSM, S3 } = require('aws-sdk');
 const mongodb = require('mongodb');
 
 const ssm = new SSM();
+const s3 = new S3();
 
 const RADICAL_TAG_COLLECTION = 'tags';
 const RADICAL_DATABASE = 'radical';
@@ -56,22 +57,50 @@ function statusAndError(statusCode, error) {
     return statusAndBody(statusCode, { error });
 }
 
-exports.updateRadicalHandler = async (query, context) => {
-    await initMongoDB();
+exports.syncRadicalHandler = async (query) => {
+    console.log('Start Request');
 
+    if (!query.Records || query.Records.length != 1) {
+        console.log('Invalid', query.Records);
+        return 'invalid event';
+    }
+
+    console.log('Get File');
+
+    const { bucket, object } = query.Records[0].s3;
+    const response = await s3.getObject({ Bucket: bucket.name, Key: object.key }).promise();
+
+    const data = JSON.parse(response.Body.toString()).map(x => ({
+        updateOne: {
+            filter: { radical: x.radical },
+            update: { $set: x },
+            upsert: true,
+        },
+    }));
+
+    await initMongoDB();
+    await db.collection(RADICAL_TAG_COLLECTION)
+        .bulkWrite(data);
+    console.log('Sync success');
+
+    await s3.deleteObject({ Bucket: bucket.name, Key: object.key }).promise();
+    console.log('Sync File deleted');
+};
+
+exports.updateRadicalHandler = async (query) => {
     if (!query.body) return statusAndError(400, 'Empty body');
 
     const { radical, tags } = JSON.parse(query.body);
     if (!radical || !tags) return statusAndError(400, 'Invalid body');
 
-    const updateRadical = { radical, tags };
+    await initMongoDB();
     await db.collection(RADICAL_TAG_COLLECTION)
-        .update(updateRadical, updateRadical, { upsert: true });
+        .update({ radical }, { radical, tags }, { upsert: true });
 
     return successAndBody({});
 };
 
-exports.getRadicalHandler = async (query, context) => {
+exports.getRadicalHandler = async (query) => {
     await initMongoDB();
 
     const { page = 1, pageSize = 10 } = query.queryStringParameters || {};

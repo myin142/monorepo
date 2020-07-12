@@ -12,6 +12,36 @@ Resources:
         Type: AWS::Serverless::Api
         Properties:
             StageName: Dev
+    JapaneseSyncRadicalTags:
+        Type: AWS::Serverless::Function
+        Properties:
+            CodeUri: src/japanese
+            Handler: radical.syncRadicalHandler
+            Runtime: nodejs12.x
+            Policies:
+                - Statement:
+                      - Sid: MongodbRead
+                        Effect: Allow
+                        Action: ssm:GetParameter
+                        Resource: !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/mongodb_*'
+                      - Sid: S3BucketRead
+                        Effect: Allow
+                        Action:
+                            - s3:GetObject
+                            - s3:DeleteObject
+                        Resource: '*'
+            Events:
+                SyncRadical:
+                    Type: S3
+                    Properties:
+                        Bucket: !Ref SyncBucket
+                        Events: s3:ObjectCreated:*
+                        Filter:
+                            S3Key:
+                                Rules:
+                                    - Name: prefix
+                                      Value: radical-tags
+
     JapaneseUpdateRadical:
         Type: AWS::Serverless::Function
         Properties:
@@ -51,13 +81,19 @@ Resources:
                       Action: sts:AssumeRole
                       Principal:
                           Service: lambda.amazonaws.com
+            ManagedPolicyArns:
+                - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
             Policies:
-                - PolicyName: 'MongoDbParamRead'
+                - PolicyName: MongoDbParamRead
                   PolicyDocument:
                       Statement:
                           - Effect: Allow
                             Action: ssm:GetParameter
                             Resource: !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/mongodb_*'
+
+    SyncBucket:
+        Type: AWS::S3::Bucket
+        DependsOn: JapaneseSyncRadicalTags
 
     # User Pool
     MyinUserPool:
