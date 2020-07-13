@@ -15,7 +15,7 @@ Resources:
     JapaneseHttpApi:
         Type: AWS::Serverless::Api
         Properties:
-            StageName: Dev
+            StageName: Prod
     JapaneseSyncRadicalTags:
         Type: AWS::Serverless::Function
         Properties:

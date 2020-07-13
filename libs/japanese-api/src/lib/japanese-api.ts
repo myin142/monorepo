@@ -3,7 +3,7 @@ import axios, { AxiosRequestConfig } from 'axios';
 const API_URL = '';
 
 export enum Stage {
-    DEV = 'Dev',
+    PROD = 'Prod',
     STAGE = 'Stage',
     LOCAL = 'http://localhost:3000',
 }
@@ -19,10 +19,7 @@ const apiUrl = (stage: Stage): string => {
     return url;
 };
 
-export const apiRequest = async <T>(
-    req: AxiosRequestConfig,
-    stage = Stage.LOCAL
-): Promise<T> => {
+export const apiRequest = async <T>(req: AxiosRequestConfig, stage = Stage.LOCAL): Promise<T> => {
     const response = await axios.request({
         ...req,
         baseURL: apiUrl(stage),
