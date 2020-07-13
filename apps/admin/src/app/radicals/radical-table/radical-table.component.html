@@ -42,5 +42,10 @@
         <tr mat-row *matRowDef="let myRowData; columns: columns"></tr>
     </table>
 
-    <mat-paginator [pageSize]="radicals.pageSize" [pageIndex]="radicals.page"></mat-paginator>
+    <mat-paginator
+        [pageSize]="radicals.pageSize"
+        [pageIndex]="radicals.page"
+        [length]="radicals.total"
+        (page)="updatePage($event)"
+    ></mat-paginator>
 </ng-container>

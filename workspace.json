@@ -16,13 +16,8 @@
                         "main": "apps/public/src/main.ts",
                         "polyfills": "apps/public/src/polyfills.ts",
                         "tsConfig": "apps/public/tsconfig.app.json",
-                        "assets": [
-                            "apps/public/src/favicon.ico",
-                            "apps/public/src/assets"
-                        ],
-                        "styles": [
-                            "apps/public/src/styles.css"
-                        ],
+                        "assets": ["apps/public/src/favicon.ico", "apps/public/src/assets"],
+                        "styles": ["apps/public/src/styles.css"],
                         "scripts": []
                     },
                     "configurations": {
@@ -69,10 +64,7 @@
                             "apps/public/tsconfig.app.json",
                             "apps/public/tsconfig.spec.json"
                         ],
-                        "exclude": [
-                            "**/node_modules/**",
-                            "!apps/public/**/*"
-                        ]
+                        "exclude": ["**/node_modules/**", "!apps/public/**/*"]
                     }
                 },
                 "test": {
@@ -103,13 +95,8 @@
                     "builder": "@nrwl/linter:lint",
                     "options": {
                         "linter": "eslint",
-                        "tsConfig": [
-                            "apps/public-e2e/tsconfig.e2e.json"
-                        ],
-                        "exclude": [
-                            "**/node_modules/**",
-                            "!apps/public-e2e/**/*"
-                        ]
+                        "tsConfig": ["apps/public-e2e/tsconfig.e2e.json"],
+                        "exclude": ["**/node_modules/**", "!apps/public-e2e/**/*"]
                     }
                 }
             }
@@ -128,10 +115,7 @@
                             "libs/japanese-api/tsconfig.lib.json",
                             "libs/japanese-api/tsconfig.spec.json"
                         ],
-                        "exclude": [
-                            "**/node_modules/**",
-                            "!libs/japanese-api/**/*"
-                        ]
+                        "exclude": ["**/node_modules/**", "!libs/japanese-api/**/*"]
                     }
                 },
                 "test": {
@@ -160,10 +144,7 @@
                         "polyfills": "apps/admin/src/polyfills.ts",
                         "tsConfig": "apps/admin/tsconfig.app.json",
                         "aot": true,
-                        "assets": [
-                            "apps/admin/src/favicon.ico",
-                            "apps/admin/src/assets"
-                        ],
+                        "assets": ["apps/admin/src/favicon.ico", "apps/admin/src/assets"],
                         "styles": [
                             "./node_modules/@angular/material/prebuilt-themes/pink-bluegrey.css",
                             "apps/admin/src/styles.css"
@@ -172,6 +153,7 @@
                     },
                     "configurations": {
                         "production": {
+                            "baseUrl": "admin",
                             "fileReplacements": [
                                 {
                                     "replace": "apps/admin/src/environments/environment.ts",
@@ -225,10 +207,7 @@
                             "apps/admin/tsconfig.app.json",
                             "apps/admin/tsconfig.spec.json"
                         ],
-                        "exclude": [
-                            "**/node_modules/**",
-                            "!apps/admin/**/*"
-                        ]
+                        "exclude": ["**/node_modules/**", "!apps/admin/**/*"]
                     }
                 },
                 "test": {
@@ -263,13 +242,8 @@
                 "lint": {
                     "builder": "@angular-devkit/build-angular:tslint",
                     "options": {
-                        "tsConfig": [
-                            "apps/admin-e2e/tsconfig.e2e.json"
-                        ],
-                        "exclude": [
-                            "**/node_modules/**",
-                            "!apps/admin-e2e/**/*"
-                        ]
+                        "tsConfig": ["apps/admin-e2e/tsconfig.e2e.json"],
+                        "exclude": ["**/node_modules/**", "!apps/admin-e2e/**/*"]
                     }
                 }
             }
@@ -288,10 +262,7 @@
                             "libs/utils/shared/tsconfig.lib.json",
                             "libs/utils/shared/tsconfig.spec.json"
                         ],
-                        "exclude": [
-                            "**/node_modules/**",
-                            "!libs/utils/shared/**/*"
-                        ]
+                        "exclude": ["**/node_modules/**", "!libs/utils/shared/**/*"]
                     }
                 },
                 "test": {

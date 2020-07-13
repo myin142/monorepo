@@ -1,8 +1,9 @@
 import { Component, Input, OnInit, ElementRef, ViewChildren, QueryList } from '@angular/core';
-import { Page } from '@myin/utils/shared';
+import { Page, PageRequest } from '@myin/utils/shared';
 import { Radical } from '@myin/japanese-api';
 import { FormControl } from '@angular/forms';
 import { RadicalService } from '../../services/radical.service';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
     selector: 'myin-radical-table',
@@ -31,7 +32,6 @@ export class RadicalTableComponent implements OnInit {
     editMode(radical: Radical, index: number): void {
         this.editTagControl.setValue(this.getTags(radical));
         this.editIndex = index;
-        this.elemRef.nativeElement.querySelector('input').focus();
     }
 
     async saveRadical(radical: Radical) {
@@ -43,6 +43,11 @@ export class RadicalTableComponent implements OnInit {
 
         this.radicals.content[this.editIndex].tags = tags;
         this.closeEdit();
+    }
+
+    updatePage({ pageIndex, pageSize }: PageEvent): void {
+        const req: PageRequest = { page: pageIndex, pageSize };
+        this.radicalService.getRadicals(req).then((r) => (this.radicals = r));
     }
 
     closeEdit(): void {

@@ -90,28 +90,40 @@ exports.syncRadicalHandler = async (query) => {
 exports.updateRadicalHandler = async (query) => {
     if (!query.body) return statusAndError(400, 'Empty body');
 
-    const { radical, tags } = JSON.parse(query.body);
-    if (!radical || !tags) return statusAndError(400, 'Invalid body');
+    const data = JSON.parse(query.body);
+    const radical = data.radical;
+    if (!radical) return statusAndError(400, 'Invalid body');
+
+    delete data['_id'];
 
     await initMongoDB();
     await db.collection(RADICAL_TAG_COLLECTION)
-        .update({ radical }, { radical, tags }, { upsert: true });
+        .update({ radical }, data, { upsert: true });
 
     return successAndBody({});
 };
 
-exports.getRadicalHandler = async (query) => {
+exports.getRadicalHandler = async (request) => {
     await initMongoDB();
 
-    const { page = 1, pageSize = 10 } = query.queryStringParameters || {};
+    const queryParam = request.queryStringParameters || {};
+    const page = parseInt(queryParam.page) || 0;
+    const pageSize = parseInt(queryParam.pageSize) || 10;
+
+    const query = {};
 
     const result = await db.collection(RADICAL_TAG_COLLECTION)
-        .find({})
+        .find(query)
+        .skip(page * pageSize)
+        .limit(pageSize)
         .toArray();
+
+    const total = await db.collection(RADICAL_TAG_COLLECTION).countDocuments(query);
 
     return successAndBody({
         content: result,
         page,
         pageSize,
+        total,
     });
 };
