@@ -118,8 +118,8 @@ Resources:
                 - email
                 - openid
             CallbackURLs:
-                - http://localhost:8080/login/oauth2
-                - https://myin142.github.io/login/oauth2
+                - http://localhost:4200/login
+                - https://myin142.github.io/admin/login
     MyinUserPoolDomain:
         Type: AWS::Cognito::UserPoolDomain
         Properties:

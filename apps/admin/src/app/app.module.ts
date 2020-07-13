@@ -4,9 +4,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
+import { LoginComponent } from './login/login.component';
+import { AuthGuard } from './guard/auth.guard';
 
 @NgModule({
-    declarations: [AppComponent],
+    declarations: [AppComponent, LoginComponent],
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
@@ -18,11 +20,14 @@ import { RouterModule } from '@angular/router';
                     redirectTo: 'radicals',
                 },
                 {
+                    path: 'login',
+                    component: LoginComponent,
+                },
+                {
                     path: 'radicals',
                     loadChildren: () =>
-                        import('./radicals/radicals.module').then(
-                            (m) => m.RadicalsModule
-                        ),
+                        import('./radicals/radicals.module').then((m) => m.RadicalsModule),
+                    canActivate: [AuthGuard],
                 },
             ],
             { initialNavigation: 'enabled' }

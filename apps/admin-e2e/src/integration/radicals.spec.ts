@@ -8,6 +8,7 @@ import {
 
 describe('Radicals', () => {
     beforeEach(() => {
+        cy.login();
         cy.server();
         cy.route('GET', '/radical?**', 'fixture:radicals.json');
         cy.visit('/radicals');
