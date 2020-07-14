@@ -9,6 +9,7 @@ Globals:
             AllowOrigin: "'*'"
             AllowHeaders: "'*'"
         Auth:
+            AddDefaultAuthorizerToCorsPreflight: false
             DefaultAuthorizer: AdminAuthorizer
             Authorizers:
                 AdminAuthorizer:
@@ -118,7 +119,6 @@ Resources:
 
     SyncBucket:
         Type: AWS::S3::Bucket
-        DependsOn: JapaneseSyncRadicalTags
 
     # User Pool
     MyinUserPool:

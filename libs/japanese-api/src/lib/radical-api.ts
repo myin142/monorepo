@@ -11,9 +11,10 @@ export const updateRadical = (
 
 export const getRadicals = (
     req: PageRequest,
-    stage: Stage = Stage.LOCAL
+    stage: Stage = Stage.LOCAL,
+    token: string
 ): Promise<Page<Radical>> => {
-    return apiRequest({ url: `radical?${Query.create(req)}`, method: 'GET' }, stage);
+    return apiRequest({ url: `radical?${Query.create(req)}`, method: 'GET' }, stage, token);
 };
 
 export interface Radical {

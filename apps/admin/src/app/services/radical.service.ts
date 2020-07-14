@@ -11,7 +11,7 @@ export class RadicalService {
     constructor(private auth: AuthService) {}
 
     getRadicals(req?: PageRequest): Promise<Page<Radical>> {
-        return getRadicals(req, environment.stage);
+        return getRadicals(req, environment.stage, this.auth.getToken());
     }
 
     updateRadical(radical: Radical): Promise<void> {

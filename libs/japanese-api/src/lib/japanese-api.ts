@@ -24,13 +24,20 @@ export const apiRequest = async <T>(
     stage = Stage.LOCAL,
     token?: string
 ): Promise<T> => {
-    const response = await axios.request({
+    const request = {
         ...req,
         baseURL: apiUrl(stage),
-        headers: {
+    };
+
+    // TODO: add token using interceptor
+    if (token) {
+        request.headers = {
+            ...request.headers,
             Authorization: token,
-        },
-    });
+        };
+    }
+
+    const response = await axios.request(request);
 
     return response.data;
 };

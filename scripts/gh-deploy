@@ -22,6 +22,7 @@ echo "Copying Folders"
 
 # Copy all apps for now
 if [ -d "dist/apps" ]; then
+    rm $REPO_TARGET/* -r
     cp dist/apps/* $REPO_TARGET -r
 fi
 

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Path } from '@myin/utils/shared';
 
 @Injectable({
     providedIn: 'root',
@@ -15,7 +16,7 @@ export class AuthService {
     }
 
     login() {
-        const redirectUri = `${window.location.origin}/login`;
+        const redirectUri = Path.join(document.baseURI, 'login');
         const url = `https://${this.domain}/login?client_id=${this.clientId}&redirect_uri=${redirectUri}&response_type=token&scope=email+openid`;
         window.location.href = url;
     }
