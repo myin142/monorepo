@@ -1,8 +1,12 @@
 import { apiRequest, Stage } from './japanese-api';
 import { Page, PageRequest, Query } from '@myin/utils/shared';
 
-export const updateRadical = (radical: Radical, stage: Stage = Stage.LOCAL): Promise<void> => {
-    return apiRequest({ url: 'radical', method: 'POST', data: radical }, stage);
+export const updateRadical = (
+    radical: Radical,
+    stage: Stage = Stage.LOCAL,
+    token: string
+): Promise<void> => {
+    return apiRequest({ url: 'radical', method: 'POST', data: radical }, stage, token);
 };
 
 export const getRadicals = (
@@ -14,6 +18,6 @@ export const getRadicals = (
 
 export interface Radical {
     radical: string;
-    stroke: number;
-    tags: string[];
+    stroke?: number;
+    tags?: string[];
 }

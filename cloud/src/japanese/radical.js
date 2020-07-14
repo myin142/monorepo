@@ -105,15 +105,24 @@ exports.updateRadicalHandler = async (query) => {
 
 exports.getRadicalHandler = async (request) => {
     await initMongoDB();
-
     const queryParam = request.queryStringParameters || {};
+    return queryRadicalTags(queryParam, { _id: 0, stroke: 0 });
+};
+
+exports.getRadicalListHandler = async (request) => {
+    await initMongoDB();
+    const queryParam = request.queryStringParameters || {};
+    return queryRadicalTags(queryParam, { radical: 1, _id: 0 });
+};
+
+async function queryRadicalTags(queryParam, projection) {
     const page = parseInt(queryParam.page) || 0;
     const pageSize = parseInt(queryParam.pageSize) || 10;
-
     const query = {};
 
     const result = await db.collection(RADICAL_TAG_COLLECTION)
         .find(query)
+        .project(projection)
         .skip(page * pageSize)
         .limit(pageSize)
         .toArray();
@@ -126,4 +135,4 @@ exports.getRadicalHandler = async (request) => {
         pageSize,
         total,
     });
-};
+}

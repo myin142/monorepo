@@ -8,6 +8,11 @@ Globals:
         Cors:
             AllowOrigin: "'*'"
             AllowHeaders: "'*'"
+        Auth:
+            DefaultAuthorizer: AdminAuthorizer
+            Authorizers:
+                AdminAuthorizer:
+                    UserPoolArn: !GetAtt MyinUserPool.Arn
     Function:
         Timeout: 20
 
@@ -74,6 +79,22 @@ Resources:
                         RestApiId: !Ref JapaneseHttpApi
                         Method: GET
                         Path: /radical
+    JapaneseGetRadicalList:
+        Type: AWS::Serverless::Function
+        Properties:
+            CodeUri: src/japanese
+            Handler: radical.getRadicalListHandler
+            Runtime: nodejs12.x
+            Role: !GetAtt MongoDbParamReadRole.Arn
+            Events:
+                GetRadical:
+                    Type: Api
+                    Properties:
+                        RestApiId: !Ref JapaneseHttpApi
+                        Method: GET
+                        Path: /radical/list
+                        Auth:
+                            Authorizer: NONE
 
     # MongoDb Parameter Role
     MongoDbParamReadRole:
