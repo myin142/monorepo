@@ -75,7 +75,7 @@
         "@nrwl/workspace": "^9.5.1",
         "@nx-plug/aws-cdk": "0.0.4",
         "@nx-plug/aws-lambda": "0.0.2",
-        "@nx-plus/vue-plugin": "git+https://git@github.com/myin142/nx-vue-package.git",
+        "@nx-plus/vue": "^0.2.0",
         "@testing-library/react": "10.4.1",
         "@types/jest": "25.1.4",
         "@types/mongodb": "^3.5.25",
@@ -107,6 +107,10 @@
         "ts-node": "~7.0.0",
         "tslint": "~6.0.0",
         "typescript": "~3.8.3",
-        "vue-template-compiler": "^2.6.11"
+        "vue-template-compiler": "^2.6.11",
+        "babel-core": "^7.0.0-bridge.0",
+        "jest-serializer-vue": "^2.0.2",
+        "jest-transform-stub": "^2.0.0",
+        "vue-jest": "^3.0.5"
     }
 }
