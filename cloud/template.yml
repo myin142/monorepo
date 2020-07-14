@@ -91,7 +91,7 @@ Resources:
             CodeUri: src/japanese
             Handler: radical.getRadicalListHandler
             Runtime: nodejs12.x
-            Role: !GetAtt MongoDbParamReadRole.Arn
+            Policies: !Ref MongoDbParamReadPolicy
             Events:
                 GetRadical:
                     Type: Api
@@ -121,6 +121,16 @@ Resources:
                           - Effect: Allow
                             Action: ssm:GetParameter
                             Resource: !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/mongodb_*'
+
+    MongoDbParamReadPolicy:
+        Type: AWS::IAM::ManagedPolicy
+        Properties:
+            PolicyDocument:
+                Version: '2012-10-17'
+                Statement:
+                    - Effect: Allow
+                      Action: ssm:GetParameter
+                      Resource: !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/mongodb_*'
 
     SyncBucket:
         Type: AWS::S3::Bucket
