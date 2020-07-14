@@ -14,6 +14,11 @@ Globals:
             Authorizers:
                 AdminAuthorizer:
                     UserPoolArn: !GetAtt MyinUserPool.Arn
+        MethodSettings:
+            - ThrottlingRateLimit: 50
+              ThrottlingBurstLimit: 50
+              HttpMethod: '*'
+              ResourcePath: '/*'
     Function:
         Timeout: 20
 
