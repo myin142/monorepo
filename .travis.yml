@@ -9,7 +9,7 @@ stages:
     - name: deploy
       if: branch = master AND type = push
     - name: integration
-      if: branch = master AND type = push
+      if: branch = master AND type = pull
     - name: nightly # Run daily for testing if server is operating normally
       if: type = cron
 
@@ -31,8 +31,17 @@ jobs:
               - npm run lint -- $BASE_HEAD_ARGS
         - stage: deploy
           script:
-              - npm run build -- $BASE_HEAD_ARGS
-              - ./scripts/gh-deploy $GITHUB_TOKEN
+              - npm run build
+              - ./scripts/prepare-deploy gh-deploy 
+              deploy:
+                provider: pages
+                skip_cleanup: true
+                github_token: $GITHUB_TOKEN
+                target_branch: master
+                local_dir: gh-deploy
+                repo: myin142/myin142.github.io
+                on:
+                  branch: master
         - stage: integration
           script: npm run e2e -- $BASE_HEAD_ARGS
         - stage: nightly

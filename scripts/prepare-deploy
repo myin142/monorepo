@@ -1,0 +1,60 @@
+#!/bin/sh
+
+set -e
+
+# TOKEN="$1"
+# REPO="https://$TOKEN@github.com/myin142/myin142.github.io.git"
+# BRANCH=master
+REPO_TARGET="$1" #ci-website"
+
+if [ -z $REPO_TARGET ]; then
+    echo "Directory name needed"
+    exit 1
+fi
+
+echo "Prepare for Github Pages Deploy"
+
+# if [ ! -z "$TOKEN" ]; then
+#     git config --global user.email "build@travis-ci.com"
+#     git config --global user.name "Travis CI"
+# fi
+
+# if [ ! -d "$REPO_TARGET" ]; then
+#     git clone --quiet --branch=$BRANCH $REPO $REPO_TARGET
+# fi
+
+echo "Copying Folders"
+
+# Copy all apps for now
+if [ -d "dist/apps" ]; then
+    if [ -d "$REPO_TARGET" ] && [ "$(ls -A $REPO_TARGET)" ]; then
+        echo "Remove existing folder"
+        rm $REPO_TARGET -rf
+    fi
+    mkdir $REPO_TARGET
+    cp dist/apps/* $REPO_TARGET -r
+fi
+
+echo "Copy required static files"
+
+# Copy files for static hosting
+cp dist/apps/public/assets/* $REPO_TARGET -r
+
+echo "Apply required changes to index.html files"
+
+# Append redirect script to every app index file
+# needed for static hosting
+find $REPO_TARGET/* -maxdepth 1 -type f -name "index.html" \
+    -exec sh -c 'echo "<script src="/public/assets/redirect.js" type="text/javascript"></script>" >> {}' \;
+
+echo "$REPO_TARGET ready to be deployed"
+
+# cd $REPO_TARGET
+# git add -f .
+
+# if git commit -m "Deploy with TravisCI"; then
+#     echo "Pushing to Github Pages"
+#     git push -f origin $BRANCH
+# else
+#     echo "Skip deployment. Nothing changed"
+# fi
