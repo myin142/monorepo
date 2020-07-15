@@ -26,8 +26,8 @@ export class AuthService {
         const queryParams = url.substring(index);
         const urlParams = new URLSearchParams(queryParams);
 
-        const token = urlParams.get('id_token') as string;
-        const type = urlParams.get('token_type') as string;
+        const token = urlParams.get('id_token');
+        const type = urlParams.get('token_type');
 
         if (type != null && token != null) {
             this.token = `${type} ${token}`;

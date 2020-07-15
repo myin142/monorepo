@@ -6,7 +6,6 @@ import { Page } from '@myin/utils/shared';
 @Component({
     selector: 'myin-radicals',
     templateUrl: './radicals.component.html',
-    styleUrls: ['./radicals.component.css'],
 })
 export class RadicalsComponent implements OnInit {
     radicals: Promise<Page<Radical>>;

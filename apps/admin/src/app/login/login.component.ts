@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 @Component({
     selector: 'myin-login',
     templateUrl: './login.component.html',
-    styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
     constructor(public auth: AuthService, private router: Router) {}

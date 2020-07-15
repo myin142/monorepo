@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ElementRef, ViewChildren, QueryList } from '@angular/core';
+import { Component, Input, OnInit, ElementRef } from '@angular/core';
 import { Page, PageRequest } from '@myin/utils/shared';
 import { Radical } from '@myin/japanese-api';
 import { FormControl } from '@angular/forms';
