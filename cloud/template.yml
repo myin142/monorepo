@@ -34,17 +34,8 @@ Resources:
             Handler: radical.syncRadicalHandler
             Runtime: nodejs12.x
             Policies:
-                - Statement:
-                      - Sid: MongodbRead
-                        Effect: Allow
-                        Action: ssm:GetParameter
-                        Resource: !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/mongodb_*'
-                      - Sid: S3BucketRead
-                        Effect: Allow
-                        Action:
-                            - s3:GetObject
-                            - s3:DeleteObject
-                        Resource: '*'
+                - !Ref MongoDbParamReadPolicy
+                - !Ref SyncBucketReadDeletePolicy
             Events:
                 SyncRadical:
                     Type: S3
@@ -63,7 +54,7 @@ Resources:
             CodeUri: src/japanese
             Handler: radical.updateRadicalHandler
             Runtime: nodejs12.x
-            Role: !GetAtt MongoDbParamReadRole.Arn
+            Policies: !Ref MongoDbParamReadPolicy
             Events:
                 UpdateRadical:
                     Type: Api
@@ -77,7 +68,7 @@ Resources:
             CodeUri: src/japanese
             Handler: radical.getRadicalHandler
             Runtime: nodejs12.x
-            Role: !GetAtt MongoDbParamReadRole.Arn
+            Policies: !Ref MongoDbParamReadPolicy
             Events:
                 GetRadical:
                     Type: Api
@@ -102,26 +93,7 @@ Resources:
                         Auth:
                             Authorizer: NONE
 
-    # MongoDb Parameter Role
-    MongoDbParamReadRole:
-        Type: AWS::IAM::Role
-        Properties:
-            AssumeRolePolicyDocument:
-                Statement:
-                    - Effect: Allow
-                      Action: sts:AssumeRole
-                      Principal:
-                          Service: lambda.amazonaws.com
-            ManagedPolicyArns:
-                - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
-            Policies:
-                - PolicyName: MongoDbParamRead
-                  PolicyDocument:
-                      Statement:
-                          - Effect: Allow
-                            Action: ssm:GetParameter
-                            Resource: !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/mongodb_*'
-
+    # MongoDb Parameter Policy
     MongoDbParamReadPolicy:
         Type: AWS::IAM::ManagedPolicy
         Properties:
@@ -131,6 +103,17 @@ Resources:
                     - Effect: Allow
                       Action: ssm:GetParameter
                       Resource: !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/mongodb_*'
+    SyncBucketReadDeletePolicy:
+        Type: AWS::IAM::ManagedPolicy
+        Properties:
+            PolicyDocument:
+                Version: '2012-10-17'
+                Statement:
+                    - Effect: Allow
+                      Action:
+                          - s3:GetObject
+                          - s3:DeleteObject
+                      Resource: '*' # Cannot use SyncBucket Ref here, cyclic dependency
 
     SyncBucket:
         Type: AWS::S3::Bucket
