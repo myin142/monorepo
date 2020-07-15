@@ -16,7 +16,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@myin/cloud-stacks": ["libs/cloud-stacks/src/index.ts"]
+      "@myin/cloud-stacks": ["libs/cloud-stacks/src/index.ts"],
+      "@myin/japanese-api": ["libs/japanese-api/src/index.ts"],
+      "@myin/utils/shared": ["libs/utils/shared/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

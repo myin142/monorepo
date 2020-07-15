@@ -19,7 +19,14 @@
     }
   },
   "projects": {
-    "cloud-stacks": {
+    "public": {
+      "tags": []
+    },
+    "public-e2e": {
+      "tags": [],
+      "implicitDependencies": ["public"]
+    },
+    "japanese-api": {
       "tags": []
     },
     "admin": {
@@ -29,12 +36,8 @@
       "tags": [],
       "implicitDependencies": ["admin"]
     },
-    "public": {
+    "utils-shared": {
       "tags": []
-    },
-    "public-e2e": {
-      "tags": [],
-      "implicitDependencies": ["public"]
     }
   }
 }

@@ -1,0 +1,163 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+    cloud-stack
+
+Globals:
+    Api:
+        Cors:
+            AllowOrigin: "'*'"
+            AllowHeaders: "'*'"
+        Auth:
+            AddDefaultAuthorizerToCorsPreflight: false
+            DefaultAuthorizer: AdminAuthorizer
+            Authorizers:
+                AdminAuthorizer:
+                    UserPoolArn: !GetAtt MyinUserPool.Arn
+        MethodSettings:
+            - ThrottlingRateLimit: 50
+              ThrottlingBurstLimit: 50
+              HttpMethod: '*'
+              ResourcePath: '/*'
+    Function:
+        Timeout: 20
+
+Resources:
+    JapaneseHttpApi:
+        Type: AWS::Serverless::Api
+        Properties:
+            StageName: Prod
+    JapaneseSyncRadicalTags:
+        Type: AWS::Serverless::Function
+        Properties:
+            CodeUri: src/japanese
+            Handler: radical.syncRadicalHandler
+            Runtime: nodejs12.x
+            Policies:
+                - Statement:
+                      - Sid: MongodbRead
+                        Effect: Allow
+                        Action: ssm:GetParameter
+                        Resource: !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/mongodb_*'
+                      - Sid: S3BucketRead
+                        Effect: Allow
+                        Action:
+                            - s3:GetObject
+                            - s3:DeleteObject
+                        Resource: '*'
+            Events:
+                SyncRadical:
+                    Type: S3
+                    Properties:
+                        Bucket: !Ref SyncBucket
+                        Events: s3:ObjectCreated:*
+                        Filter:
+                            S3Key:
+                                Rules:
+                                    - Name: prefix
+                                      Value: radical-tags
+
+    JapaneseUpdateRadical:
+        Type: AWS::Serverless::Function
+        Properties:
+            CodeUri: src/japanese
+            Handler: radical.updateRadicalHandler
+            Runtime: nodejs12.x
+            Role: !GetAtt MongoDbParamReadRole.Arn
+            Events:
+                UpdateRadical:
+                    Type: Api
+                    Properties:
+                        RestApiId: !Ref JapaneseHttpApi
+                        Method: POST
+                        Path: /radical
+    JapaneseGetRadical:
+        Type: AWS::Serverless::Function
+        Properties:
+            CodeUri: src/japanese
+            Handler: radical.getRadicalHandler
+            Runtime: nodejs12.x
+            Role: !GetAtt MongoDbParamReadRole.Arn
+            Events:
+                GetRadical:
+                    Type: Api
+                    Properties:
+                        RestApiId: !Ref JapaneseHttpApi
+                        Method: GET
+                        Path: /radical
+    JapaneseGetRadicalList:
+        Type: AWS::Serverless::Function
+        Properties:
+            CodeUri: src/japanese
+            Handler: radical.getRadicalListHandler
+            Runtime: nodejs12.x
+            Policies: !Ref MongoDbParamReadPolicy
+            Events:
+                GetRadical:
+                    Type: Api
+                    Properties:
+                        RestApiId: !Ref JapaneseHttpApi
+                        Method: GET
+                        Path: /radical/list
+                        Auth:
+                            Authorizer: NONE
+
+    # MongoDb Parameter Role
+    MongoDbParamReadRole:
+        Type: AWS::IAM::Role
+        Properties:
+            AssumeRolePolicyDocument:
+                Statement:
+                    - Effect: Allow
+                      Action: sts:AssumeRole
+                      Principal:
+                          Service: lambda.amazonaws.com
+            ManagedPolicyArns:
+                - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+            Policies:
+                - PolicyName: MongoDbParamRead
+                  PolicyDocument:
+                      Statement:
+                          - Effect: Allow
+                            Action: ssm:GetParameter
+                            Resource: !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/mongodb_*'
+
+    MongoDbParamReadPolicy:
+        Type: AWS::IAM::ManagedPolicy
+        Properties:
+            PolicyDocument:
+                Version: '2012-10-17'
+                Statement:
+                    - Effect: Allow
+                      Action: ssm:GetParameter
+                      Resource: !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/mongodb_*'
+
+    SyncBucket:
+        Type: AWS::S3::Bucket
+
+    # User Pool
+    MyinUserPool:
+        Type: AWS::Cognito::UserPool
+        Properties:
+            AdminCreateUserConfig:
+                AllowAdminCreateUserOnly: true
+    MyinUserPoolClient:
+        Type: AWS::Cognito::UserPoolClient
+        Properties:
+            UserPoolId: !Ref MyinUserPool
+            AllowedOAuthFlowsUserPoolClient: true
+            SupportedIdentityProviders:
+                - COGNITO
+            AllowedOAuthFlows:
+                - implicit
+            AllowedOAuthScopes:
+                - email
+                - openid
+            CallbackURLs:
+                - http://localhost:4200/login
+                - https://myin142.github.io/admin/login
+    MyinUserPoolDomain:
+        Type: AWS::Cognito::UserPoolDomain
+        Properties:
+            Domain: myin-user-domain
+            UserPoolId: !Ref MyinUserPool

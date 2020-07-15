@@ -1,132 +1,6 @@
 {
     "version": 1,
     "projects": {
-        "cloud-stacks": {
-            "root": "libs/cloud-stacks",
-            "sourceRoot": "libs/cloud-stacks/src",
-            "projectType": "library",
-            "schematics": {},
-            "architect": {
-                "lint": {
-                    "builder": "@nrwl/linter:lint",
-                    "options": {
-                        "linter": "eslint",
-                        "tsConfig": [
-                            "libs/cloud-stacks/tsconfig.lib.json",
-                            "libs/cloud-stacks/tsconfig.spec.json"
-                        ],
-                        "exclude": [
-                            "**/node_modules/**",
-                            "!libs/cloud-stacks/**/*"
-                        ]
-                    }
-                },
-                "test": {
-                    "builder": "@nrwl/jest:jest",
-                    "options": {
-                        "jestConfig": "libs/cloud-stacks/jest.config.js",
-                        "tsConfig": "libs/cloud-stacks/tsconfig.spec.json",
-                        "passWithNoTests": true
-                    }
-                }
-            }
-        },
-        "admin": {
-            "projectType": "application",
-            "root": "apps/admin",
-            "sourceRoot": "apps/admin/src",
-            "architect": {
-                "build": {
-                    "builder": "@nx-plus/vue-plugin:browser",
-                    "options": {
-                        "publicPath": "/admin",
-                        "outputPath": "dist/apps/admin",
-                        "index": "apps/admin/src/index.html",
-                        "main": "apps/admin/src/main.ts",
-                        "tsConfig": "apps/admin/tsconfig.app.json",
-                        "assets": [
-                            "apps/admin/src/favicon.ico",
-                            "apps/admin/src/assets"
-                        ]
-                    },
-                    "configurations": {
-                        "production": {
-                            "fileReplacements": [
-                                {
-                                    "replace": "apps/admin/src/environments/environment.ts",
-                                    "with": "apps/admin/src/environments/environment.prod.ts"
-                                }
-                            ],
-                            "mode": "production",
-                            "outputHashing": "all",
-                            "extractCss": true
-                        }
-                    }
-                },
-                "serve": {
-                    "builder": "@nx-plus/vue-plugin:dev-server",
-                    "options": {
-                        "buildTarget": "admin:build"
-                    },
-                    "configurations": {
-                        "production": {
-                            "buildTarget": "admin:build:production"
-                        }
-                    }
-                },
-                "lint": {
-                    "builder": "@nrwl/linter:lint",
-                    "options": {
-                        "linter": "eslint",
-                        "config": "apps/admin/.eslintrc",
-                        "tsConfig": [
-                            "apps/admin/tsconfig.app.json",
-                            "apps/admin/tsconfig.spec.json"
-                        ],
-                        "exclude": ["**/node_modules/**", "!apps/admin/**"]
-                    }
-                },
-                "test": {
-                    "builder": "@nrwl/jest:jest",
-                    "options": {
-                        "jestConfig": "apps/admin/jest.config.js",
-                        "tsConfig": "apps/admin/tsconfig.spec.json",
-                        "passWithNoTests": true
-                    }
-                }
-            }
-        },
-        "admin-e2e": {
-            "root": "apps/admin-e2e",
-            "sourceRoot": "apps/admin-e2e/src",
-            "projectType": "application",
-            "architect": {
-                "e2e": {
-                    "builder": "@nrwl/cypress:cypress",
-                    "options": {
-                        "cypressConfig": "apps/admin-e2e/cypress.json",
-                        "tsConfig": "apps/admin-e2e/tsconfig.e2e.json",
-                        "devServerTarget": "admin:serve"
-                    },
-                    "configurations": {
-                        "production": {
-                            "devServerTarget": "admin:serve:production"
-                        }
-                    }
-                },
-                "lint": {
-                    "builder": "@nrwl/linter:lint",
-                    "options": {
-                        "linter": "eslint",
-                        "tsConfig": ["apps/admin-e2e/tsconfig.e2e.json"],
-                        "exclude": [
-                            "**/node_modules/**",
-                            "!apps/admin-e2e/**/*"
-                        ]
-                    }
-                }
-            }
-        },
         "public": {
             "root": "apps/public",
             "sourceRoot": "apps/public/src",
@@ -142,10 +16,7 @@
                         "main": "apps/public/src/main.ts",
                         "polyfills": "apps/public/src/polyfills.ts",
                         "tsConfig": "apps/public/tsconfig.app.json",
-                        "assets": [
-                            "apps/public/src/favicon.ico",
-                            "apps/public/src/assets"
-                        ],
+                        "assets": ["apps/public/src/favicon.ico", "apps/public/src/assets"],
                         "styles": ["apps/public/src/styles.css"],
                         "scripts": []
                     },
@@ -225,10 +96,181 @@
                     "options": {
                         "linter": "eslint",
                         "tsConfig": ["apps/public-e2e/tsconfig.e2e.json"],
-                        "exclude": [
-                            "**/node_modules/**",
-                            "!apps/public-e2e/**/*"
-                        ]
+                        "exclude": ["**/node_modules/**", "!apps/public-e2e/**/*"]
+                    }
+                }
+            }
+        },
+        "japanese-api": {
+            "root": "libs/japanese-api",
+            "sourceRoot": "libs/japanese-api/src",
+            "projectType": "library",
+            "schematics": {},
+            "architect": {
+                "lint": {
+                    "builder": "@nrwl/linter:lint",
+                    "options": {
+                        "linter": "eslint",
+                        "tsConfig": [
+                            "libs/japanese-api/tsconfig.lib.json",
+                            "libs/japanese-api/tsconfig.spec.json"
+                        ],
+                        "exclude": ["**/node_modules/**", "!libs/japanese-api/**/*"]
+                    }
+                },
+                "test": {
+                    "builder": "@nrwl/jest:jest",
+                    "options": {
+                        "jestConfig": "libs/japanese-api/jest.config.js",
+                        "tsConfig": "libs/japanese-api/tsconfig.spec.json",
+                        "passWithNoTests": true
+                    }
+                }
+            }
+        },
+        "admin": {
+            "projectType": "application",
+            "schematics": {},
+            "root": "apps/admin",
+            "sourceRoot": "apps/admin/src",
+            "prefix": "myin",
+            "architect": {
+                "build": {
+                    "builder": "@angular-devkit/build-angular:browser",
+                    "options": {
+                        "outputPath": "dist/apps/admin",
+                        "index": "apps/admin/src/index.html",
+                        "main": "apps/admin/src/main.ts",
+                        "polyfills": "apps/admin/src/polyfills.ts",
+                        "tsConfig": "apps/admin/tsconfig.app.json",
+                        "aot": true,
+                        "assets": ["apps/admin/src/favicon.ico", "apps/admin/src/assets"],
+                        "styles": [
+                            "./node_modules/@angular/material/prebuilt-themes/pink-bluegrey.css",
+                            "apps/admin/src/styles.css"
+                        ],
+                        "scripts": []
+                    },
+                    "configurations": {
+                        "production": {
+                            "baseHref": "https://myin142.github.io/admin/",
+                            "fileReplacements": [
+                                {
+                                    "replace": "apps/admin/src/environments/environment.ts",
+                                    "with": "apps/admin/src/environments/environment.prod.ts"
+                                }
+                            ],
+                            "optimization": true,
+                            "outputHashing": "all",
+                            "sourceMap": false,
+                            "extractCss": true,
+                            "namedChunks": false,
+                            "extractLicenses": true,
+                            "vendorChunk": false,
+                            "buildOptimizer": true,
+                            "budgets": [
+                                {
+                                    "type": "initial",
+                                    "maximumWarning": "2mb",
+                                    "maximumError": "5mb"
+                                },
+                                {
+                                    "type": "anyComponentStyle",
+                                    "maximumWarning": "6kb",
+                                    "maximumError": "10kb"
+                                }
+                            ]
+                        }
+                    }
+                },
+                "serve": {
+                    "builder": "@angular-devkit/build-angular:dev-server",
+                    "options": {
+                        "browserTarget": "admin:build"
+                    },
+                    "configurations": {
+                        "production": {
+                            "browserTarget": "admin:build:production"
+                        }
+                    }
+                },
+                "extract-i18n": {
+                    "builder": "@angular-devkit/build-angular:extract-i18n",
+                    "options": {
+                        "browserTarget": "admin:build"
+                    }
+                },
+                "lint": {
+                    "builder": "@angular-devkit/build-angular:tslint",
+                    "options": {
+                        "tsConfig": [
+                            "apps/admin/tsconfig.app.json",
+                            "apps/admin/tsconfig.spec.json"
+                        ],
+                        "exclude": ["**/node_modules/**", "!apps/admin/**/*"]
+                    }
+                },
+                "test": {
+                    "builder": "@nrwl/jest:jest",
+                    "options": {
+                        "jestConfig": "apps/admin/jest.config.js",
+                        "tsConfig": "apps/admin/tsconfig.spec.json",
+                        "passWithNoTests": true,
+                        "setupFile": "apps/admin/src/test-setup.ts"
+                    }
+                }
+            }
+        },
+        "admin-e2e": {
+            "root": "apps/admin-e2e",
+            "sourceRoot": "apps/admin-e2e/src",
+            "projectType": "application",
+            "architect": {
+                "e2e": {
+                    "builder": "@nrwl/cypress:cypress",
+                    "options": {
+                        "cypressConfig": "apps/admin-e2e/cypress.json",
+                        "tsConfig": "apps/admin-e2e/tsconfig.e2e.json",
+                        "devServerTarget": "admin:serve"
+                    },
+                    "configurations": {
+                        "production": {
+                            "devServerTarget": "admin:serve:production"
+                        }
+                    }
+                },
+                "lint": {
+                    "builder": "@angular-devkit/build-angular:tslint",
+                    "options": {
+                        "tsConfig": ["apps/admin-e2e/tsconfig.e2e.json"],
+                        "exclude": ["**/node_modules/**", "!apps/admin-e2e/**/*"]
+                    }
+                }
+            }
+        },
+        "utils-shared": {
+            "root": "libs/utils/shared",
+            "sourceRoot": "libs/utils/shared/src",
+            "projectType": "library",
+            "schematics": {},
+            "architect": {
+                "lint": {
+                    "builder": "@nrwl/linter:lint",
+                    "options": {
+                        "linter": "eslint",
+                        "tsConfig": [
+                            "libs/utils/shared/tsconfig.lib.json",
+                            "libs/utils/shared/tsconfig.spec.json"
+                        ],
+                        "exclude": ["**/node_modules/**", "!libs/utils/shared/**/*"]
+                    }
+                },
+                "test": {
+                    "builder": "@nrwl/jest:jest",
+                    "options": {
+                        "jestConfig": "libs/utils/shared/jest.config.js",
+                        "tsConfig": "libs/utils/shared/tsconfig.spec.json",
+                        "passWithNoTests": true
                     }
                 }
             }
@@ -300,6 +342,13 @@
             "library": {
                 "linter": "eslint"
             }
+        },
+        "@nrwl/angular:application": {
+            "unitTestRunner": "jest",
+            "e2eTestRunner": "cypress"
+        },
+        "@nrwl/angular:library": {
+            "unitTestRunner": "jest"
         }
     },
     "defaultProject": "admin"

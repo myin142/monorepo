@@ -1,0 +1,12 @@
+{
+    "page": 1,
+    "pageSize": 10,
+    "content": [
+        { "radical": "亅", "tags": ["hook"] },
+        { "radical": "二", "tags": ["two"] },
+        { "radical": "亠", "tags": ["lid"] },
+        { "radical": "氏", "tags": ["clan"] },
+        { "radical": "气", "tags": ["air", "steam"] },
+        { "radical": "水", "tags": ["water"] }
+    ]
+}
