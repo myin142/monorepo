@@ -38,6 +38,9 @@
     },
     "utils-shared": {
       "tags": []
+    },
+    "sync": {
+      "tags": []
     }
   }
 }

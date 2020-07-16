@@ -274,6 +274,59 @@
                     }
                 }
             }
+        },
+        "sync": {
+            "root": "apps/sync",
+            "sourceRoot": "apps/sync/src",
+            "projectType": "application",
+            "prefix": "sync",
+            "schematics": {},
+            "architect": {
+                "build": {
+                    "builder": "@nrwl/node:build",
+                    "options": {
+                        "outputPath": "dist/apps/sync",
+                        "main": "apps/sync/src/main.ts",
+                        "tsConfig": "apps/sync/tsconfig.app.json",
+                        "assets": ["apps/sync/src/assets"]
+                    },
+                    "configurations": {
+                        "production": {
+                            "optimization": true,
+                            "extractLicenses": true,
+                            "inspect": false,
+                            "fileReplacements": [
+                                {
+                                    "replace": "apps/sync/src/environments/environment.ts",
+                                    "with": "apps/sync/src/environments/environment.prod.ts"
+                                }
+                            ]
+                        }
+                    }
+                },
+                "serve": {
+                    "builder": "@nrwl/node:execute",
+                    "options": {
+                        "buildTarget": "sync:build"
+                    }
+                },
+                "lint": {
+                    "builder": "@nrwl/linter:lint",
+                    "options": {
+                        "linter": "eslint",
+                        "tsConfig": ["apps/sync/tsconfig.app.json", "apps/sync/tsconfig.spec.json"],
+                        "exclude": ["**/node_modules/**", "!apps/sync/**/*"]
+                    }
+                },
+                "test": {
+                    "builder": "@nrwl/jest:jest",
+                    "options": {
+                        "jestConfig": "apps/sync/jest.config.js",
+                        "tsConfig": "apps/sync/tsconfig.spec.json",
+                        "passWithNoTests": true
+                    }
+                }
+            }
         }
     },
     "cli": {

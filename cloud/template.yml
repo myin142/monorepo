@@ -23,6 +23,17 @@ Globals:
         Timeout: 20
 
 Resources:
+    KanjiAttributesTable:
+        Type: AWS::Serverless::SimpleTable
+        Properties:
+            TableName: KanjiAttributes
+            PrimaryKey:
+                Name: kanji
+                Type: String
+            ProvisionedThroughput:
+                ReadCapacityUnits: 5
+                WriteCapacityUnits: 1
+
     JapaneseHttpApi:
         Type: AWS::Serverless::Api
         Properties:
