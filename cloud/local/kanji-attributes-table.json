@@ -1,0 +1,19 @@
+{
+    "TableName": "KanjiAttributes",
+    "KeySchema": [
+        {
+            "AttributeName": "kanji",
+            "KeyType": "HASH"
+        }
+    ],
+    "AttributeDefinitions": [
+        {
+            "AttributeName": "kanji",
+            "AttributeType": "S"
+        }
+    ],
+    "ProvisionedThroughput": {
+        "ReadCapacityUnits": 5,
+        "WriteCapacityUnits": 1
+    }
+}

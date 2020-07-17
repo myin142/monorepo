@@ -1,20 +1,10 @@
-import { DynamoDB } from 'aws-sdk';
-import * as minimist from 'minimist';
 import * as fs from 'fs';
 import _ from 'lodash';
-import { isKanji } from './japanese-utils';
+import { isKanji } from '@myin/utils/japanese';
 
-let maxBatch = 25;
-const options = { region: 'eu-central-1' };
-const argv = minimist(process.argv.slice(2));
-if (argv['endpoint']) {
-    options['endpoint'] = argv.endpoint;
-    maxBatch = 10;
-}
-const dynamo = new DynamoDB(options);
 const KANJI_ATTRIBUTES_TABLE = 'KanjiAttributes';
 
-export async function syncKanjiAttributes(file) {
+export async function syncKanjiAttributes(file, dynamo, maxBatch) {
     const buffer = fs.readFileSync(file);
     const counts = {
         total: 0,

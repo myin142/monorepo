@@ -18,7 +18,8 @@
     "paths": {
       "@myin/cloud-stacks": ["libs/cloud-stacks/src/index.ts"],
       "@myin/japanese-api": ["libs/japanese-api/src/index.ts"],
-      "@myin/utils/shared": ["libs/utils/shared/src/index.ts"]
+      "@myin/utils/shared": ["libs/utils/shared/src/index.ts"],
+      "@myin/utils/japanese": ["libs/utils/japanese/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

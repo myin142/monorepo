@@ -23,21 +23,6 @@ Globals:
         Timeout: 20
 
 Resources:
-    KanjiAttributesTable:
-        Type: AWS::Serverless::SimpleTable
-        Properties:
-            TableName: KanjiAttributes
-            PrimaryKey:
-                Name: kanji
-                Type: String
-            ProvisionedThroughput:
-                ReadCapacityUnits: 5
-                WriteCapacityUnits: 1
-
-    JapaneseHttpApi:
-        Type: AWS::Serverless::Api
-        Properties:
-            StageName: Prod
     JapaneseSyncRadicalTags:
         Type: AWS::Serverless::Function
         Properties:
@@ -58,6 +43,36 @@ Resources:
                                 Rules:
                                     - Name: prefix
                                       Value: radical-tags
+
+    JapaneseHttpApi:
+        Type: AWS::Serverless::Api
+        Properties:
+            StageName: Prod
+
+    KanjiAttributesTable:
+        Type: AWS::Serverless::SimpleTable
+        Properties:
+            TableName: KanjiAttributes
+            PrimaryKey:
+                Name: kanji
+                Type: String
+            ProvisionedThroughput:
+                ReadCapacityUnits: 5
+                WriteCapacityUnits: 1
+    JapaneseCreateKanjiReport:
+        Type: AWS::Serverless::Function
+        Properties:
+            CodeUri: src/japanese
+            Handler: kanji.createKanjiReport
+            Runtime: nodejs12.x
+            Policies: AmazonDynamoDBReadOnlyAccess
+            Events:
+                CreateKanjiReport:
+                    Type: Api
+                    Properties:
+                        RestApiId: !Ref JapaneseHttpApi
+                        Method: POST
+                        Path: /kanji/report
 
     JapaneseUpdateRadical:
         Type: AWS::Serverless::Function
