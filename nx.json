@@ -54,6 +54,13 @@
     },
     "api-japanese": {
       "tags": []
+    },
+    "japanese": {
+      "tags": []
+    },
+    "japanese-e2e": {
+      "tags": [],
+      "implicitDependencies": ["japanese"]
     }
   }
 }
