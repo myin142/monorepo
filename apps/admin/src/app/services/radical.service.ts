@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { getRadicals, Radical, updateRadical } from '@myin/japanese-api';
+import { getRadicals, Radical, updateRadical } from '@myin/api/japanese';
 import { Page, PageRequest } from '@myin/utils/shared';
 import { environment } from '../../environments/environment';
 import { AuthService } from './auth.service';

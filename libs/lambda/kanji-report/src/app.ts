@@ -6,6 +6,7 @@ import { extractKanjis } from '../../../utils/japanese/src/index';
 // ^^^ Importing using tsconfig paths not working
 // https://github.com/aws/jsii/issues/865
 
+// TODO: share
 const options = { region: 'eu-central-1' };
 if (process.env.AWS_SAM_LOCAL) {
     options['endpoint'] = 'http://localhost:8000';
@@ -14,6 +15,7 @@ const dynamo = new DynamoDB(options);
 
 // TODO: share
 const KANJI_ATTRIBUTES_TABLE = 'KanjiAttributes';
+
 const MAX_KANJIS = 12723;
 
 export const createKanjiReport = async (event, context) => {

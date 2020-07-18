@@ -26,9 +26,6 @@
       "tags": [],
       "implicitDependencies": ["public"]
     },
-    "japanese-api": {
-      "tags": []
-    },
     "admin": {
       "tags": []
     },
@@ -53,6 +50,9 @@
       "tags": []
     },
     "utils-api-gateway": {
+      "tags": []
+    },
+    "api-japanese": {
       "tags": []
     }
   }

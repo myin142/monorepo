@@ -2,7 +2,7 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-import { Stage } from '@myin/japanese-api';
+import { Stage } from '@myin/api/japanese';
 
 export const environment = {
     production: false,

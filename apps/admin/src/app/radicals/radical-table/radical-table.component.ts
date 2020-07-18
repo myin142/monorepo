@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ElementRef } from '@angular/core';
 import { Page, PageRequest } from '@myin/utils/shared';
-import { Radical } from '@myin/japanese-api';
+import { Radical } from '@myin/api/japanese';
 import { FormControl } from '@angular/forms';
 import { RadicalService } from '../../services/radical.service';
 import { PageEvent } from '@angular/material/paginator';

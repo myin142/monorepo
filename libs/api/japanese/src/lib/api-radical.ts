@@ -1,4 +1,4 @@
-import { apiRequest, Stage } from './japanese-api';
+import { apiRequest, Stage } from './api-japanese';
 import { Page, PageRequest, Query } from '@myin/utils/shared';
 
 export const updateRadical = (

@@ -1,6 +1,6 @@
 import { RadicalService } from './../services/radical.service';
 import { Component, OnInit } from '@angular/core';
-import { Radical } from '@myin/japanese-api';
+import { Radical } from '@myin/api/japanese';
 import { Page } from '@myin/utils/shared';
 
 @Component({

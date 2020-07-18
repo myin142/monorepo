@@ -98,33 +98,6 @@
         }
       }
     },
-    "japanese-api": {
-      "root": "libs/japanese-api",
-      "sourceRoot": "libs/japanese-api/src",
-      "projectType": "library",
-      "schematics": {},
-      "architect": {
-        "lint": {
-          "builder": "@nrwl/linter:lint",
-          "options": {
-            "linter": "eslint",
-            "tsConfig": [
-              "libs/japanese-api/tsconfig.lib.json",
-              "libs/japanese-api/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!libs/japanese-api/**/*"]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/japanese-api/jest.config.js",
-            "tsConfig": "libs/japanese-api/tsconfig.spec.json",
-            "passWithNoTests": true
-          }
-        }
-      }
-    },
     "admin": {
       "projectType": "application",
       "schematics": {},
@@ -423,6 +396,33 @@
           "options": {
             "jestConfig": "libs/utils/api-gateway/jest.config.js",
             "tsConfig": "libs/utils/api-gateway/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "api-japanese": {
+      "root": "libs/api/japanese",
+      "sourceRoot": "libs/api/japanese/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "tsConfig": [
+              "libs/api/japanese/tsconfig.lib.json",
+              "libs/api/japanese/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/api/japanese/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/api/japanese/jest.config.js",
+            "tsConfig": "libs/api/japanese/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
