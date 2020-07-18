@@ -71,3 +71,7 @@ exports.createKanjiReport = async (event) => {
 
     return successAndBody(counts);
 }
+
+exports.extractUniqueKanjis = async (event) => {
+    const text = event.body;
+}

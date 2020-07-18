@@ -34,6 +34,10 @@ describe('Utils Japanese', () => {
             ]);
         });
 
+        it('extract unique kanjis', () => {
+            expect(extractKanjis('私私私私')).toEqual(['私']);
+        });
+
         it('empty array on null', () => {
             expect(extractKanjis(null)).toEqual([]);
         });

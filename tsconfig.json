@@ -19,7 +19,9 @@
       "@myin/cloud-stacks": ["libs/cloud-stacks/src/index.ts"],
       "@myin/japanese-api": ["libs/japanese-api/src/index.ts"],
       "@myin/utils/shared": ["libs/utils/shared/src/index.ts"],
-      "@myin/utils/japanese": ["libs/utils/japanese/src/index.ts"]
+      "@myin/utils/japanese": ["libs/utils/japanese/src/index.ts"],
+      "@myin/lambda/kanji-report": ["libs/lambda/kanji-report/src/app.ts"],
+      "@myin/utils/api-gateway": ["libs/utils/api-gateway/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

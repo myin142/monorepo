@@ -44,6 +44,16 @@
     },
     "utils-japanese": {
       "tags": []
+    },
+    "aws-app": {
+      "tags": [],
+      "implicitDependencies": ["lambda-kanji-report"]
+    },
+    "lambda-kanji-report": {
+      "tags": []
+    },
+    "utils-api-gateway": {
+      "tags": []
     }
   }
 }

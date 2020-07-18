@@ -1,16 +1,32 @@
 #!/bin/sh
 
 DYNAMO=http://localhost:8000
+ARG="$1"
+REBUILD_ARG="--new"
 
-cd cloud
+# Start and prepare dynamodb
+echo "Start Dynamo"
+
+if [ "$ARG" = "$REBUILD_ARG" ]; then
+    docker-compose down
+fi
+
 docker-compose up --remove-orphans -d
-aws dynamodb create-table \
-    --cli-input-json file://local/kanji-attributes-table.json \
-    --endpoint-url "$DYNAMO"
-node ../dist/apps/sync/main.js local/kanji.json --endpoint "$DYNAMO"
+
+if [ "$ARG" = "$REBUILD_ARG" ]; then
+    aws dynamodb create-table \
+        --cli-input-json file://assets/kanji-attributes-table.json \
+        --endpoint-url "$DYNAMO"
+    node dist/apps/sync/main.js assets/kanji.json --endpoint "$DYNAMO"
+fi
 
 # Running Applications
-sam build && sam local start-api --docker-network host
+cd apps/aws-app/
 
-# Stopping everything
-docker-compose down
+if [ "$ARG" = "$REBUILD_ARG" ]; then
+    echo "Build Application"
+    cdk synth --no-staging | sed -ne '/Resources:/,$p' > template.yml # synth contains invalid outut when bundling
+fi
+
+echo "Starting Application"
+sam local start-api --docker-network host
