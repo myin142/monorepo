@@ -1,9 +1,9 @@
 module.exports = {
-  name: 'utils-api-gateway',
+  name: 'lambda-shared',
   preset: '../../../jest.config.js',
   transform: {
     '^.+\\.[tj]sx?$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'html'],
-  coverageDirectory: '../../../coverage/libs/utils/api-gateway',
+  coverageDirectory: '../../../coverage/libs/lambda/shared',
 };

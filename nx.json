@@ -14,7 +14,12 @@
     "default": {
       "runner": "@nrwl/workspace/tasks-runners/default",
       "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e"]
+        "cacheableOperations": [
+          "build",
+          "lint",
+          "test",
+          "e2e"
+        ]
       }
     }
   },
@@ -24,14 +29,18 @@
     },
     "public-e2e": {
       "tags": [],
-      "implicitDependencies": ["public"]
+      "implicitDependencies": [
+        "public"
+      ]
     },
     "admin": {
       "tags": []
     },
     "admin-e2e": {
       "tags": [],
-      "implicitDependencies": ["admin"]
+      "implicitDependencies": [
+        "admin"
+      ]
     },
     "utils-shared": {
       "tags": []
@@ -44,12 +53,11 @@
     },
     "aws-app": {
       "tags": [],
-      "implicitDependencies": ["lambda-kanji-report"]
+      "implicitDependencies": [
+        "lambda-kanji-report"
+      ]
     },
     "lambda-kanji-report": {
-      "tags": []
-    },
-    "utils-api-gateway": {
       "tags": []
     },
     "api-japanese": {
@@ -60,7 +68,12 @@
     },
     "japanese-e2e": {
       "tags": [],
-      "implicitDependencies": ["japanese"]
+      "implicitDependencies": [
+        "japanese"
+      ]
+    },
+    "lambda-shared": {
+      "tags": []
     }
   }
 }

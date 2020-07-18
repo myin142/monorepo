@@ -1,6 +1,6 @@
 import { DynamoDB } from 'aws-sdk';
 import { chunk } from 'lodash';
-import { successAndBody, statusAndError } from '../../../utils/api-gateway/src/index';
+import { successAndBody, statusAndError } from '../../shared/src/index';
 import { extractKanjis } from '../../../utils/japanese/src/index';
 
 // ^^^ Importing using tsconfig paths not working

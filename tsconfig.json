@@ -10,19 +10,39 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
-    "typeRoots": ["node_modules/@types"],
-    "lib": ["es2017", "dom"],
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2017",
+      "dom"
+    ],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@myin/cloud-stacks": ["libs/cloud-stacks/src/index.ts"],
-      "@myin/utils/shared": ["libs/utils/shared/src/index.ts"],
-      "@myin/utils/japanese": ["libs/utils/japanese/src/index.ts"],
-      "@myin/utils/api-gateway": ["libs/utils/api-gateway/src/index.ts"],
-      "@myin/lambda/kanji-report": ["libs/lambda/kanji-report/src/app.ts"],
-      "@myin/api/japanese": ["libs/api/japanese/src/index.ts"]
+      "@myin/cloud-stacks": [
+        "libs/cloud-stacks/src/index.ts"
+      ],
+      "@myin/utils/shared": [
+        "libs/utils/shared/src/index.ts"
+      ],
+      "@myin/utils/japanese": [
+        "libs/utils/japanese/src/index.ts"
+      ],
+      "@myin/lambda/kanji-report": [
+        "libs/lambda/kanji-report/src/app.ts"
+      ],
+      "@myin/api/japanese": [
+        "libs/api/japanese/src/index.ts"
+      ],
+      "@myin/lambda/shared": [
+        "libs/lambda/shared/src/index.ts"
+      ]
     }
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": [
+    "node_modules",
+    "tmp"
+  ]
 }
