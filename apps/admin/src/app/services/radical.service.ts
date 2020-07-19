@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { getRadicals, Radical, updateRadical } from '@myin/api/japanese';
+import { Radical, JapaneseApiClient } from '@myin/api/japanese';
 import { Page, PageRequest } from '@myin/utils/shared';
 import { environment } from '../../environments/environment';
 import { AuthService } from './auth.service';
@@ -8,13 +8,17 @@ import { AuthService } from './auth.service';
     providedIn: 'root',
 })
 export class RadicalService {
-    constructor(private auth: AuthService) {}
+    private japaneseClient: JapaneseApiClient;
+
+    constructor(private auth: AuthService) {
+        this.japaneseClient = new JapaneseApiClient(environment.stage, () => this.auth.getToken());
+    }
 
     getRadicals(req?: PageRequest): Promise<Page<Radical>> {
-        return getRadicals(req, environment.stage, this.auth.getToken());
+        return this.japaneseClient.getRadicals(req);
     }
 
     updateRadical(radical: Radical): Promise<void> {
-        return updateRadical(radical, environment.stage, this.auth.getToken());
+        return this.japaneseClient.updateRadical(radical);
     }
 }

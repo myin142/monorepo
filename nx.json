@@ -1,79 +1,69 @@
 {
-  "npmScope": "myin",
-  "implicitDependencies": {
-    "workspace.json": "*",
-    "package.json": {
-      "dependencies": "*",
-      "devDependencies": "*"
+    "npmScope": "myin",
+    "implicitDependencies": {
+        "workspace.json": "*",
+        "package.json": {
+            "dependencies": "*",
+            "devDependencies": "*"
+        },
+        "tsconfig.json": "*",
+        "tslint.json": "*",
+        "nx.json": "*"
     },
-    "tsconfig.json": "*",
-    "tslint.json": "*",
-    "nx.json": "*"
-  },
-  "tasksRunnerOptions": {
-    "default": {
-      "runner": "@nrwl/workspace/tasks-runners/default",
-      "options": {
-        "cacheableOperations": [
-          "build",
-          "lint",
-          "test",
-          "e2e"
-        ]
-      }
+    "tasksRunnerOptions": {
+        "default": {
+            "runner": "@nrwl/workspace/tasks-runners/default",
+            "options": {
+                "cacheableOperations": ["build", "lint", "test", "e2e"]
+            }
+        }
+    },
+    "projects": {
+        "public": {
+            "tags": []
+        },
+        "public-e2e": {
+            "tags": [],
+            "implicitDependencies": ["public"]
+        },
+        "admin": {
+            "tags": []
+        },
+        "admin-e2e": {
+            "tags": [],
+            "implicitDependencies": ["admin"]
+        },
+        "utils-shared": {
+            "tags": []
+        },
+        "sync": {
+            "tags": []
+        },
+        "utils-japanese": {
+            "tags": []
+        },
+        "aws-app": {
+            "tags": [],
+            "implicitDependencies": ["lambda-kanji-report"]
+        },
+        "lambda-kanji-report": {
+            "tags": []
+        },
+        "api-japanese": {
+            "tags": []
+        },
+        "japanese": {
+            "tags": []
+        },
+        "japanese-e2e": {
+            "tags": [],
+            "implicitDependencies": ["japanese"]
+        },
+        "lambda-shared": {
+            "tags": []
+        },
+        "api-shared": {
+            "tags": []
+        }
     }
-  },
-  "projects": {
-    "public": {
-      "tags": []
-    },
-    "public-e2e": {
-      "tags": [],
-      "implicitDependencies": [
-        "public"
-      ]
-    },
-    "admin": {
-      "tags": []
-    },
-    "admin-e2e": {
-      "tags": [],
-      "implicitDependencies": [
-        "admin"
-      ]
-    },
-    "utils-shared": {
-      "tags": []
-    },
-    "sync": {
-      "tags": []
-    },
-    "utils-japanese": {
-      "tags": []
-    },
-    "aws-app": {
-      "tags": [],
-      "implicitDependencies": [
-        "lambda-kanji-report"
-      ]
-    },
-    "lambda-kanji-report": {
-      "tags": []
-    },
-    "api-japanese": {
-      "tags": []
-    },
-    "japanese": {
-      "tags": []
-    },
-    "japanese-e2e": {
-      "tags": [],
-      "implicitDependencies": [
-        "japanese"
-      ]
-    },
-    "lambda-shared": {
-      "tags": []
-    }
-  }
 }
