@@ -68,23 +68,18 @@ describe('Kanji Report', () => {
             const { statusCode } = await createKanjiReport({ body: {} });
             expect(statusCode).not.toEqual(200);
         });
-
-        it('fail on too large body', async () => {
-            const { statusCode } = await createKanjiReport({ body: ' '.repeat(10000000) });
-            expect(statusCode).not.toEqual(200);
-        });
     });
 
     it('get all kanji stats', async () => {
         DynamoDB.prototype.getItem = jest.fn(() =>
             mockAWSResponsePromise<GetItemOutput>({
-                Item: toAWSAttributeMap({ kanji: '@' }),
+                Item: toAWSAttributeMap({ counts: '{"total": "200"}' }),
             })
         );
 
         const { statusCode, body } = await getAllKanjiStats({});
         expect(statusCode).toEqual(200);
-        expect(JSON.parse(body)).toEqual({ kanji: '@' });
+        expect(JSON.parse(body)).toEqual({ total: '200' });
 
         expect(DynamoDB.prototype.getItem).toHaveBeenCalledWith({
             TableName: KANJI_ATTRIBUTES_TABLE,
