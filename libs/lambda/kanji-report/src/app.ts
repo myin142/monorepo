@@ -1,6 +1,11 @@
 import { DynamoDB } from 'aws-sdk';
 import { chunk } from 'lodash';
-import { successAndBody, statusAndError, ApiGatewayResponse } from '../../../utils/aws/src';
+import {
+    successAndBody,
+    statusAndError,
+    ApiGatewayResponse,
+    fromAWSAttributeMap,
+} from '../../../utils/aws/src';
 import { extractKanjis } from '../../../utils/japanese/src';
 import { KANJI_ATTRIBUTES_TABLE } from '../../../shared/cloud/src';
 import { KanjiReportCounts } from '../../../api/japanese/src';
@@ -16,6 +21,17 @@ if (process.env.AWS_SAM_LOCAL) {
 const dynamo = new DynamoDB(options);
 
 const MAX_KANJIS = 12723;
+
+export const getAllKanjiStats = async (event): Promise<ApiGatewayResponse> => {
+    const response = await dynamo
+        .getItem({
+            TableName: KANJI_ATTRIBUTES_TABLE,
+            Key: { kanji: { S: '@' } },
+        })
+        .promise();
+
+    return successAndBody(fromAWSAttributeMap(response.Item));
+};
 
 export const createKanjiReport = async (event): Promise<ApiGatewayResponse> => {
     if (typeof event.body != 'string') return statusAndError(400, 'Invalid body type');

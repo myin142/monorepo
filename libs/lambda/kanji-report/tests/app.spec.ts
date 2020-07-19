@@ -1,9 +1,9 @@
 import { DynamoDB } from 'aws-sdk';
-import { createKanjiReport } from '../src/app';
+import { createKanjiReport, getAllKanjiStats } from '../src/app';
 import { KANJI_ATTRIBUTES_TABLE } from '@myin/shared/cloud';
 import { mockAWSResponsePromise } from '@myin/shared/test-utils';
-import { BatchGetItemOutput } from 'aws-sdk/clients/dynamodb';
-import { toAWSAttributeMapArray } from '@myin/utils/aws';
+import { BatchGetItemOutput, GetItemOutput } from 'aws-sdk/clients/dynamodb';
+import { toAWSAttributeMapArray, toAWSAttributeMap } from '@myin/utils/aws';
 import { KanjiReportCounts } from '@myin/api/japanese';
 
 jest.mock('aws-sdk');
@@ -72,6 +72,23 @@ describe('Kanji Report', () => {
         it('fail on too large body', async () => {
             const { statusCode } = await createKanjiReport({ body: ' '.repeat(10000000) });
             expect(statusCode).not.toEqual(200);
+        });
+    });
+
+    it('get all kanji stats', async () => {
+        DynamoDB.prototype.getItem = jest.fn(() =>
+            mockAWSResponsePromise<GetItemOutput>({
+                Item: toAWSAttributeMap({ kanji: '@' }),
+            })
+        );
+
+        const { statusCode, body } = await getAllKanjiStats({});
+        expect(statusCode).toEqual(200);
+        expect(JSON.parse(body)).toEqual({ kanji: '@' });
+
+        expect(DynamoDB.prototype.getItem).toHaveBeenCalledWith({
+            TableName: KANJI_ATTRIBUTES_TABLE,
+            Key: toAWSAttributeMap({ kanji: '@' }),
         });
     });
 });
