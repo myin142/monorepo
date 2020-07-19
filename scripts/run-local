@@ -2,18 +2,28 @@
 
 DYNAMO=http://localhost:8000
 ARG="$1"
-REBUILD_ARG="--new"
+NEW=false
+BUILD=false
+
+while [ -n "$1" ]; do
+    case "$1" in
+        --new) NEW=true;;
+        --build) BUILD=true;;
+    esac
+
+    shift
+done
 
 # Start and prepare dynamodb
 echo "Start Dynamo"
 
-if [ "$ARG" = "$REBUILD_ARG" ]; then
+if [ "$NEW" = true ]; then
     docker-compose down
 fi
 
 docker-compose up --remove-orphans -d
 
-if [ "$ARG" = "$REBUILD_ARG" ]; then
+if [ "$NEW" = true ]; then
     aws dynamodb create-table \
         --cli-input-json file://assets/kanji-attributes-table.json \
         --endpoint-url "$DYNAMO"
@@ -23,9 +33,10 @@ fi
 # Running Applications
 cd apps/aws-app/
 
-if [ "$ARG" = "$REBUILD_ARG" ]; then
+if [ "$BUILD" = true ]; then
     echo "Build Application"
-    cdk synth --no-staging | sed -ne '/Resources:/,$p' > template.yml # synth contains invalid outut when bundling
+    # synth contains invalid outut when bundling
+    cdk synth --no-staging | sed -ne '/Resources:/,$p' > template.yml
 fi
 
 echo "Starting Application"
