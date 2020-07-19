@@ -1,17 +1,19 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
-  </div>
+    <div class="home">
+        <v-row>
+            <v-col>
+                <v-file-input v-model="kanjiReportFile" />
+                <v-btn>Create Report</v-btn>
+            </v-col>
+        </v-row>
+    </div>
 </template>
 
 <script>
-import HelloWorld from '../components/HelloWorld.vue';
-
 export default {
-  name: 'Home',
-  components: {
-    HelloWorld,
-  },
+    name: 'Home',
+    data: () => ({
+        kanjiReportFile: null,
+    }),
 };
 </script>

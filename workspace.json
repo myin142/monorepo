@@ -493,33 +493,6 @@
                 }
             }
         },
-        "lambda-shared": {
-            "root": "libs/lambda/shared",
-            "sourceRoot": "libs/lambda/shared/src",
-            "projectType": "library",
-            "schematics": {},
-            "architect": {
-                "lint": {
-                    "builder": "@nrwl/linter:lint",
-                    "options": {
-                        "linter": "eslint",
-                        "tsConfig": [
-                            "libs/lambda/shared/tsconfig.lib.json",
-                            "libs/lambda/shared/tsconfig.spec.json"
-                        ],
-                        "exclude": ["**/node_modules/**", "!libs/lambda/shared/**/*"]
-                    }
-                },
-                "test": {
-                    "builder": "@nrwl/jest:jest",
-                    "options": {
-                        "jestConfig": "libs/lambda/shared/jest.config.js",
-                        "tsConfig": "libs/lambda/shared/tsconfig.spec.json",
-                        "passWithNoTests": true
-                    }
-                }
-            }
-        },
         "api-shared": {
             "root": "libs/api/shared",
             "sourceRoot": "libs/api/shared/src",
@@ -542,6 +515,87 @@
                     "options": {
                         "jestConfig": "libs/api/shared/jest.config.js",
                         "tsConfig": "libs/api/shared/tsconfig.spec.json",
+                        "passWithNoTests": true
+                    }
+                }
+            }
+        },
+        "shared-cloud": {
+            "root": "libs/shared/cloud",
+            "sourceRoot": "libs/shared/cloud/src",
+            "projectType": "library",
+            "schematics": {},
+            "architect": {
+                "lint": {
+                    "builder": "@nrwl/linter:lint",
+                    "options": {
+                        "linter": "eslint",
+                        "tsConfig": [
+                            "libs/shared/cloud/tsconfig.lib.json",
+                            "libs/shared/cloud/tsconfig.spec.json"
+                        ],
+                        "exclude": ["**/node_modules/**", "!libs/shared/cloud/**/*"]
+                    }
+                },
+                "test": {
+                    "builder": "@nrwl/jest:jest",
+                    "options": {
+                        "jestConfig": "libs/shared/cloud/jest.config.js",
+                        "tsConfig": "libs/shared/cloud/tsconfig.spec.json",
+                        "passWithNoTests": true
+                    }
+                }
+            }
+        },
+        "shared-test-utils": {
+            "root": "libs/shared/test-utils",
+            "sourceRoot": "libs/shared/test-utils/src",
+            "projectType": "library",
+            "schematics": {},
+            "architect": {
+                "lint": {
+                    "builder": "@nrwl/linter:lint",
+                    "options": {
+                        "linter": "eslint",
+                        "tsConfig": [
+                            "libs/shared/test-utils/tsconfig.lib.json",
+                            "libs/shared/test-utils/tsconfig.spec.json"
+                        ],
+                        "exclude": ["**/node_modules/**", "!libs/shared/test-utils/**/*"]
+                    }
+                },
+                "test": {
+                    "builder": "@nrwl/jest:jest",
+                    "options": {
+                        "jestConfig": "libs/shared/test-utils/jest.config.js",
+                        "tsConfig": "libs/shared/test-utils/tsconfig.spec.json",
+                        "passWithNoTests": true
+                    }
+                }
+            }
+        },
+        "utils-aws": {
+            "root": "libs/utils/aws",
+            "sourceRoot": "libs/utils/aws/src",
+            "projectType": "library",
+            "schematics": {},
+            "architect": {
+                "lint": {
+                    "builder": "@nrwl/linter:lint",
+                    "options": {
+                        "linter": "eslint",
+                        "tsConfig": [
+                            "libs/utils/aws/tsconfig.lib.json",
+                            "libs/utils/aws/tsconfig.spec.json"
+                        ],
+                        "exclude": ["**/node_modules/**", "!libs/utils/aws/**/*"]
+                    }
+                },
+                "test": {
+                    "builder": "@nrwl/jest:jest",
+                    "options": {
+                        "jestConfig": "libs/utils/aws/jest.config.js",
+                        "tsConfig": "libs/utils/aws/tsconfig.spec.json",
                         "passWithNoTests": true
                     }
                 }

@@ -59,10 +59,16 @@
             "tags": [],
             "implicitDependencies": ["japanese"]
         },
-        "lambda-shared": {
+        "api-shared": {
             "tags": []
         },
-        "api-shared": {
+        "shared-cloud": {
+            "tags": []
+        },
+        "shared-test-utils": {
+            "tags": []
+        },
+        "utils-aws": {
             "tags": []
         }
     }
