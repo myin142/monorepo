@@ -24,7 +24,7 @@ export class JapaneseApiClient {
         return this.client.get(`/kanji/report`);
     }
 
-    createKanjiReport(text: string): Promise<KanjiReportCounts> {
-        return this.client.post(`/kanji/report`, text);
+    createKanjiReport(file: File): Promise<KanjiReportCounts> {
+        return this.client.post(`/kanji/report`, file);
     }
 }

@@ -1,7 +1,7 @@
 import * as cdk from '@aws-cdk/core';
 import { NodejsFunction } from '@aws-cdk/aws-lambda-nodejs';
 import { RestApi, LambdaIntegration } from '@aws-cdk/aws-apigateway';
-import { Path } from '@myin/utils/shared';
+import { Path } from '../../../../libs/utils/shared/src';
 
 const lambdaPath = (path: string): string => Path.join('../../libs/lambda', path);
 
