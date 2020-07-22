@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Radical, JapaneseApiClient } from '@myin/api/japanese';
-import { Page, PageRequest } from '@myin/utils/shared';
+import { Radical, JapaneseApiClient } from '@myin/japanese/api';
+import { Page, PageRequest } from '@myin/shared/utils';
 import { environment } from '../../environments/environment';
 import { AuthService } from './auth.service';
 

@@ -221,33 +221,6 @@
                 }
             }
         },
-        "utils-shared": {
-            "root": "libs/utils/shared",
-            "sourceRoot": "libs/utils/shared/src",
-            "projectType": "library",
-            "schematics": {},
-            "architect": {
-                "lint": {
-                    "builder": "@nrwl/linter:lint",
-                    "options": {
-                        "linter": "eslint",
-                        "tsConfig": [
-                            "libs/utils/shared/tsconfig.lib.json",
-                            "libs/utils/shared/tsconfig.spec.json"
-                        ],
-                        "exclude": ["**/node_modules/**", "!libs/utils/shared/**/*"]
-                    }
-                },
-                "test": {
-                    "builder": "@nrwl/jest:jest",
-                    "options": {
-                        "jestConfig": "libs/utils/shared/jest.config.js",
-                        "tsConfig": "libs/utils/shared/tsconfig.spec.json",
-                        "passWithNoTests": true
-                    }
-                }
-            }
-        },
         "sync": {
             "root": "apps/sync",
             "sourceRoot": "apps/sync/src",
@@ -301,33 +274,6 @@
                 }
             }
         },
-        "utils-japanese": {
-            "root": "libs/utils/japanese",
-            "sourceRoot": "libs/utils/japanese/src",
-            "projectType": "library",
-            "schematics": {},
-            "architect": {
-                "lint": {
-                    "builder": "@nrwl/linter:lint",
-                    "options": {
-                        "linter": "eslint",
-                        "tsConfig": [
-                            "libs/utils/japanese/tsconfig.lib.json",
-                            "libs/utils/japanese/tsconfig.spec.json"
-                        ],
-                        "exclude": ["**/node_modules/**", "!libs/utils/japanese/**/*"]
-                    }
-                },
-                "test": {
-                    "builder": "@nrwl/jest:jest",
-                    "options": {
-                        "jestConfig": "libs/utils/japanese/jest.config.js",
-                        "tsConfig": "libs/utils/japanese/tsconfig.spec.json",
-                        "passWithNoTests": true
-                    }
-                }
-            }
-        },
         "aws-app": {
             "projectType": "application",
             "root": "apps/aws-app",
@@ -360,48 +306,6 @@
                     "options": {
                         "jestConfig": "apps/aws-app/jest.config.js",
                         "tsConfig": "apps/aws-app/tsconfig.spec.json",
-                        "passWithNoTests": true
-                    }
-                }
-            }
-        },
-        "lambda-kanji-report": {
-            "projectType": "library",
-            "architect": {
-                "test": {
-                    "builder": "@nrwl/jest:jest",
-                    "options": {
-                        "jestConfig": "libs/lambda/kanji-report/jest.config.js",
-                        "tsConfig": "libs/lambda/kanji-report/tsconfig.spec.json",
-                        "passWithNoTests": true
-                    }
-                }
-            },
-            "root": "libs/lambda/kanji-report",
-            "sourceRoot": "libs/lambda/kanji-report"
-        },
-        "api-japanese": {
-            "root": "libs/api/japanese",
-            "sourceRoot": "libs/api/japanese/src",
-            "projectType": "library",
-            "schematics": {},
-            "architect": {
-                "lint": {
-                    "builder": "@nrwl/linter:lint",
-                    "options": {
-                        "linter": "eslint",
-                        "tsConfig": [
-                            "libs/api/japanese/tsconfig.lib.json",
-                            "libs/api/japanese/tsconfig.spec.json"
-                        ],
-                        "exclude": ["**/node_modules/**", "!libs/api/japanese/**/*"]
-                    }
-                },
-                "test": {
-                    "builder": "@nrwl/jest:jest",
-                    "options": {
-                        "jestConfig": "libs/api/japanese/jest.config.js",
-                        "tsConfig": "libs/api/japanese/tsconfig.spec.json",
                         "passWithNoTests": true
                     }
                 }
@@ -493,9 +397,9 @@
                 }
             }
         },
-        "api-shared": {
-            "root": "libs/api/shared",
-            "sourceRoot": "libs/api/shared/src",
+        "japanese-utils": {
+            "root": "libs/japanese/utils",
+            "sourceRoot": "libs/japanese/utils/src",
             "projectType": "library",
             "schematics": {},
             "architect": {
@@ -504,25 +408,25 @@
                     "options": {
                         "linter": "eslint",
                         "tsConfig": [
-                            "libs/api/shared/tsconfig.lib.json",
-                            "libs/api/shared/tsconfig.spec.json"
+                            "libs/japanese/utils/tsconfig.lib.json",
+                            "libs/japanese/utils/tsconfig.spec.json"
                         ],
-                        "exclude": ["**/node_modules/**", "!libs/api/shared/**/*"]
+                        "exclude": ["**/node_modules/**", "!libs/japanese/utils/**/*"]
                     }
                 },
                 "test": {
                     "builder": "@nrwl/jest:jest",
                     "options": {
-                        "jestConfig": "libs/api/shared/jest.config.js",
-                        "tsConfig": "libs/api/shared/tsconfig.spec.json",
+                        "jestConfig": "libs/japanese/utils/jest.config.js",
+                        "tsConfig": "libs/japanese/utils/tsconfig.spec.json",
                         "passWithNoTests": true
                     }
                 }
             }
         },
-        "shared-cloud": {
-            "root": "libs/shared/cloud",
-            "sourceRoot": "libs/shared/cloud/src",
+        "shared-aws": {
+            "root": "libs/shared/aws",
+            "sourceRoot": "libs/shared/aws/src",
             "projectType": "library",
             "schematics": {},
             "architect": {
@@ -531,25 +435,25 @@
                     "options": {
                         "linter": "eslint",
                         "tsConfig": [
-                            "libs/shared/cloud/tsconfig.lib.json",
-                            "libs/shared/cloud/tsconfig.spec.json"
+                            "libs/shared/aws/tsconfig.lib.json",
+                            "libs/shared/aws/tsconfig.spec.json"
                         ],
-                        "exclude": ["**/node_modules/**", "!libs/shared/cloud/**/*"]
+                        "exclude": ["**/node_modules/**", "!libs/shared/aws/**/*"]
                     }
                 },
                 "test": {
                     "builder": "@nrwl/jest:jest",
                     "options": {
-                        "jestConfig": "libs/shared/cloud/jest.config.js",
-                        "tsConfig": "libs/shared/cloud/tsconfig.spec.json",
+                        "jestConfig": "libs/shared/aws/jest.config.js",
+                        "tsConfig": "libs/shared/aws/tsconfig.spec.json",
                         "passWithNoTests": true
                     }
                 }
             }
         },
-        "shared-test-utils": {
-            "root": "libs/shared/test-utils",
-            "sourceRoot": "libs/shared/test-utils/src",
+        "shared-utils": {
+            "root": "libs/shared/utils",
+            "sourceRoot": "libs/shared/utils/src",
             "projectType": "library",
             "schematics": {},
             "architect": {
@@ -558,25 +462,25 @@
                     "options": {
                         "linter": "eslint",
                         "tsConfig": [
-                            "libs/shared/test-utils/tsconfig.lib.json",
-                            "libs/shared/test-utils/tsconfig.spec.json"
+                            "libs/shared/utils/tsconfig.lib.json",
+                            "libs/shared/utils/tsconfig.spec.json"
                         ],
-                        "exclude": ["**/node_modules/**", "!libs/shared/test-utils/**/*"]
+                        "exclude": ["**/node_modules/**", "!libs/shared/utils/**/*"]
                     }
                 },
                 "test": {
                     "builder": "@nrwl/jest:jest",
                     "options": {
-                        "jestConfig": "libs/shared/test-utils/jest.config.js",
-                        "tsConfig": "libs/shared/test-utils/tsconfig.spec.json",
+                        "jestConfig": "libs/shared/utils/jest.config.js",
+                        "tsConfig": "libs/shared/utils/tsconfig.spec.json",
                         "passWithNoTests": true
                     }
                 }
             }
         },
-        "utils-aws": {
-            "root": "libs/utils/aws",
-            "sourceRoot": "libs/utils/aws/src",
+        "japanese-api": {
+            "root": "libs/japanese/api",
+            "sourceRoot": "libs/japanese/api/src",
             "projectType": "library",
             "schematics": {},
             "architect": {
@@ -585,17 +489,98 @@
                     "options": {
                         "linter": "eslint",
                         "tsConfig": [
-                            "libs/utils/aws/tsconfig.lib.json",
-                            "libs/utils/aws/tsconfig.spec.json"
+                            "libs/japanese/api/tsconfig.lib.json",
+                            "libs/japanese/api/tsconfig.spec.json"
                         ],
-                        "exclude": ["**/node_modules/**", "!libs/utils/aws/**/*"]
+                        "exclude": ["**/node_modules/**", "!libs/japanese/api/**/*"]
                     }
                 },
                 "test": {
                     "builder": "@nrwl/jest:jest",
                     "options": {
-                        "jestConfig": "libs/utils/aws/jest.config.js",
-                        "tsConfig": "libs/utils/aws/tsconfig.spec.json",
+                        "jestConfig": "libs/japanese/api/jest.config.js",
+                        "tsConfig": "libs/japanese/api/tsconfig.spec.json",
+                        "passWithNoTests": true
+                    }
+                }
+            }
+        },
+        "japanese-interface": {
+            "root": "libs/japanese/interface",
+            "sourceRoot": "libs/japanese/interface/src",
+            "projectType": "library",
+            "schematics": {},
+            "architect": {
+                "lint": {
+                    "builder": "@nrwl/linter:lint",
+                    "options": {
+                        "linter": "eslint",
+                        "tsConfig": [
+                            "libs/japanese/interface/tsconfig.lib.json",
+                            "libs/japanese/interface/tsconfig.spec.json"
+                        ],
+                        "exclude": ["**/node_modules/**", "!libs/japanese/interface/**/*"]
+                    }
+                },
+                "test": {
+                    "builder": "@nrwl/jest:jest",
+                    "options": {
+                        "jestConfig": "libs/japanese/interface/jest.config.js",
+                        "tsConfig": "libs/japanese/interface/tsconfig.spec.json",
+                        "passWithNoTests": true
+                    }
+                }
+            }
+        },
+        "shared-api": {
+            "root": "libs/shared/api",
+            "sourceRoot": "libs/shared/api/src",
+            "projectType": "library",
+            "schematics": {},
+            "architect": {
+                "lint": {
+                    "builder": "@nrwl/linter:lint",
+                    "options": {
+                        "linter": "eslint",
+                        "tsConfig": [
+                            "libs/shared/api/tsconfig.lib.json",
+                            "libs/shared/api/tsconfig.spec.json"
+                        ],
+                        "exclude": ["**/node_modules/**", "!libs/shared/api/**/*"]
+                    }
+                },
+                "test": {
+                    "builder": "@nrwl/jest:jest",
+                    "options": {
+                        "jestConfig": "libs/shared/api/jest.config.js",
+                        "tsConfig": "libs/shared/api/tsconfig.spec.json",
+                        "passWithNoTests": true
+                    }
+                }
+            }
+        },
+        "japanese-cloud": {
+            "root": "libs/japanese/cloud",
+            "sourceRoot": "libs/japanese/cloud/src",
+            "projectType": "library",
+            "schematics": {},
+            "architect": {
+                "lint": {
+                    "builder": "@nrwl/linter:lint",
+                    "options": {
+                        "linter": "eslint",
+                        "tsConfig": [
+                            "libs/japanese/cloud/tsconfig.lib.json",
+                            "libs/japanese/cloud/tsconfig.spec.json"
+                        ],
+                        "exclude": ["**/node_modules/**", "!libs/japanese/cloud/**/*"]
+                    }
+                },
+                "test": {
+                    "builder": "@nrwl/jest:jest",
+                    "options": {
+                        "jestConfig": "libs/japanese/cloud/jest.config.js",
+                        "tsConfig": "libs/japanese/cloud/tsconfig.spec.json",
                         "passWithNoTests": true
                     }
                 }

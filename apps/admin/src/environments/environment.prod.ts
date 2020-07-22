@@ -1,4 +1,4 @@
-import { Stage } from '@myin/api/japanese';
+import { Stage } from '@myin/japanese/api';
 
 export const environment = {
     production: true,

@@ -1,7 +1,7 @@
 import * as fs from 'fs';
-import _ from 'lodash';
-import { isKanji } from '@myin/utils/japanese';
-import { KANJI_ATTRIBUTES_TABLE } from '@myin/shared/cloud';
+import { chunk } from 'lodash';
+import { isKanji } from '@myin/japanese/utils';
+import { KANJI_ATTRIBUTES_TABLE } from '@myin/japanese/interface';
 
 export async function syncKanjiAttributes(file, dynamo, maxBatch) {
     const buffer = fs.readFileSync(file);
@@ -56,7 +56,7 @@ export async function syncKanjiAttributes(file, dynamo, maxBatch) {
                 return null;
             }
         })
-        .filter(x => !!x);
+        .filter((x) => !!x);
 
     console.log(counts);
     await dynamo
@@ -70,10 +70,10 @@ export async function syncKanjiAttributes(file, dynamo, maxBatch) {
         })
         .promise();
 
-    _.chunk(data, maxBatch).forEach(async chunk => {
+    chunk(data, maxBatch).forEach(async (c) => {
         await dynamo
             .transactWriteItems({
-                TransactItems: chunk,
+                TransactItems: c,
             })
             .promise();
     });

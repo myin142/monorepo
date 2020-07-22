@@ -20,56 +20,53 @@
     },
     "projects": {
         "public": {
-            "tags": []
+            "tags": ["scope:public", "type:app"]
         },
         "public-e2e": {
-            "tags": [],
+            "tags": ["scope:public"],
             "implicitDependencies": ["public"]
         },
         "admin": {
-            "tags": []
+            "tags": ["scope:admin", "type:app"]
         },
         "admin-e2e": {
-            "tags": [],
+            "tags": ["scope:admin"],
             "implicitDependencies": ["admin"]
         },
-        "utils-shared": {
-            "tags": []
-        },
         "sync": {
-            "tags": []
-        },
-        "utils-japanese": {
-            "tags": []
+            "tags": ["type:cloud"]
         },
         "aws-app": {
-            "tags": [],
-            "implicitDependencies": ["lambda-kanji-report"]
-        },
-        "lambda-kanji-report": {
-            "tags": []
-        },
-        "api-japanese": {
-            "tags": []
+            "tags": ["type:cloud"],
+            "implicitDependencies": ["japanese-cloud"]
         },
         "japanese": {
-            "tags": []
+            "tags": ["scope:japanese", "type:app"]
         },
         "japanese-e2e": {
-            "tags": [],
+            "tags": ["scope:japanese"],
             "implicitDependencies": ["japanese"]
         },
-        "api-shared": {
-            "tags": []
+        "japanese-utils": {
+            "tags": ["scope:japanese", "type:utils"]
         },
-        "shared-cloud": {
-            "tags": []
+        "shared-aws": {
+            "tags": ["scope:shared", "type:cloud"]
         },
-        "shared-test-utils": {
-            "tags": []
+        "shared-utils": {
+            "tags": ["scope:shared", "type:utils"]
         },
-        "utils-aws": {
-            "tags": []
+        "japanese-api": {
+            "tags": ["scope:japanese", "type:api"]
+        },
+        "japanese-interface": {
+            "tags": ["scope:japanese", "type:interface"]
+        },
+        "shared-api": {
+            "tags": ["scope:shared", "type:api"]
+        },
+        "japanese-cloud": {
+            "tags": ["scope:japanese", "type:cloud"]
         }
     }
 }

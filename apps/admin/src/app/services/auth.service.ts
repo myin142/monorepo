@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Path } from '@myin/utils/shared';
+import { Path } from '@myin/shared/utils';
 
 @Injectable({
     providedIn: 'root',

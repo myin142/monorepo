@@ -17,14 +17,13 @@
         "baseUrl": ".",
         "paths": {
             "@myin/cloud-stacks": ["libs/cloud-stacks/src/index.ts"],
-            "@myin/utils/shared": ["libs/utils/shared/src/index.ts"],
-            "@myin/utils/japanese": ["libs/utils/japanese/src/index.ts"],
-            "@myin/lambda/kanji-report": ["libs/lambda/kanji-report/src/app.ts"],
-            "@myin/api/japanese": ["libs/api/japanese/src/index.ts"],
-            "@myin/api/shared": ["libs/api/shared/src/index.ts"],
-            "@myin/shared/cloud": ["libs/shared/cloud/src/index.ts"],
-            "@myin/shared/test-utils": ["libs/shared/test-utils/src/index.ts"],
-            "@myin/utils/aws": ["libs/utils/aws/src/index.ts"]
+            "@myin/japanese/utils": ["libs/japanese/utils/src/index.ts"],
+            "@myin/shared/aws": ["libs/shared/aws/src/index.ts"],
+            "@myin/shared/utils": ["libs/shared/utils/src/index.ts"],
+            "@myin/japanese/api": ["libs/japanese/api/src/index.ts"],
+            "@myin/japanese/interface": ["libs/japanese/interface/src/index.ts"],
+            "@myin/shared/api": ["libs/shared/api/src/index.ts"],
+            "@myin/japanese/cloud": ["libs/japanese/cloud/src/index.ts"]
         }
     },
     "exclude": ["node_modules", "tmp"]
