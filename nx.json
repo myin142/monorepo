@@ -67,6 +67,9 @@
         },
         "japanese-cloud": {
             "tags": ["scope:japanese", "type:cloud"]
+        },
+        "shared-authentication": {
+            "tags": ["scope:shared", "type:api"]
         }
     }
 }

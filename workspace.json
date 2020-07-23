@@ -585,6 +585,33 @@
                     }
                 }
             }
+        },
+        "shared-authentication": {
+            "root": "libs/shared/authentication",
+            "sourceRoot": "libs/shared/authentication/src",
+            "projectType": "library",
+            "schematics": {},
+            "architect": {
+                "lint": {
+                    "builder": "@nrwl/linter:lint",
+                    "options": {
+                        "linter": "eslint",
+                        "tsConfig": [
+                            "libs/shared/authentication/tsconfig.lib.json",
+                            "libs/shared/authentication/tsconfig.spec.json"
+                        ],
+                        "exclude": ["**/node_modules/**", "!libs/shared/authentication/**/*"]
+                    }
+                },
+                "test": {
+                    "builder": "@nrwl/jest:jest",
+                    "options": {
+                        "jestConfig": "libs/shared/authentication/jest.config.js",
+                        "tsConfig": "libs/shared/authentication/tsconfig.spec.json",
+                        "passWithNoTests": true
+                    }
+                }
+            }
         }
     },
     "cli": {

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Radical, JapaneseApiClient } from '@myin/japanese/api';
 import { Page, PageRequest } from '@myin/shared/utils';
 import { environment } from '../../environments/environment';
-import { AuthService } from './auth.service';
+import { AuthService } from '@myin/shared/authentication';
 
 @Injectable({
     providedIn: 'root',

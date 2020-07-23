@@ -23,7 +23,8 @@
             "@myin/japanese/api": ["libs/japanese/api/src/index.ts"],
             "@myin/japanese/interface": ["libs/japanese/interface/src/index.ts"],
             "@myin/shared/api": ["libs/shared/api/src/index.ts"],
-            "@myin/japanese/cloud": ["libs/japanese/cloud/src/index.ts"]
+            "@myin/japanese/cloud": ["libs/japanese/cloud/src/index.ts"],
+            "@myin/shared/authentication": ["libs/shared/authentication/src/index.ts"]
         }
     },
     "exclude": ["node_modules", "tmp"]

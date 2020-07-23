@@ -1,9 +1,5 @@
-import { Injectable } from '@angular/core';
 import { Path } from '@myin/shared/utils';
 
-@Injectable({
-    providedIn: 'root',
-})
 export class AuthService {
     private static TOKEN_KEY = 'myin-admin-login-token';
 
