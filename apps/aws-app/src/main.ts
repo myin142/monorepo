@@ -1,5 +1,7 @@
 import * as cdk from '@aws-cdk/core';
-import { AppStack } from '../../../libs/japanese/cloud/src/app-stack';
+import { JapaneseStack } from '../../../libs/japanese/cloud/src/japanese-stack';
+import { AuthStack } from './auth-stack';
 
 const app = new cdk.App();
-new AppStack(app, 'aws-app');
+new AuthStack(app, 'auth');
+new JapaneseStack(app, 'japanese');

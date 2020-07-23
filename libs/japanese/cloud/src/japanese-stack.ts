@@ -1,16 +1,28 @@
 import * as cdk from '@aws-cdk/core';
 import { NodejsFunction } from '@aws-cdk/aws-lambda-nodejs';
-import { RestApi, LambdaIntegration } from '@aws-cdk/aws-apigateway';
+import { LambdaIntegration } from '@aws-cdk/aws-apigateway';
+import { Table, AttributeType } from '@aws-cdk/aws-dynamodb';
 import { Path } from '../../../shared/utils/src';
+import { kanjiAttributes } from '@myin/japanese/interface';
+import { defaultRestApi } from '@myin/shared/aws';
 
 const japanesePath = (path?: string): string =>
     Path.join('../../libs/japanese/cloud/src/lib', path);
 
-export class AppStack extends cdk.Stack {
+export class JapaneseStack extends cdk.Stack {
     constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
         super(scope, id, props);
 
-        const japaneseApi = new RestApi(this, 'japaneseApi', {});
+        const japaneseApi = defaultRestApi(this, 'japaneseApi');
+
+        const kanjiAttributesTable = new Table(this, kanjiAttributes.table, {
+            tableName: kanjiAttributes.table,
+            partitionKey: {
+                name: kanjiAttributes.key,
+                type: AttributeType.STRING,
+            },
+            writeCapacity: 1,
+        });
 
         const createKanjiReport = new NodejsFunction(this, 'createKanjiReport', {
             entry: japanesePath('kanji-report.ts'),
@@ -23,6 +35,9 @@ export class AppStack extends cdk.Stack {
             handler: 'getAllKanjiStats',
             nodeModules: ['lodash'],
         });
+
+        kanjiAttributesTable.grantReadData(createKanjiReport);
+        kanjiAttributesTable.grantReadData(getAllKanjiStats);
 
         const kanjiResource = japaneseApi.root.addResource('kanji');
         const kanjiReportResource = kanjiResource.addResource('report');

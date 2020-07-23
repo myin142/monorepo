@@ -1,1 +1,4 @@
-export const KANJI_ATTRIBUTES_TABLE = 'KanjiAttributes';
+export const kanjiAttributes = {
+    table: 'KanjiAttributes',
+    key: 'kanji',
+};

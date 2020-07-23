@@ -6,7 +6,7 @@ import {
     mockAWSResponsePromise,
 } from '@myin/shared/aws';
 import { createKanjiReport, getAllKanjiStats } from './kanji-report';
-import { KanjiReportCounts, KANJI_ATTRIBUTES_TABLE } from '@myin/japanese/interface';
+import { KanjiReportCounts, kanjiAttributes } from '@myin/japanese/interface';
 
 jest.mock('aws-sdk');
 
@@ -15,7 +15,7 @@ describe('Kanji Report', () => {
         beforeEach(() => {
             DynamoDB.prototype.batchGetItem = jest.fn(() =>
                 mockAWSResponsePromise({
-                    Responses: { [KANJI_ATTRIBUTES_TABLE]: [] },
+                    Responses: { [kanjiAttributes.table]: [] },
                 })
             );
         });
@@ -24,7 +24,7 @@ describe('Kanji Report', () => {
             DynamoDB.prototype.batchGetItem = jest.fn(() =>
                 mockAWSResponsePromise<BatchGetItemOutput>({
                     Responses: {
-                        [KANJI_ATTRIBUTES_TABLE]: toAWSAttributeMapArray([
+                        [kanjiAttributes.table]: toAWSAttributeMapArray([
                             { grade: 1, jlpt: 3, frequency: 100 },
                             { grade: 2, jlpt: 3, frequency: 10 },
                             { grade: 2, jlpt: 3, frequency: 5 },
@@ -50,7 +50,7 @@ describe('Kanji Report', () => {
             expect(statusCode).toEqual(200);
             expect(DynamoDB.prototype.batchGetItem).toHaveBeenCalledWith({
                 RequestItems: {
-                    [KANJI_ATTRIBUTES_TABLE]: expect.objectContaining({
+                    [kanjiAttributes.table]: expect.objectContaining({
                         Keys: toAWSAttributeMapArray([
                             { kanji: '日' },
                             { kanji: '本' },
@@ -84,7 +84,7 @@ describe('Kanji Report', () => {
         expect(JSON.parse(body)).toEqual({ total: '200' });
 
         expect(DynamoDB.prototype.getItem).toHaveBeenCalledWith({
-            TableName: KANJI_ATTRIBUTES_TABLE,
+            TableName: kanjiAttributes.table,
             Key: toAWSAttributeMap({ kanji: '@' }),
         });
     });
