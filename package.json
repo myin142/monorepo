@@ -109,6 +109,7 @@
         "tslint": "~6.0.0",
         "typescript": "~3.8.3",
         "vue-jest": "^3.0.5",
-        "vue-template-compiler": "^2.6.11"
+        "vue-template-compiler": "^2.6.11",
+        "webpack-dev-server": "^3.11.0"
     }
 }
