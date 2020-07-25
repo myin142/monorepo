@@ -1,19 +1,24 @@
-import * as cdk from '@aws-cdk/core';
+import { Construct, StackProps } from '@aws-cdk/core';
 import { NodejsFunction } from '@aws-cdk/aws-lambda-nodejs';
 import { LambdaIntegration } from '@aws-cdk/aws-apigateway';
 import { Table, AttributeType } from '@aws-cdk/aws-dynamodb';
 import { Path } from '../../../shared/utils/src';
 import { kanjiAttributes } from '../../interface/src';
-import { defaultRestApi } from '../../../shared/aws/src';
+import {
+    defaultRestApi,
+    AuthenticatedRestConstruct,
+    defaultCognito,
+} from '../../../shared/aws/src';
 
 const japanesePath = (path?: string): string =>
     Path.join('../../libs/japanese/cloud/src/lib', path);
 
-export class JapaneseStack extends cdk.Stack {
-    constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
-        super(scope, id, props);
+export class JapaneseStack extends Construct {
+    constructor(scope: Construct, id: string, props?: AuthenticatedRestConstruct) {
+        super(scope, id);
 
         const japaneseApi = defaultRestApi(this, 'japaneseApi');
+        const authOpt = defaultCognito(japaneseApi, props.userPool);
 
         const kanjiAttributesTable = new Table(this, kanjiAttributes.table, {
             tableName: kanjiAttributes.table,
@@ -41,7 +46,7 @@ export class JapaneseStack extends cdk.Stack {
 
         const kanjiResource = japaneseApi.root.addResource('kanji');
         const kanjiReportResource = kanjiResource.addResource('report');
-        kanjiReportResource.addMethod('POST', new LambdaIntegration(createKanjiReport));
-        kanjiReportResource.addMethod('GET', new LambdaIntegration(getAllKanjiStats));
+        kanjiReportResource.addMethod('POST', new LambdaIntegration(createKanjiReport), authOpt);
+        kanjiReportResource.addMethod('GET', new LambdaIntegration(getAllKanjiStats), authOpt);
     }
 }

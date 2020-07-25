@@ -2,18 +2,20 @@ import { Stack, Construct, StackProps } from '@aws-cdk/core';
 import { UserPool, UserPoolClientIdentityProvider, OAuthScope } from '@aws-cdk/aws-cognito';
 import { USERPOOL_DOMAIN } from '../../../libs/shared/interface/src';
 
-export class AuthStack extends Stack {
+export class AuthStack extends Construct {
+    userPool: UserPool;
+
     constructor(scope: Construct, id: string, props?: StackProps) {
-        super(scope, id, props);
+        super(scope, id);
 
         const userPoolName = 'MyinUserPool';
         const userPoolClientName = `${userPoolName}Client`;
         const userPoolDomainName = `${userPoolName}Domain`;
         const userPoolDomainPrefix = USERPOOL_DOMAIN;
 
-        const userPool = new UserPool(this, 'userpool', { userPoolName });
+        this.userPool = new UserPool(this, 'userpool', { userPoolName });
 
-        userPool.addClient(userPoolClientName, {
+        this.userPool.addClient(userPoolClientName, {
             supportedIdentityProviders: [UserPoolClientIdentityProvider.COGNITO],
             oAuth: {
                 flows: { implicitCodeGrant: true },
@@ -26,7 +28,7 @@ export class AuthStack extends Stack {
             },
         });
 
-        userPool.addDomain(userPoolDomainName, {
+        this.userPool.addDomain(userPoolDomainName, {
             cognitoDomain: { domainPrefix: userPoolDomainPrefix },
         });
     }
