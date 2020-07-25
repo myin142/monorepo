@@ -74,6 +74,9 @@
         "japanese-feature-login": {
             "tags": ["scope:japanese", "type:feature"]
         },
+        "japanese-feature-report": {
+            "tags": ["scope:japanese", "type:feature"]
+        },
         "shared-interface": {
             "tags": ["scope:shared", "type:interface"]
         }

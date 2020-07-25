@@ -640,6 +640,33 @@
                 }
             }
         },
+        "japanese-feature-report": {
+            "root": "libs/japanese/feature/report",
+            "sourceRoot": "libs/japanese/feature/report/src",
+            "projectType": "library",
+            "schematics": {},
+            "architect": {
+                "lint": {
+                    "builder": "@nrwl/linter:lint",
+                    "options": {
+                        "linter": "eslint",
+                        "tsConfig": [
+                            "libs/japanese/feature/report/tsconfig.lib.json",
+                            "libs/japanese/feature/report/tsconfig.spec.json"
+                        ],
+                        "exclude": ["**/node_modules/**", "!libs/japanese/feature/report/**/*"]
+                    }
+                },
+                "test": {
+                    "builder": "@nrwl/jest:jest",
+                    "options": {
+                        "jestConfig": "libs/japanese/feature/report/jest.config.js",
+                        "tsConfig": "libs/japanese/feature/report/tsconfig.spec.json",
+                        "passWithNoTests": true
+                    }
+                }
+            }
+        },
         "shared-interface": {
             "root": "libs/shared/interface",
             "sourceRoot": "libs/shared/interface/src",
