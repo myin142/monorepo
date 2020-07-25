@@ -70,6 +70,9 @@
         },
         "shared-authentication": {
             "tags": ["scope:shared", "type:api"]
+        },
+        "shared-interface": {
+            "tags": ["scope:shared", "type:interface"]
         }
     }
 }

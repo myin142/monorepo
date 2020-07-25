@@ -612,6 +612,33 @@
                     }
                 }
             }
+        },
+        "shared-interface": {
+            "root": "libs/shared/interface",
+            "sourceRoot": "libs/shared/interface/src",
+            "projectType": "library",
+            "schematics": {},
+            "architect": {
+                "lint": {
+                    "builder": "@nrwl/linter:lint",
+                    "options": {
+                        "linter": "eslint",
+                        "tsConfig": [
+                            "libs/shared/interface/tsconfig.lib.json",
+                            "libs/shared/interface/tsconfig.spec.json"
+                        ],
+                        "exclude": ["**/node_modules/**", "!libs/shared/interface/**/*"]
+                    }
+                },
+                "test": {
+                    "builder": "@nrwl/jest:jest",
+                    "options": {
+                        "jestConfig": "libs/shared/interface/jest.config.js",
+                        "tsConfig": "libs/shared/interface/tsconfig.spec.json",
+                        "passWithNoTests": true
+                    }
+                }
+            }
         }
     },
     "cli": {

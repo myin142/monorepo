@@ -1,5 +1,6 @@
 import { Stack, Construct, StackProps } from '@aws-cdk/core';
 import { UserPool, UserPoolClientIdentityProvider, OAuthScope } from '@aws-cdk/aws-cognito';
+import { USERPOOL_DOMAIN } from '@myin/shared/interface';
 
 export class AuthStack extends Stack {
     constructor(scope: Construct, id: string, props?: StackProps) {
@@ -8,7 +9,7 @@ export class AuthStack extends Stack {
         const userPoolName = 'MyinUserPool';
         const userPoolClientName = `${userPoolName}Client`;
         const userPoolDomainName = `${userPoolName}Domain`;
-        const userPoolDomainPrefix = 'myin-user-domain';
+        const userPoolDomainPrefix = USERPOOL_DOMAIN;
 
         const userPool = new UserPool(this, 'userpool', { userPoolName });
 
@@ -18,9 +19,9 @@ export class AuthStack extends Stack {
                 flows: { implicitCodeGrant: true },
                 scopes: [OAuthScope.EMAIL, OAuthScope.OPENID, OAuthScope.PROFILE],
                 callbackUrls: [
-                    'http://localhost:8080/login/oauth2',
-                    'http://localhost:4200/login/oauth2',
-                    'http://localhost:4300/login/oauth2',
+                    'http://localhost:8080/login',
+                    'http://localhost:4200/login',
+                    'http://localhost:4300/login',
                 ],
             },
         });

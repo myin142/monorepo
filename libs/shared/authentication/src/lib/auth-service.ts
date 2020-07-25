@@ -1,19 +1,20 @@
 import { Path } from '@myin/shared/utils';
+import { USERPOOL_DOMAIN, USERPOOL_CLIENTID } from '@myin/shared/interface';
 
 export class AuthService {
     private static TOKEN_KEY = 'myin-admin-login-token';
-
     private token = '';
-    private readonly domain = 'myin-user-domain.auth.eu-central-1.amazoncognito.com';
-    private readonly clientId = '1t6881tdaibngg1ujtrbk5cnb9';
+
+    private readonly domain = USERPOOL_DOMAIN;
+    private readonly clientId = USERPOOL_CLIENTID;
 
     constructor() {
         this.token = sessionStorage.getItem(AuthService.TOKEN_KEY);
     }
 
     login() {
-        const redirectUri = Path.join(document.baseURI, 'login');
-        const url = `https://${this.domain}/login?client_id=${this.clientId}&redirect_uri=${redirectUri}&response_type=token&scope=email+openid`;
+        const redirectUri = Path.join(document.baseURI);
+        const url = `https://${this.domain}.auth.eu-central-1.amazoncognito.com/login?client_id=${this.clientId}&redirect_uri=${redirectUri}&response_type=token&scope=email+openid`;
         window.location.href = url;
     }
 
@@ -40,4 +41,7 @@ export class AuthService {
     }
 }
 
-export const auth = new AuthService();
+export interface AuthOptions {
+    domain: string;
+    clientId: string;
+}

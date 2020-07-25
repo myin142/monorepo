@@ -12,6 +12,8 @@ export class ApiClient {
     }
 
     private createApiUrl(url: string, stage: Stage): string {
+        stage = stage || Stage.LOCAL;
+
         if (stage.startsWith('http://')) {
             url = stage;
         } else {

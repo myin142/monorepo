@@ -1,1 +1,1 @@
-export * from './lib/shared-authentication';
+export * from './lib/auth-service';
