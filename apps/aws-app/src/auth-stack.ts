@@ -1,6 +1,6 @@
 import { Stack, Construct, StackProps } from '@aws-cdk/core';
 import { UserPool, UserPoolClientIdentityProvider, OAuthScope } from '@aws-cdk/aws-cognito';
-import { USERPOOL_DOMAIN } from '@myin/shared/interface';
+import { USERPOOL_DOMAIN } from '../../../libs/shared/interface/src';
 
 export class AuthStack extends Stack {
     constructor(scope: Construct, id: string, props?: StackProps) {

@@ -3,8 +3,8 @@ import { NodejsFunction } from '@aws-cdk/aws-lambda-nodejs';
 import { LambdaIntegration } from '@aws-cdk/aws-apigateway';
 import { Table, AttributeType } from '@aws-cdk/aws-dynamodb';
 import { Path } from '../../../shared/utils/src';
-import { kanjiAttributes } from '@myin/japanese/interface';
-import { defaultRestApi } from '@myin/shared/aws';
+import { kanjiAttributes } from '../../interface/src';
+import { defaultRestApi } from '../../../shared/aws/src';
 
 const japanesePath = (path?: string): string =>
     Path.join('../../libs/japanese/cloud/src/lib', path);
