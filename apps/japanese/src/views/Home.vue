@@ -17,8 +17,9 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Inject } from 'vue-property-decorator';
-import { JapaneseApiClient, AllKanjiStats } from '@myin/japanese/api';
+import { JapaneseApiClient } from '@myin/japanese/api';
 import { Chart } from 'chart.js';
+import { AllKanjiStats } from '@myin/japanese/interface';
 
 @Component
 export default class Home extends Vue {

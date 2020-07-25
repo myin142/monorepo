@@ -613,6 +613,33 @@
                 }
             }
         },
+        "japanese-feature-login": {
+            "root": "libs/japanese/feature/login",
+            "sourceRoot": "libs/japanese/feature/login/src",
+            "projectType": "library",
+            "schematics": {},
+            "architect": {
+                "lint": {
+                    "builder": "@nrwl/linter:lint",
+                    "options": {
+                        "linter": "eslint",
+                        "tsConfig": [
+                            "libs/japanese/feature/login/tsconfig.lib.json",
+                            "libs/japanese/feature/login/tsconfig.spec.json"
+                        ],
+                        "exclude": ["**/node_modules/**", "!libs/japanese/feature/login/**/*"]
+                    }
+                },
+                "test": {
+                    "builder": "@nrwl/jest:jest",
+                    "options": {
+                        "jestConfig": "libs/japanese/feature/login/jest.config.js",
+                        "tsConfig": "libs/japanese/feature/login/tsconfig.spec.json",
+                        "passWithNoTests": true
+                    }
+                }
+            }
+        },
         "shared-interface": {
             "root": "libs/shared/interface",
             "sourceRoot": "libs/shared/interface/src",
