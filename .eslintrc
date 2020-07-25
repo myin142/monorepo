@@ -31,23 +31,23 @@
                     },
                     {
                         "sourceTag": "type:feature",
-                        "onlyDependOnLibsWithTags": ["type:ui", "type:api", "type:util"]
+                        "onlyDependOnLibsWithTags": ["type:ui", "type:api", "type:utils"]
                     },
                     {
                         "sourceTag": "type:ui",
-                        "onlyDependOnLibsWithTags": ["type:util"]
+                        "onlyDependOnLibsWithTags": ["type:utils"]
                     },
                     {
                         "sourceTag": "type:api",
-                        "onlyDependOnLibsWithTags": ["type:interface", "type:util"]
+                        "onlyDependOnLibsWithTags": ["type:api", "type:interface", "type:utils"]
                     },
                     {
                         "sourceTag": "type:cloud",
-                        "onlyDependOnLibsWithTags": ["type:cloud", "type:interface", "type:util"]
+                        "onlyDependOnLibsWithTags": ["type:cloud", "type:interface", "type:utils"]
                     },
                     {
-                        "sourceTag": "type:util",
-                        "onlyDependOnLibsWithTags": ["type:util"]
+                        "sourceTag": "type:utils",
+                        "onlyDependOnLibsWithTags": ["type:utils"]
                     },
                     {
                         "sourceTag": "scope:japanese",

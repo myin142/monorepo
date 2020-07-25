@@ -2,7 +2,7 @@ import Vue from 'vue';
 import App from './App.vue';
 import Vuetify from 'vuetify';
 import 'vuetify/dist/vuetify.min.css';
-import { JapaneseApiClient } from '@myin/japanese/api';
+import { JapaneseService } from '@myin/japanese/api';
 import { AuthService } from '@myin/shared/authentication';
 import VueRouter, { RouteConfig } from 'vue-router';
 import Home from './views/Home.vue';
@@ -11,7 +11,7 @@ Vue.use(Vuetify);
 Vue.use(VueRouter);
 Vue.config.productionTip = false;
 
-const japaneseService = new JapaneseApiClient(null, () => '');
+const japaneseService = new JapaneseService(null, () => '');
 const authService = new AuthService();
 
 const authGuard = (to, from, next) => {

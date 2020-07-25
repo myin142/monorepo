@@ -17,7 +17,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Inject } from 'vue-property-decorator';
-import { JapaneseApiClient } from '@myin/japanese/api';
+import { JapaneseService } from '@myin/japanese/api';
 import { Chart } from 'chart.js';
 import { AllKanjiStats } from '@myin/japanese/interface';
 
@@ -26,7 +26,7 @@ export default class Home extends Vue {
     kanjiReportFile: File = null;
 
     @Inject()
-    private japaneseService: JapaneseApiClient;
+    private japaneseService: JapaneseService;
     private allKanjiStats: AllKanjiStats;
 
     async created() {

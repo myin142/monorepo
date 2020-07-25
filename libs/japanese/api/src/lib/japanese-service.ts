@@ -5,7 +5,7 @@ import { AllKanjiStats, KanjiReportCounts } from '@myin/japanese/interface';
 
 const API_URL = 'https://dkvrwmxe6l.execute-api.eu-central-1.amazonaws.com/';
 
-export class JapaneseApiClient {
+export class JapaneseService {
     private client: ApiClient;
 
     constructor(stage: Stage, tokenFn: () => string) {

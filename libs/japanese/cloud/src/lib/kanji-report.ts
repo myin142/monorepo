@@ -1,3 +1,4 @@
+/* eslint-disable @nrwl/nx/enforce-module-boundaries */
 import { DynamoDB } from 'aws-sdk';
 import { chunk } from 'lodash';
 import { successAndBody, statusAndError, ApiGatewayResponse } from '../../../../shared/aws/src';

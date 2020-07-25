@@ -1,2 +1,2 @@
-export * from './lib/api-japanese';
+export * from './lib/japanese-service';
 export * from './lib/api-radical';
