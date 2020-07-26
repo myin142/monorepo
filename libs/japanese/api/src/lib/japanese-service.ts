@@ -3,7 +3,7 @@ import { Radical } from './api-radical';
 import { Page, PageRequest, Query } from '@myin/shared/utils';
 import { AllKanjiStats, KanjiReportCounts } from '@myin/japanese/interface';
 
-const API_URL = 'https://dkvrwmxe6l.execute-api.eu-central-1.amazonaws.com/';
+const API_URL = 'https://312b71jv54.execute-api.eu-central-1.amazonaws.com';
 
 export class JapaneseService {
     private client: ApiClient;

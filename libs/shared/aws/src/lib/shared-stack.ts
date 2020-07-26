@@ -1,24 +1,31 @@
-import { RestApi, RestApiProps, AuthorizationType, CfnAuthorizer } from '@aws-cdk/aws-apigateway';
+import {
+    RestApi,
+    RestApiProps,
+    AuthorizationType,
+    CfnAuthorizer,
+    MethodOptions,
+} from '@aws-cdk/aws-apigateway';
 import { Construct } from '@aws-cdk/core';
 import { UserPool } from '@aws-cdk/aws-cognito';
 
 export const defaultRestApi = (scope: Construct, id: string, props?: RestApiProps) => {
     const api = new RestApi(scope, id, {
-        defaultMethodOptions: {
-            // Waiting https://github.com/aws/aws-cdk/issues/5618
-            authorizationType: AuthorizationType.COGNITO,
+        deployOptions: {
+            throttlingBurstLimit: 10,
+            throttlingRateLimit: 10,
+        },
+        defaultCorsPreflightOptions: {
+            allowOrigins: ['*'],
+            allowCredentials: true,
         },
         ...props,
-    });
-
-    api.addUsagePlan('throttle', {
-        throttle: { burstLimit: 10, rateLimit: 10 },
     });
 
     return api;
 };
 
-export const defaultCognito = (api: RestApi, userPool: UserPool) => {
+// Waiting https://github.com/aws/aws-cdk/issues/5618
+export const defaultCognito = (api: RestApi, userPool: UserPool): MethodOptions => {
     const authorizer = new CfnAuthorizer(api.stack, 'authorizer', {
         restApiId: api.restApiId,
         type: AuthorizationType.COGNITO,

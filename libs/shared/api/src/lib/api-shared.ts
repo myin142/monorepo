@@ -1,6 +1,5 @@
 export enum Stage {
-    PROD = 'Prod',
-    STAGE = 'Stage',
+    PROD = 'prod',
     LOCAL = 'http://localhost:3000', // Default api gateway url using SAM local start-api
 }
 

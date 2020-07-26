@@ -5,14 +5,14 @@ import 'vuetify/dist/vuetify.min.css';
 import { JapaneseService } from '@myin/japanese/api';
 import { AuthService } from '@myin/shared/authentication';
 import VueRouter, { RouteConfig } from 'vue-router';
-import Home from './views/Home.vue';
+import { Stage } from '@myin/shared/api';
 
 Vue.use(Vuetify);
 Vue.use(VueRouter);
 Vue.config.productionTip = false;
 
-const japaneseService = new JapaneseService(null, () => '');
 const authService = new AuthService();
+const japaneseService = new JapaneseService(Stage.PROD, () => authService.getToken());
 
 const authGuard = (to, from, next) => {
     if (authService.isAuthenticated()) {
@@ -26,13 +26,18 @@ const routes: Array<RouteConfig> = [
     {
         path: '/',
         name: 'Home',
-        component: Home,
-        beforeEnter: authGuard,
+        redirect: '/report',
     },
     {
         path: '/login',
         name: 'Login',
         component: () => import('@myin/japanese/feature/login'),
+    },
+    {
+        path: '/report',
+        name: 'Report',
+        component: () => import('@myin/japanese/feature/report'),
+        beforeEnter: authGuard,
     },
 ];
 

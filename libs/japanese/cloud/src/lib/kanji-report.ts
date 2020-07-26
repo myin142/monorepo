@@ -3,7 +3,8 @@ import { DynamoDB } from 'aws-sdk';
 import { chunk } from 'lodash';
 import { successAndBody, statusAndError, ApiGatewayResponse } from '../../../../shared/aws/src';
 import { extractKanjis } from '../../../utils/src';
-import { KanjiReportCounts, kanjiAttributes } from '../../../interface/src';
+import { KanjiReportCounts, kanjiAttributes, kanjiReport } from '../../../interface/src';
+import { decode } from 'jsonwebtoken';
 
 // ^^^ Importing using tsconfig paths not working
 // https://github.com/aws/jsii/issues/865
@@ -15,7 +16,7 @@ if (process.env.AWS_SAM_LOCAL) {
 }
 const dynamo = new DynamoDB(options);
 
-export const getAllKanjiStats = async (event): Promise<ApiGatewayResponse> => {
+export const getAllKanjiStats = async (): Promise<ApiGatewayResponse> => {
     const response = await dynamo
         .getItem({
             TableName: kanjiAttributes.table,
@@ -28,13 +29,19 @@ export const getAllKanjiStats = async (event): Promise<ApiGatewayResponse> => {
 
 export const createKanjiReport = async (event): Promise<ApiGatewayResponse> => {
     if (typeof event.body != 'string') return statusAndError(400, 'Invalid body type');
+
+    const token = event.headers.Authorization as string;
+    const decoded = token ? decode(token.substr(token.indexOf(' ') + 1)) : '';
+    if (!decoded || !decoded.sub) return statusAndError(400, 'Invalid authorization header');
+
     const kanjis = extractKanjis(event.body);
+    if (kanjis.length === 0) return statusAndError(400, 'No kanjis to create report');
 
     const counts: KanjiReportCounts = {
         total: kanjis.length,
         grades: {},
         jlpt: {},
-        frequencies: [],
+        // TODO: distribution of frequency?
     };
 
     await Promise.all(
@@ -61,14 +68,20 @@ export const createKanjiReport = async (event): Promise<ApiGatewayResponse> => {
                     if (!counts.jlpt[value]) counts.jlpt[value] = 0;
                     counts.jlpt[value]++;
                 }
-
-                if (item.frequency) {
-                    const value = parseInt(item.frequency.N);
-                    counts.frequencies.push(value);
-                }
             });
         })
     );
+
+    await dynamo
+        .putItem({
+            TableName: kanjiReport.table,
+            Item: {
+                [kanjiReport.key]: { S: decoded.sub },
+                [kanjiReport.sort]: { N: `${Date.now()}` },
+                counts: { S: JSON.stringify(counts) },
+            },
+        })
+        .promise();
 
     return successAndBody(counts);
 };

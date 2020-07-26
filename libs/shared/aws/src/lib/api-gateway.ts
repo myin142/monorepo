@@ -9,7 +9,7 @@ export function statusAndBody(statusCode, body): ApiGatewayResponse {
     };
 }
 
-export function successAndBody(body): ApiGatewayResponse {
+export function successAndBody(body = {}): ApiGatewayResponse {
     return statusAndBody(200, body);
 }
 

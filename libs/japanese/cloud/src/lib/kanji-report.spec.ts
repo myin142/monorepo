@@ -6,21 +6,31 @@ import {
     mockAWSResponsePromise,
 } from '@myin/shared/aws';
 import { createKanjiReport, getAllKanjiStats } from './kanji-report';
-import { KanjiReportCounts, kanjiAttributes } from '@myin/japanese/interface';
+import { kanjiAttributes, kanjiReport } from '@myin/japanese/interface';
+import { sign } from 'jsonwebtoken';
 
 jest.mock('aws-sdk');
 
 describe('Kanji Report', () => {
     describe('Create Kanji Report', () => {
+        let headers: object;
+        const mockDateNum = 100;
+
         beforeEach(() => {
             DynamoDB.prototype.batchGetItem = jest.fn(() =>
                 mockAWSResponsePromise({
                     Responses: { [kanjiAttributes.table]: [] },
                 })
             );
+
+            global.Date.now = jest.fn(() => mockDateNum);
+            headers = {
+                Authorization: `Bearer ${sign({ sub: 'USER' }, 'SECRET')}`,
+            };
         });
 
-        it('count kanjis', async () => {
+        it('save kanji counts', async () => {
+            DynamoDB.prototype.putItem = jest.fn(() => mockAWSResponsePromise({}));
             DynamoDB.prototype.batchGetItem = jest.fn(() =>
                 mockAWSResponsePromise<BatchGetItemOutput>({
                     Responses: {
@@ -34,18 +44,29 @@ describe('Kanji Report', () => {
                 })
             );
 
-            const { statusCode, body } = await createKanjiReport({ body: '日' });
+            const { statusCode } = await createKanjiReport({ body: '日本語', headers });
             expect(statusCode).toEqual(200);
 
-            const { grades, jlpt, frequencies } = JSON.parse(body) as KanjiReportCounts;
-            expect(grades).toEqual({ [1]: 2, [2]: 2 });
-            expect(jlpt).toEqual({ [4]: 1, [3]: 3 });
-            expect(frequencies).toEqual(expect.arrayContaining([5, 25, 10, 100]));
+            expect(DynamoDB.prototype.putItem).toHaveBeenCalledWith({
+                TableName: kanjiReport.table,
+                Item: expect.objectContaining(
+                    toAWSAttributeMap({
+                        [kanjiReport.key]: 'USER',
+                        [kanjiReport.sort]: mockDateNum,
+                        counts: JSON.stringify({
+                            total: 3,
+                            grades: { [1]: 2, [2]: 2 },
+                            jlpt: { [4]: 1, [3]: 3 },
+                        }),
+                    })
+                ),
+            });
         });
 
         it('get items of kanjis', async () => {
             const { statusCode } = await createKanjiReport({
                 body: 'Japanese - 日本語',
+                headers,
             });
             expect(statusCode).toEqual(200);
             expect(DynamoDB.prototype.batchGetItem).toHaveBeenCalledWith({
@@ -62,12 +83,30 @@ describe('Kanji Report', () => {
         });
 
         it('fail on missing body', async () => {
-            const { statusCode } = await createKanjiReport({});
+            const { statusCode } = await createKanjiReport({ headers });
             expect(statusCode).not.toEqual(200);
         });
 
         it('fail on invalid body', async () => {
-            const { statusCode } = await createKanjiReport({ body: {} });
+            const { statusCode } = await createKanjiReport({ body: {}, headers });
+            expect(statusCode).not.toEqual(200);
+        });
+
+        it('fail on missing token', async () => {
+            const { statusCode } = await createKanjiReport({ body: '一', headers: {} });
+            expect(statusCode).not.toEqual(200);
+        });
+
+        it('fail on invalid token', async () => {
+            const { statusCode } = await createKanjiReport({
+                body: '一',
+                headers: { Authorization: 'TOKEN' },
+            });
+            expect(statusCode).not.toEqual(200);
+        });
+
+        it('fail on empty kanjis', async () => {
+            const { statusCode } = await createKanjiReport({ body: '', headers });
             expect(statusCode).not.toEqual(200);
         });
     });
@@ -79,7 +118,7 @@ describe('Kanji Report', () => {
             })
         );
 
-        const { statusCode, body } = await getAllKanjiStats({});
+        const { statusCode, body } = await getAllKanjiStats();
         expect(statusCode).toEqual(200);
         expect(JSON.parse(body)).toEqual({ total: '200' });
 
