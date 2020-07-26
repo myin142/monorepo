@@ -565,6 +565,14 @@
             "projectType": "library",
             "schematics": {},
             "architect": {
+                "package": {
+                    "builder": "@nx-plug/aws-cdk:package",
+                    "options": {
+                        "tsConfig": "libs/japanese/cloud/tsconfig.lib.json",
+                        "entryFile": "libs/japanese/cloud/src/lib/kanji-report.ts",
+                        "outputPath": "dist/libs/japanese/cloud"
+                    }
+                },
                 "lint": {
                     "builder": "@nrwl/linter:lint",
                     "options": {
