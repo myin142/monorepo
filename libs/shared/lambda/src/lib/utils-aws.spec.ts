@@ -1,9 +1,5 @@
 import { toAWSAttributeMap } from '../index';
-import {
-    fromAWSAttributeMap,
-    toAWSAttributeMapArray,
-    fromAWSAttributeMapArray,
-} from '../lib/utils-aws';
+import { fromAWSAttributeMap, toAWSAttributeMapArray, fromAWSAttributeMapArray } from './utils-aws';
 
 describe('Utils AWS', () => {
     describe('To AWS AttributeMap', () => {

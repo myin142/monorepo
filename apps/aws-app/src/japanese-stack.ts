@@ -3,16 +3,12 @@ import { Construct } from '@aws-cdk/core';
 import { NodejsFunction } from '@aws-cdk/aws-lambda-nodejs';
 import { LambdaIntegration } from '@aws-cdk/aws-apigateway';
 import { Table, AttributeType } from '@aws-cdk/aws-dynamodb';
-import { Path } from '../../../shared/utils/src';
-import { kanjiAttributes, kanjiReport } from '../../interface/src';
-import {
-    defaultRestApi,
-    AuthenticatedRestConstruct,
-    defaultCognito,
-} from '../../../shared/aws/src';
+import { Path } from '../../../libs/shared/utils/src';
+import { kanjiAttributes, kanjiReport } from '../../../libs/japanese/interface/src';
+import { defaultRestApi, AuthenticatedRestConstruct, defaultCognito } from './shared-stack';
+import { Function, Runtime, Code } from '@aws-cdk/aws-lambda';
 
-const japanesePath = (path?: string): string =>
-    Path.join('../../libs/japanese/cloud/src/lib', path);
+const japanesePath = (path?: string): string => Path.join('../../dist/libs/japanese/cloud/', path);
 
 export class JapaneseStack extends Construct {
     constructor(scope: Construct, id: string, props?: AuthenticatedRestConstruct) {
@@ -42,18 +38,30 @@ export class JapaneseStack extends Construct {
             },
         });
 
-        const createKanjiReport = new NodejsFunction(this, 'createKanjiReport', {
+        const createKanjiReport = new Function(this, 'createKanjiReport', {
+            runtime: Runtime.NODEJS_12_X,
+            code: Code.fromAsset(japanesePath()),
+            handler: 'japanese-cloud.createKanjiReport',
+        });
+
+        /* new NodejsFunction(this, 'createKanjiReport', {
             entry: japanesePath('kanji-report.ts'),
             handler: 'createKanjiReport',
-            nodeModules: ['lodash'],
-        });
+            nodeModules: ['lodash'], 
+        }); */
         kanjiReportTable.grantReadWriteData(createKanjiReport);
         kanjiAttributesTable.grantReadData(createKanjiReport);
 
-        const getAllKanjiStats = new NodejsFunction(this, 'getAllKanjiStats', {
-            entry: japanesePath('kanji-report.ts'),
-            handler: 'getAllKanjiStats',
-            nodeModules: ['lodash'],
+        // const getAllKanjiStats = new NodejsFunction(this, 'getAllKanjiStats', {
+        //     entry: japanesePath('kanji-report.ts'),
+        //     handler: 'getAllKanjiStats',
+        //     nodeModules: ['lodash'],
+        // });
+
+        const getAllKanjiStats = new Function(this, 'getAllKanjisStats', {
+            runtime: Runtime.NODEJS_12_X,
+            code: Code.fromAsset(japanesePath()),
+            handler: 'japanese-cloud.getAllKanjiStats',
         });
 
         kanjiAttributesTable.grantReadData(getAllKanjiStats);

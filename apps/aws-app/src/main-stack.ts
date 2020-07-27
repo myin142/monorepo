@@ -1,5 +1,5 @@
 import { Stack, Construct, StackProps } from '@aws-cdk/core';
-import { JapaneseStack } from '../../../libs/japanese/cloud/src/japanese-stack';
+import { JapaneseStack } from './japanese-stack';
 import { AuthStack } from './auth-stack';
 
 // Yaml output does not work with dependent multi-stack

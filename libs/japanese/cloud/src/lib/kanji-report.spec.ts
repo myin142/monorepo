@@ -1,10 +1,7 @@
 import { DynamoDB } from 'aws-sdk';
 import { BatchGetItemOutput, GetItemOutput } from 'aws-sdk/clients/dynamodb';
-import {
-    toAWSAttributeMapArray,
-    toAWSAttributeMap,
-    mockAWSResponsePromise,
-} from '@myin/shared/aws';
+import { toAWSAttributeMapArray, toAWSAttributeMap } from '@myin/shared/lambda';
+import { mockAWSResponsePromise } from '@myin/shared/tests';
 import { createKanjiReport, getAllKanjiStats } from './kanji-report';
 import { kanjiAttributes, kanjiReport } from '@myin/japanese/interface';
 import { sign } from 'jsonwebtoken';

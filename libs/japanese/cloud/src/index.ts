@@ -1,1 +1,1 @@
-export * from './japanese-stack';
+export * from './lib/kanji-report';

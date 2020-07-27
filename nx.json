@@ -50,9 +50,6 @@
         "japanese-utils": {
             "tags": ["scope:japanese", "type:utils"]
         },
-        "shared-aws": {
-            "tags": ["scope:shared", "type:cloud"]
-        },
         "shared-utils": {
             "tags": ["scope:shared", "type:utils"]
         },
@@ -79,6 +76,12 @@
         },
         "shared-interface": {
             "tags": ["scope:shared", "type:interface"]
+        },
+        "shared-tests": {
+            "tags": ["scope:shared", "type:utils"]
+        },
+        "shared-lambda": {
+            "tags": ["scope:shared", "type:cloud"]
         }
     }
 }

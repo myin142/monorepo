@@ -1,4 +1,4 @@
-import { successAndBody, statusAndBody } from '../lib/api-gateway';
+import { successAndBody, statusAndBody } from './api-gateway';
 
 describe('ApiGateway', () => {
     describe('Status Body', () => {
