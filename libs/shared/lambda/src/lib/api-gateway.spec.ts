@@ -1,4 +1,5 @@
-import { successAndBody, statusAndBody } from './api-gateway';
+import { successAndBody, statusAndBody, getSubjectFromToken } from './api-gateway';
+import { sign } from 'jsonwebtoken';
 
 describe('ApiGateway', () => {
     describe('Status Body', () => {
@@ -24,6 +25,18 @@ describe('ApiGateway', () => {
                     statusCode: 200,
                 })
             );
+        });
+    });
+
+    describe('Authorization Token', () => {
+        let token: string;
+
+        beforeEach(() => {
+            token = `Bearer ${sign({ sub: 'Subject' }, 'SECRET')}`;
+        });
+
+        it('get subject', () => {
+            expect(getSubjectFromToken(token)).toEqual('Subject');
         });
     });
 });

@@ -1,24 +1,24 @@
-export function statusAndBody(statusCode, body): ApiGatewayResponse {
+import { APIGatewayProxyResult } from 'aws-lambda';
+import { decode } from 'jsonwebtoken';
+
+export function statusAndBody(statusCode, body): APIGatewayProxyResult {
     return {
         statusCode,
         headers: {
             'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'OPTIONS,POST,GET,PUT',
         },
         body: JSON.stringify(body),
     };
 }
 
-export function successAndBody(body = {}): ApiGatewayResponse {
+export function successAndBody(body = {}): APIGatewayProxyResult {
     return statusAndBody(200, body);
 }
 
-export function statusAndError(statusCode, error): ApiGatewayResponse {
+export function statusAndError(statusCode, error): APIGatewayProxyResult {
     return statusAndBody(statusCode, { error });
 }
 
-export interface ApiGatewayResponse {
-    statusCode: number;
-    headers: { [key: string]: string };
-    body: string;
+export function getSubjectFromToken(token: string): string {
+    return token ? decode(token.substr(token.indexOf(' ') + 1)).sub : '';
 }

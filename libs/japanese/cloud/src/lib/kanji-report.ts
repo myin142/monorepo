@@ -1,10 +1,10 @@
 /* eslint-disable @nrwl/nx/enforce-module-boundaries */
 import { DynamoDB } from 'aws-sdk';
 import { chunk } from 'lodash';
-import { successAndBody, statusAndError, ApiGatewayResponse } from '../../../../shared/lambda/src';
+import { successAndBody, statusAndError, getSubjectFromToken } from '../../../../shared/lambda/src';
 import { extractKanjis } from '../../../utils/src';
 import { KanjiReportCounts, kanjiAttributes, kanjiReport } from '../../../interface/src';
-import { decode } from 'jsonwebtoken';
+import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 
 // ^^^ Importing using tsconfig paths not working
 // https://github.com/aws/jsii/issues/865
@@ -16,7 +16,7 @@ if (process.env.AWS_SAM_LOCAL) {
 }
 const dynamo = new DynamoDB(options);
 
-export const getAllKanjiStats = async (): Promise<ApiGatewayResponse> => {
+export const getAllKanjiStats = async (): Promise<APIGatewayProxyResult> => {
     const response = await dynamo
         .getItem({
             TableName: kanjiAttributes.table,
@@ -27,12 +27,13 @@ export const getAllKanjiStats = async (): Promise<ApiGatewayResponse> => {
     return successAndBody(JSON.parse(response.Item.counts.S));
 };
 
-export const createKanjiReport = async (event): Promise<ApiGatewayResponse> => {
+export const createKanjiReport = async (
+    event: APIGatewayProxyEvent
+): Promise<APIGatewayProxyResult> => {
     if (typeof event.body != 'string') return statusAndError(400, 'Invalid body type');
 
-    const token = event.headers.Authorization as string;
-    const decoded = token ? decode(token.substr(token.indexOf(' ') + 1)) : '';
-    if (!decoded || !decoded.sub) return statusAndError(400, 'Invalid authorization header');
+    const subject = getSubjectFromToken(event.headers.Authorization as string);
+    if (!subject) return statusAndError(400, 'Invalid authorization header');
 
     const kanjis = extractKanjis(event.body);
     if (kanjis.length === 0) return statusAndError(400, 'No kanjis to create report');
@@ -76,7 +77,7 @@ export const createKanjiReport = async (event): Promise<ApiGatewayResponse> => {
         .putItem({
             TableName: kanjiReport.table,
             Item: {
-                [kanjiReport.key]: { S: decoded.sub },
+                [kanjiReport.key]: { S: subject },
                 [kanjiReport.sort]: { N: `${Date.now()}` },
                 counts: { S: JSON.stringify(counts) },
             },

@@ -22,7 +22,9 @@ export default class Report extends Vue {
     @Inject()
     private japaneseService: JapaneseService;
 
-    created() {}
+    async created() {
+        await this.japaneseService.getAllKanjiStats();
+    }
 
     async test() {
         const report = await this.japaneseService.createKanjiReport(this.kanjiReportFile);

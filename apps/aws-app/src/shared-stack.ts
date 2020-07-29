@@ -16,6 +16,7 @@ export const defaultRestApi = (scope: Construct, id: string, props?: RestApiProp
         },
         defaultCorsPreflightOptions: {
             allowOrigins: ['*'],
+            allowHeaders: ['Authorization'],
             allowCredentials: true,
         },
         ...props,
@@ -31,7 +32,6 @@ export const defaultCognito = (api: RestApi, userPool: UserPool): MethodOptions 
         type: AuthorizationType.COGNITO,
         name: 'MainPoolAuthorizer',
         identitySource: 'method.request.header.Authorization',
-        identityValidationExpression: 'Bearer (.*)',
         providerArns: [userPool.userPoolArn],
     });
 
