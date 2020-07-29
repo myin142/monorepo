@@ -1,10 +1,9 @@
 import { DynamoDB } from 'aws-sdk';
 import { BatchGetItemOutput, GetItemOutput } from 'aws-sdk/clients/dynamodb';
 import { toAWSAttributeMapArray, toAWSAttributeMap } from '@myin/shared/lambda';
-import { mockAWSResponsePromise } from '@myin/shared/tests';
-import { createKanjiReport, getAllKanjiStats } from './kanji-report';
+import { emptyGatewayEvent, mockAWSResponsePromise } from '@myin/shared/tests';
+import { createKanjiReport, getAllKanjiStats, getKanjiReports } from './kanji-report';
 import { kanjiAttributes, kanjiReport } from '@myin/japanese/interface';
-import { sign } from 'jsonwebtoken';
 import { APIGatewayProxyEvent } from 'aws-lambda';
 
 jest.mock('aws-sdk');
@@ -22,22 +21,7 @@ describe('Kanji Report', () => {
             );
 
             global.Date.now = jest.fn(() => mockDateNum);
-            event = {
-                body: '',
-                httpMethod: 'GET',
-                headers: {
-                    Authorization: `Bearer ${sign({ sub: 'USER' }, 'SECRET')}`,
-                },
-                isBase64Encoded: false,
-                multiValueHeaders: {},
-                multiValueQueryStringParameters: {},
-                path: '',
-                pathParameters: {},
-                queryStringParameters: {},
-                requestContext: null,
-                resource: '',
-                stageVariables: {},
-            };
+            event = emptyGatewayEvent({ sub: 'USER' });
         });
 
         it('save kanji counts', async () => {
@@ -99,20 +83,6 @@ describe('Kanji Report', () => {
             expect(statusCode).not.toEqual(200);
         });
 
-        it('fail on missing token', async () => {
-            event.headers = {};
-            event.body = '一';
-            const { statusCode } = await createKanjiReport(event);
-            expect(statusCode).not.toEqual(200);
-        });
-
-        it('fail on invalid token', async () => {
-            event.body = '一';
-            event.headers.Authorization = 'TOKEN';
-            const { statusCode } = await createKanjiReport(event);
-            expect(statusCode).not.toEqual(200);
-        });
-
         it('fail on empty kanjis', async () => {
             event.body = '';
             const { statusCode } = await createKanjiReport(event);
@@ -134,6 +104,38 @@ describe('Kanji Report', () => {
         expect(DynamoDB.prototype.getItem).toHaveBeenCalledWith({
             TableName: kanjiAttributes.table,
             Key: toAWSAttributeMap({ kanji: '@' }),
+        });
+    });
+
+    describe('Get Kanji Reports', () => {
+        let ev: APIGatewayProxyEvent;
+
+        beforeEach(() => {
+            ev = emptyGatewayEvent({ sub: 'USER' });
+        });
+
+        it('get reports of user', async () => {
+            DynamoDB.prototype.batchGetItem = jest.fn(() =>
+                mockAWSResponsePromise({
+                    Responses: {
+                        [kanjiReport.table]: [
+                            {
+                                [kanjiReport.key]: { S: 'USER' },
+                                [kanjiReport.sort]: { N: '123' },
+                                counts: { S: '{}' },
+                            },
+                        ],
+                    },
+                })
+            );
+
+            const { statusCode, body } = await getKanjiReports(ev);
+            expect(statusCode).toEqual(200);
+            expect(body).toEqual({
+                [kanjiReport.key]: 'USER',
+                [kanjiReport.sort]: '123',
+                counts: {},
+            });
         });
     });
 });

@@ -3,6 +3,12 @@ export const kanjiAttributes = {
     key: 'kanji',
 };
 
+export interface KanjiAttribute {
+    kanji: string;
+    jlpt: number;
+    grade: number;
+}
+
 export const kanjiReport = {
     table: 'KanjiReports',
     key: 'user',

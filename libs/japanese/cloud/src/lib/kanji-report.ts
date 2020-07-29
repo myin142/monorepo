@@ -1,20 +1,22 @@
 /* eslint-disable @nrwl/nx/enforce-module-boundaries */
-import { DynamoDB } from 'aws-sdk';
-import { chunk } from 'lodash';
-import { successAndBody, statusAndError, getSubjectFromToken } from '../../../../shared/lambda/src';
+import {
+    successAndBody,
+    statusAndError,
+    getSubjectFromToken,
+    dynamo,
+    batchGet,
+} from '../../../../shared/lambda/src';
 import { extractKanjis } from '../../../utils/src';
-import { KanjiReportCounts, kanjiAttributes, kanjiReport } from '../../../interface/src';
+import {
+    KanjiReportCounts,
+    kanjiAttributes,
+    kanjiReport,
+    KanjiAttribute,
+} from '../../../interface/src';
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 
 // ^^^ Importing using tsconfig paths not working
 // https://github.com/aws/jsii/issues/865
-
-// TODO: share
-const options = { region: 'eu-central-1' };
-if (process.env.AWS_SAM_LOCAL) {
-    options['endpoint'] = 'http://localhost:8000';
-}
-const dynamo = new DynamoDB(options);
 
 export const getAllKanjiStats = async (): Promise<APIGatewayProxyResult> => {
     const response = await dynamo
@@ -28,16 +30,12 @@ export const getAllKanjiStats = async (): Promise<APIGatewayProxyResult> => {
 };
 
 export const createKanjiReport = async (
-    event: APIGatewayProxyEvent
+    ev: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
-    if (typeof event.body != 'string') return statusAndError(400, 'Invalid body type');
-
-    const subject = getSubjectFromToken(event.headers.Authorization as string);
-    if (!subject) return statusAndError(400, 'Invalid authorization header');
-
-    const kanjis = extractKanjis(event.body);
+    const kanjis = extractKanjis(ev.body);
     if (kanjis.length === 0) return statusAndError(400, 'No kanjis to create report');
 
+    const subject = getSubjectFromToken(ev.headers.Authorization as string);
     const counts: KanjiReportCounts = {
         total: kanjis.length,
         grades: {},
@@ -45,33 +43,21 @@ export const createKanjiReport = async (
         // TODO: distribution of frequency?
     };
 
-    await Promise.all(
-        chunk(kanjis, 100).map(async (chunk) => {
-            const response = await dynamo
-                .batchGetItem({
-                    RequestItems: {
-                        [kanjiAttributes.table]: {
-                            Keys: chunk.map((k) => ({ kanji: { S: k } })),
-                        },
-                    },
-                })
-                .promise();
-
-            response.Responses[kanjiAttributes.table].forEach((item) => {
-                if (item.grade) {
-                    const value = item.grade.N;
-                    if (!counts.grades[value]) counts.grades[value] = 0;
-                    counts.grades[value]++;
-                }
-
-                if (item.jlpt) {
-                    const value = item.jlpt.N;
-                    if (!counts.jlpt[value]) counts.jlpt[value] = 0;
-                    counts.jlpt[value]++;
-                }
-            });
-        })
+    const items = await batchGet<KanjiAttribute>(
+        kanjiAttributes.table,
+        kanjis.map((k) => ({ kanji: { S: k } }))
     );
+
+    items.forEach((i) => {
+        if (i.grade) {
+            if (!counts.grades[i.grade]) counts.grades[i.grade] = 0;
+            counts.grades[i.grade]++;
+        }
+        if (i.jlpt) {
+            if (!counts.jlpt[i.jlpt]) counts.jlpt[i.jlpt] = 0;
+            counts.jlpt[i.jlpt]++;
+        }
+    });
 
     await dynamo
         .putItem({
@@ -85,4 +71,9 @@ export const createKanjiReport = async (
         .promise();
 
     return successAndBody(counts);
+};
+
+export const getKanjiReports = async (ev: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
+    const subject = getSubjectFromToken(ev.headers.Authorization as string);
+    if (!subject) return statusAndError(400, 'Invalid authorization header');
 };
