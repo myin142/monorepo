@@ -115,27 +115,29 @@ describe('Kanji Report', () => {
         });
 
         it('get reports of user', async () => {
-            DynamoDB.prototype.batchGetItem = jest.fn(() =>
+            DynamoDB.prototype.query = jest.fn(() =>
                 mockAWSResponsePromise({
-                    Responses: {
-                        [kanjiReport.table]: [
-                            {
-                                [kanjiReport.key]: { S: 'USER' },
-                                [kanjiReport.sort]: { N: '123' },
-                                counts: { S: '{}' },
-                            },
-                        ],
-                    },
+                    Items: [
+                        {
+                            [kanjiReport.key]: { S: 'USER' },
+                            [kanjiReport.sort]: { N: '123' },
+                            counts: { S: '{}' },
+                        },
+                    ],
                 })
             );
 
             const { statusCode, body } = await getKanjiReports(ev);
             expect(statusCode).toEqual(200);
-            expect(body).toEqual({
-                [kanjiReport.key]: 'USER',
-                [kanjiReport.sort]: '123',
-                counts: {},
-            });
+            expect(body).toEqual(
+                JSON.stringify([
+                    {
+                        [kanjiReport.key]: 'USER',
+                        [kanjiReport.sort]: 123,
+                        counts: {},
+                    },
+                ])
+            );
         });
     });
 });

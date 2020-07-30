@@ -5,6 +5,7 @@ import {
     getSubjectFromToken,
     dynamo,
     batchGet,
+    fromAWSAttributeMapArray,
 } from '../../../../shared/lambda/src';
 import { extractKanjis } from '../../../utils/src';
 import {
@@ -12,6 +13,7 @@ import {
     kanjiAttributes,
     kanjiReport,
     KanjiAttribute,
+    KanjiReport,
 } from '../../../interface/src';
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 
@@ -45,7 +47,7 @@ export const createKanjiReport = async (
 
     const items = await batchGet<KanjiAttribute>(
         kanjiAttributes.table,
-        kanjis.map((k) => ({ kanji: { S: k } }))
+        kanjis.map((k) => ({ kanji: k }))
     );
 
     items.forEach((i) => {
@@ -76,4 +78,22 @@ export const createKanjiReport = async (
 export const getKanjiReports = async (ev: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
     const subject = getSubjectFromToken(ev.headers.Authorization as string);
     if (!subject) return statusAndError(400, 'Invalid authorization header');
+
+    const result = await dynamo
+        .query({
+            TableName: kanjiReport.table,
+            KeyConditionExpression: `#${kanjiReport.key} = :u`,
+            ExpressionAttributeValues: {
+                ':u': { S: subject },
+            },
+            ExpressionAttributeNames: {
+                [`#${kanjiReport.key}`]: kanjiReport.key,
+            },
+        })
+        .promise();
+
+    const items = fromAWSAttributeMapArray<KanjiReport & { counts: string }>(result.Items);
+    items.forEach((i) => (i.counts = JSON.parse(i.counts)));
+
+    return successAndBody(items);
 };

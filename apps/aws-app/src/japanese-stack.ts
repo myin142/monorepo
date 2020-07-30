@@ -37,6 +37,14 @@ export class JapaneseStack extends Construct {
             },
         });
 
+        const getKanjiReports = new Function(this, 'getKanjiReports', {
+            runtime: Runtime.NODEJS_12_X,
+            code: Code.fromAsset(japanesePath()),
+            handler: 'japanese-cloud.getKanjiReports',
+        });
+
+        kanjiReportTable.grantReadData(getKanjiReports);
+
         const createKanjiReport = new Function(this, 'createKanjiReport', {
             runtime: Runtime.NODEJS_12_X,
             code: Code.fromAsset(japanesePath()),
@@ -55,8 +63,12 @@ export class JapaneseStack extends Construct {
         kanjiAttributesTable.grantReadData(getAllKanjiStats);
 
         const kanjiResource = japaneseApi.root.addResource('kanji');
+
         const kanjiReportResource = kanjiResource.addResource('report');
         kanjiReportResource.addMethod('POST', new LambdaIntegration(createKanjiReport), authOpt);
-        kanjiReportResource.addMethod('GET', new LambdaIntegration(getAllKanjiStats), authOpt);
+        kanjiReportResource.addMethod('GET', new LambdaIntegration(getKanjiReports), authOpt);
+
+        const kanjiAttributeResource = japaneseApi.root.addResource('attributes');
+        kanjiAttributeResource.addMethod('GET', new LambdaIntegration(getAllKanjiStats), authOpt);
     }
 }

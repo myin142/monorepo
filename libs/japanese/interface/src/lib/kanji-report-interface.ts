@@ -10,3 +10,9 @@ export interface AllKanjiStats {
     jlpt: { [k: number]: number };
     frequencyMax: number;
 }
+
+export interface KanjiReport {
+    user: string;
+    created: number;
+    counts: KanjiReportCounts;
+}
