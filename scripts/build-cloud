@@ -1,0 +1,6 @@
+#!/bin/sh
+
+cd apps/aws-app
+
+# synth contains invalid outut when bundling
+cdk synth --no-staging | sed -ne '/Resources:/,$p' > template.yml

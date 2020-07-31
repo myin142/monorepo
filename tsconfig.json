@@ -1,25 +1,35 @@
 {
-  "compileOnSave": false,
-  "compilerOptions": {
-    "rootDir": ".",
-    "sourceMap": true,
-    "declaration": false,
-    "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "importHelpers": true,
-    "target": "es2015",
-    "module": "esnext",
-    "typeRoots": ["node_modules/@types"],
-    "lib": ["es2017", "dom"],
-    "skipLibCheck": true,
-    "skipDefaultLibCheck": true,
-    "baseUrl": ".",
-    "paths": {
-      "@myin/cloud-stacks": ["libs/cloud-stacks/src/index.ts"],
-      "@myin/japanese-api": ["libs/japanese-api/src/index.ts"],
-      "@myin/utils/shared": ["libs/utils/shared/src/index.ts"]
-    }
-  },
-  "exclude": ["node_modules", "tmp"]
+    "compileOnSave": false,
+    "compilerOptions": {
+        "rootDir": ".",
+        "sourceMap": true,
+        "declaration": false,
+        "moduleResolution": "node",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "importHelpers": true,
+        "target": "es2015",
+        "module": "esnext",
+        "typeRoots": ["node_modules/@types"],
+        "lib": ["es2017", "dom"],
+        "skipLibCheck": true,
+        "skipDefaultLibCheck": true,
+        "baseUrl": ".",
+        "paths": {
+            "@myin/cloud-stacks": ["libs/cloud-stacks/src/index.ts"],
+            "@myin/japanese/utils": ["libs/japanese/utils/src/index.ts"],
+            "@myin/shared/utils": ["libs/shared/utils/src/index.ts"],
+            "@myin/japanese/api": ["libs/japanese/api/src/index.ts"],
+            "@myin/japanese/interface": ["libs/japanese/interface/src/index.ts"],
+            "@myin/shared/api": ["libs/shared/api/src/index.ts"],
+            "@myin/japanese/cloud": ["libs/japanese/cloud/src/index.ts"],
+            "@myin/shared/authentication": ["libs/shared/authentication/src/index.ts"],
+            "@myin/japanese/feature/login": ["libs/japanese/feature/login/src/index.ts"],
+            "@myin/japanese/feature/report": ["libs/japanese/feature/report/src/index.ts"],
+            "@myin/shared/interface": ["libs/shared/interface/src/index.ts"],
+            "@myin/shared/tests": ["libs/shared/tests/src/index.ts"],
+            "@myin/shared/lambda": ["libs/shared/lambda/src/index.ts"]
+        }
+    },
+    "exclude": ["node_modules", "tmp"]
 }

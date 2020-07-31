@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './guard/auth.guard';
+import { AuthService } from '@myin/shared/authentication';
 
 @NgModule({
     declarations: [AppComponent, LoginComponent],
@@ -33,7 +34,7 @@ import { AuthGuard } from './guard/auth.guard';
             { initialNavigation: 'enabled' }
         ),
     ],
-    providers: [],
+    providers: [{ provide: AuthService, useClass: AuthService }],
     bootstrap: [AppComponent],
 })
 export class AppModule {}

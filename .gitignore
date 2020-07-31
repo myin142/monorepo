@@ -45,3 +45,5 @@ Thumbs.db
 .cdk.staging/
 .parcel-cache/
 .aws-sam/
+template.yml
+asset.*/

@@ -25,14 +25,15 @@ echo "Prepare for Github Pages Deploy"
 
 echo "Copying Folders"
 
-# Copy all apps for now
 if [ -d "dist/apps" ]; then
     if [ -d "$REPO_TARGET" ] && [ "$(ls -A $REPO_TARGET)" ]; then
         echo "Remove existing folder"
         rm $REPO_TARGET -rf
     fi
     mkdir $REPO_TARGET
-    cp dist/apps/* $REPO_TARGET -r
+
+    cp dist/apps/admin $REPO_TARGET -r
+    cp dist/apps/public $REPO_TARGET -r
 fi
 
 echo "Copy required static files"

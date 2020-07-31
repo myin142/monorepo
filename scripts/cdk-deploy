@@ -1,3 +1,4 @@
 #!/bin/sh
 
-cd libs/cloud-stacks && cdk deploy $1
+npm run package:lambda
+cd apps/aws-app && cdk deploy $1

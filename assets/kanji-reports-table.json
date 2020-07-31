@@ -1,0 +1,27 @@
+{
+    "TableName": "KanjiReports",
+    "KeySchema": [
+        {
+            "AttributeName": "user",
+            "KeyType": "HASH"
+        },
+        {
+            "AttributeName": "created",
+            "KeyType": "SORT"
+        }
+    ],
+    "AttributeDefinitions": [
+        {
+            "AttributeName": "user",
+            "AttributeType": "S"
+        },
+        {
+            "AttributeName": "created",
+            "AttributeType": "N"
+        }
+    ],
+    "ProvisionedThroughput": {
+        "ReadCapacityUnits": 5,
+        "WriteCapacityUnits": 5
+    }
+}

@@ -1,0 +1,10 @@
+{
+    "name": "lambda-kanji-report",
+    "version": "1.0.0",
+    "main": "src/app.js",
+    "dependencies": {
+        "aws-sdk": "^2.715.0",
+        "jsonwebtoken": "^8.5.1",
+        "lodash": "^4.17.19"
+    }
+}

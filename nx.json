@@ -1,43 +1,87 @@
 {
-  "npmScope": "myin",
-  "implicitDependencies": {
-    "workspace.json": "*",
-    "package.json": {
-      "dependencies": "*",
-      "devDependencies": "*"
+    "npmScope": "myin",
+    "implicitDependencies": {
+        "workspace.json": "*",
+        "package.json": {
+            "dependencies": "*",
+            "devDependencies": "*"
+        },
+        "tsconfig.json": "*",
+        "tslint.json": "*",
+        "nx.json": "*"
     },
-    "tsconfig.json": "*",
-    "tslint.json": "*",
-    "nx.json": "*"
-  },
-  "tasksRunnerOptions": {
-    "default": {
-      "runner": "@nrwl/workspace/tasks-runners/default",
-      "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e"]
-      }
+    "tasksRunnerOptions": {
+        "default": {
+            "runner": "@nrwl/workspace/tasks-runners/default",
+            "options": {
+                "cacheableOperations": ["build", "lint", "test", "e2e"]
+            }
+        }
+    },
+    "projects": {
+        "public": {
+            "tags": ["scope:public", "type:app"]
+        },
+        "public-e2e": {
+            "tags": ["scope:public"],
+            "implicitDependencies": ["public"]
+        },
+        "admin": {
+            "tags": ["scope:admin", "type:app"]
+        },
+        "admin-e2e": {
+            "tags": ["scope:admin"],
+            "implicitDependencies": ["admin"]
+        },
+        "sync": {
+            "tags": ["type:cloud"]
+        },
+        "aws-app": {
+            "tags": ["type:cloud"],
+            "implicitDependencies": ["japanese-cloud"]
+        },
+        "japanese": {
+            "tags": ["scope:japanese", "type:app"]
+        },
+        "japanese-e2e": {
+            "tags": ["scope:japanese"],
+            "implicitDependencies": ["japanese"]
+        },
+        "japanese-utils": {
+            "tags": ["scope:japanese", "type:utils"]
+        },
+        "shared-utils": {
+            "tags": ["scope:shared", "type:utils"]
+        },
+        "japanese-api": {
+            "tags": ["scope:japanese", "type:api"]
+        },
+        "japanese-interface": {
+            "tags": ["scope:japanese", "type:interface"]
+        },
+        "shared-api": {
+            "tags": ["scope:shared", "type:api"]
+        },
+        "japanese-cloud": {
+            "tags": ["scope:japanese", "type:cloud"]
+        },
+        "shared-authentication": {
+            "tags": ["scope:shared", "type:api"]
+        },
+        "japanese-feature-login": {
+            "tags": ["scope:japanese", "type:feature"]
+        },
+        "japanese-feature-report": {
+            "tags": ["scope:japanese", "type:feature"]
+        },
+        "shared-interface": {
+            "tags": ["scope:shared", "type:interface"]
+        },
+        "shared-tests": {
+            "tags": ["scope:shared", "type:utils"]
+        },
+        "shared-lambda": {
+            "tags": ["scope:shared", "type:cloud"]
+        }
     }
-  },
-  "projects": {
-    "public": {
-      "tags": []
-    },
-    "public-e2e": {
-      "tags": [],
-      "implicitDependencies": ["public"]
-    },
-    "japanese-api": {
-      "tags": []
-    },
-    "admin": {
-      "tags": []
-    },
-    "admin-e2e": {
-      "tags": [],
-      "implicitDependencies": ["admin"]
-    },
-    "utils-shared": {
-      "tags": []
-    }
-  }
 }
