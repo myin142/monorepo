@@ -27,6 +27,10 @@ docker-compose up --remove-orphans -d
 
 if [ "$NEW" = true ]; then
     aws dynamodb create-table \
+        --cli-input-json file://assets/kanji-reports-table.json \
+        --endpoint-url "$DYNAMO"
+
+    aws dynamodb create-table \
         --cli-input-json file://assets/kanji-attributes-table.json \
         --endpoint-url "$DYNAMO"
     node dist/apps/sync/main.js assets/kanji.json --endpoint "$DYNAMO"

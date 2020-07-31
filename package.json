@@ -4,12 +4,13 @@
     "license": "MIT",
     "scripts": {
         "nx": "nx",
-        "build": "nx run-many --target=build --prod",
+        "build": "nx run-many --target=build --prod --all",
         "test": "nx affected:test",
         "lint": "nx affected:lint",
         "e2e": "nx affected:e2e --headless --prod",
         "nightly": "nx affected --target=nightly --headless",
         "format": "nx format:write",
+        "package:lambda": "nx run-many --target=package --all",
         "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points"
     },
     "private": true,
@@ -72,7 +73,7 @@
         "@nrwl/react": "^9.5.1",
         "@nrwl/web": "9.5.0",
         "@nrwl/workspace": "^9.5.1",
-        "@nx-plug/aws-cdk": "0.0.4",
+        "@nx-plug/aws-cdk": "0.0.5",
         "@nx-plus/vue": "^0.3.0",
         "@testing-library/react": "10.4.1",
         "@types/aws-lambda": "^8.10.59",

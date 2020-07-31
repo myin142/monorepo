@@ -68,7 +68,7 @@ export class JapaneseStack extends Construct {
         kanjiReportResource.addMethod('POST', new LambdaIntegration(createKanjiReport), authOpt);
         kanjiReportResource.addMethod('GET', new LambdaIntegration(getKanjiReports), authOpt);
 
-        const kanjiAttributeResource = japaneseApi.root.addResource('attributes');
+        const kanjiAttributeResource = kanjiResource.addResource('attributes');
         kanjiAttributeResource.addMethod('GET', new LambdaIntegration(getAllKanjiStats), authOpt);
     }
 }

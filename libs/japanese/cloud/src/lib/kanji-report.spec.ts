@@ -77,6 +77,34 @@ describe('Kanji Report', () => {
             });
         });
 
+        it('return report', async () => {
+            DynamoDB.prototype.batchGetItem = jest.fn(() =>
+                mockAWSResponsePromise<BatchGetItemOutput>({
+                    Responses: {
+                        [kanjiAttributes.table]: toAWSAttributeMapArray([
+                            { grade: 1, jlpt: 3, frequency: 100 },
+                            { grade: 2, jlpt: 2, frequency: 10 },
+                            { grade: 2, jlpt: 3, frequency: 5 },
+                        ]),
+                    },
+                })
+            );
+
+            event.body = '日本語';
+            const { statusCode, body } = await createKanjiReport(event);
+
+            expect(statusCode).toEqual(200);
+            expect(JSON.parse(body)).toEqual({
+                user: 'USER',
+                created: mockDateNum,
+                counts: {
+                    total: 3,
+                    grades: { [1]: 1, [2]: 2 },
+                    jlpt: { [2]: 1, [3]: 2 },
+                },
+            });
+        });
+
         it('fail on missing body', async () => {
             event.body = null;
             const { statusCode } = await createKanjiReport(event);

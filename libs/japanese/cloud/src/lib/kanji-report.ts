@@ -61,23 +61,28 @@ export const createKanjiReport = async (
         }
     });
 
+    const created = Date.now();
     await dynamo
         .putItem({
             TableName: kanjiReport.table,
             Item: {
                 [kanjiReport.key]: { S: subject },
-                [kanjiReport.sort]: { N: `${Date.now()}` },
+                [kanjiReport.sort]: { N: `${created}` },
                 counts: { S: JSON.stringify(counts) },
             },
         })
         .promise();
 
-    return successAndBody(counts);
+    const report: KanjiReport = {
+        user: subject,
+        created,
+        counts,
+    };
+    return successAndBody(report);
 };
 
 export const getKanjiReports = async (ev: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
     const subject = getSubjectFromToken(ev.headers.Authorization as string);
-    if (!subject) return statusAndError(400, 'Invalid authorization header');
 
     const result = await dynamo
         .query({

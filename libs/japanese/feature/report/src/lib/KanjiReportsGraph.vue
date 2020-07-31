@@ -4,13 +4,14 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Inject, Prop, PropSync, Watch } from 'vue-property-decorator';
+import { Component, Prop, Watch } from 'vue-property-decorator';
 import { KanjiReport } from '@myin/japanese/interface';
 import { Chart } from 'chart.js';
 
 @Component
 export default class KanjiReportsGraph extends Vue {
     @Prop({ default: () => [] }) kanjiReports: KanjiReport[];
+    @Prop() maxKanjis: number;
 
     private chart: Chart;
 
@@ -20,15 +21,17 @@ export default class KanjiReportsGraph extends Vue {
             data: {
                 datasets: [
                     {
-                        label: 'Test',
+                        label: 'Kanjis Total',
                         data: this.kanjiReports.map(this.reportToData),
+                        backgroundColor: 'rgba(50, 200, 50, 0.5)',
+                        borderColor: 'rgba(50, 200, 50, 0.8)',
                     },
                 ],
             },
             options: {
                 scales: {
                     xAxes: [{ type: 'time' }],
-                    yAxes: [{ ticks: { beginAtZero: true } }],
+                    yAxes: [{ ticks: { beginAtZero: true, max: this.maxKanjis } }],
                 },
             },
         });
