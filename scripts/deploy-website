@@ -10,9 +10,10 @@ if [ -z $REPO_TARGET ]; then
     exit 1
 fi
 
-echo "Copying Folders"
-# myin-cli replaceFiles --directory dist/apps --target $REPO_TARGET --exclude aws-app sync
-npm run copy-apps -- --target $REPO_TARGET --exclude aws-app sync
+if [ -d dist/apps ]; then
+    echo "Copying Folders"
+    npm run copy-apps -- --target $REPO_TARGET --exclude aws-app sync
+fi
 
 # Copy files for static hosting
 echo "Copy required static files"
