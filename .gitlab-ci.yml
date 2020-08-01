@@ -4,6 +4,9 @@ cache:
     paths:
         - node_modules/
 
+include:
+    - template: 'Workflows/Branch-Pipelines.gitlab-ci.yml'
+
 stages:
     - test
     - e2e
