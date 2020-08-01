@@ -20,6 +20,7 @@ before_script:
     - echo $BASE
     - echo $HEAD
     - BASE_HEAD_ARGS="--base=$BASE --head=$HEAD"
+    - npm i
 
 test:
     stage: test
