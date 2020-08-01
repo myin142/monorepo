@@ -5,5 +5,37 @@ cache:
         - node_modules/
 
 stages:
-    - build
-    - publish
+    - test
+    - e2e
+    - deploy
+
+before_script:
+    - COMMITS=($(echo $TRAVIS_COMMIT_RANGE | sed 's/\.\+/ /'))
+    - BASE=$CI_COMMIT_BEFORE_SHA
+    - if [ -z "$BASE" ]; then BASE="origin/master"; fi
+    - HEAD=$CI_COMMIT_SHA
+    - echo $BASE
+    - echo $HEAD
+    - BASE_HEAD_ARGS="--base=$BASE --head=$HEAD"
+
+test:
+    stage: test
+    script:
+        #- npm run lint -- $BASE_HEAD_ARGS
+        - npm test -- $BASE_HEAD_ARGS
+
+e2e:
+    stage: e2e
+    script:
+        - npm run e2e -- $BASE_HEAD_ARGS
+    #only:
+    #    - merge_requests
+
+deploy:
+    stage: deploy
+    script:
+        - npm run build -- $BASE_HEAD_ARGS
+        - ./scripts/clone-website $GITHUB_TOKEN ci-website
+        - ./scripts/deploy-website ci-website
+    #only:
+    #    - master

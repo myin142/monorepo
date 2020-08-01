@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import { chunk } from 'lodash';
 import { isKanji } from '@myin/japanese/utils';
-import { KANJI_ATTRIBUTES_TABLE } from '@myin/japanese/interface';
+import { kanjiAttributes } from '@myin/japanese/interface';
 
 export async function syncKanjiAttributes(file, dynamo, maxBatch) {
     const buffer = fs.readFileSync(file);
@@ -16,7 +16,7 @@ export async function syncKanjiAttributes(file, dynamo, maxBatch) {
         .filter(({ kanji }) => isKanji(kanji))
         .map(({ kanji, grade, frequency, jlpt }) => {
             const Update = {
-                TableName: KANJI_ATTRIBUTES_TABLE,
+                TableName: kanjiAttributes.table,
                 Key: { kanji: { S: kanji } },
             };
             const expressions = [];
@@ -62,7 +62,7 @@ export async function syncKanjiAttributes(file, dynamo, maxBatch) {
     await dynamo
         .updateItem({
             Key: { kanji: { S: '@' } },
-            TableName: KANJI_ATTRIBUTES_TABLE,
+            TableName: kanjiAttributes.table,
             UpdateExpression: `set counts = :counts`,
             ExpressionAttributeValues: {
                 ':counts': { S: JSON.stringify(counts) },
