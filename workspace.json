@@ -539,7 +539,7 @@
             "schematics": {},
             "architect": {
                 "package": {
-                    "builder": "@nx-plug/aws-cdk:package",
+                    "builder": "@myin/aws-cdk:package",
                     "options": {
                         "tsConfig": "libs/japanese/cloud/tsconfig.lib.json",
                         "entryFile": "libs/japanese/cloud/src/lib/kanji-report.ts",

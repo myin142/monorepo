@@ -1,0 +1,9 @@
+image: node
+
+cache:
+    paths:
+        - node_modules/
+
+stages:
+    - build
+    - publish
