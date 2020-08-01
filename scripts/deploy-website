@@ -3,7 +3,7 @@
 set -e
 
 BRANCH="master"
-REPO_TARGET="$1"
+REPO_TARGET="${1:-ci-website}"
 
 if [ -z $REPO_TARGET ]; then
     echo "Directory name needed"
@@ -27,6 +27,7 @@ if [ -d dist/apps ]; then
     echo "$REPO_TARGET ready to be deployed"
 fi
 
+ls -la
 cd $REPO_TARGET
 git add -f .
 
