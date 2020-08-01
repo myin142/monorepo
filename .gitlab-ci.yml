@@ -39,7 +39,7 @@ deploy:
     stage: deploy
     script:
         - npm run build -- $BASE_HEAD_ARGS
-        - ./scripts/clone-website $GITHUB_TOKEN "ci-website"
-        - ./scripts/deploy-website ci-website
+        - ./scripts/clone-website "$GITHUB_TOKEN" "ci-web"
+        - ./scripts/deploy-website ci-web
     #only:
     #    - master

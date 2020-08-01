@@ -3,7 +3,7 @@
 set -e
 
 TOKEN="$1"
-REPO_TARGET="${2:-ci-webite}"
+REPO_TARGET="${2:-ci-website}"
 REPO="https://$TOKEN@github.com/myin142/myin142.github.io.git"
 BRANCH="master"
 
