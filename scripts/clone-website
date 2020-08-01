@@ -3,10 +3,12 @@
 set -e
 
 TOKEN="$1"
-REPO_TARGET="$2"
+REPO_TARGET="${2:-ci-webite}"
 REPO="https://$TOKEN@github.com/myin142/myin142.github.io.git"
 BRANCH="master"
 
 git config --global user.email "ci@gitlab.com"
 git config --global user.name "Gitlab CI"
-git clone --quiet --branch=master $REPO $REPO_TARGET
+
+echo "Cloning repo to $REPO_TARGET"
+git clone --quiet --branch=master $REPO "$REPO_TARGET"
