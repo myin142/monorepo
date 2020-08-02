@@ -27,7 +27,6 @@ if [ -d dist/apps ]; then
     echo "$REPO_TARGET ready to be deployed"
 fi
 
-ls -la
 cd $REPO_TARGET
 git add -f .
 

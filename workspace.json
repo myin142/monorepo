@@ -326,7 +326,7 @@
                     },
                     "configurations": {
                         "production": {
-                            "publicPath": "japanese",
+                            "publicPath": "/japanese",
                             "mode": "production",
                             "filenameHashing": true,
                             "productionSourceMap": true,
