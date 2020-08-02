@@ -16,14 +16,12 @@ stages:
 
 before_script:
     - BASE=$CI_COMMIT_BEFORE_SHA
-    - if [ "$BASE" == "0000000000000000000000000000000000000000" ]; then BASE="origin/master"; fi
     - HEAD=$CI_COMMIT_SHA
     - echo $BASE
     - echo $HEAD
     - BASE_HEAD_ARGS="--base=$BASE --head=$HEAD"
+    - if [ "$BASE" == "0000000000000000000000000000000000000000" ]; then BASE_HEAD_ARGS=""; fi
     - npm i
-    - echo $CI_MERGE_REQUEST_IID
-    - echo $CI_EXTERNAL_PULL_REQUEST_IID
 
 test:
     stage: test
