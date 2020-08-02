@@ -66,7 +66,7 @@
         "@babel/preset-env": "7.9.6",
         "@babel/preset-react": "7.9.4",
         "@babel/preset-typescript": "7.9.0",
-        "@myin/aws-cdk": "0.0.5",
+        "@myin/aws-cdk": "0.0.6",
         "@myin/cli": "0.0.5",
         "@nrwl/angular": "^9.5.1",
         "@nrwl/cypress": "9.5.0",
