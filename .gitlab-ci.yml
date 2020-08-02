@@ -6,8 +6,7 @@ cache:
 
 workflow:
     rules:
-        - if: $CI_MERGE_REQUEST_IID
-        - if: $CI_COMMIT_TAG
+        - if: $CI_EXTERNAL_PULL_REQUEST_IID
         - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 
 stages:
