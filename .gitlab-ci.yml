@@ -33,7 +33,7 @@ test:
         - npm test -- $BASE_HEAD_ARGS
 
 lint:
-    stage: lint
+    stage: test
     script:
         - npm run lint -- $BASE_HEAD_ARGS
 
