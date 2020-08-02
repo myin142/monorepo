@@ -16,7 +16,7 @@ stages:
 
 before_script:
     - BASE=$CI_COMMIT_BEFORE_SHA
-    - if [ -z "$BASE" ]; then BASE="origin/master"; fi
+    - if [ "$BASE" == "0000000000000000000000000000000000000000" ]; then BASE="origin/master"; fi
     - HEAD=$CI_COMMIT_SHA
     - echo $BASE
     - echo $HEAD
@@ -41,7 +41,7 @@ e2e:
     script:
         - npm run e2e -- $BASE_HEAD_ARGS
     rules:
-        - if: $CI_MERGE_REQUEST_IID
+        - if: $CI_EXTERNAL_PULL_REQUEST_IID
 
 deploy:
     stage: deploy
