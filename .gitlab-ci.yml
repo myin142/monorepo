@@ -3,6 +3,7 @@ image: node
 cache:
     paths:
         - node_modules/
+        - /root/.cache/Cypress
 
 include:
     - template: 'Workflows/Branch-Pipelines.gitlab-ci.yml'
@@ -13,7 +14,6 @@ stages:
     - deploy
 
 before_script:
-    - COMMITS=($(echo $TRAVIS_COMMIT_RANGE | sed 's/\.\+/ /'))
     - BASE=$CI_COMMIT_BEFORE_SHA
     - if [ -z "$BASE" ]; then BASE="origin/master"; fi
     - HEAD=$CI_COMMIT_SHA
