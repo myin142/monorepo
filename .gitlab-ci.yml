@@ -15,12 +15,11 @@ stages:
     - deploy
 
 before_script:
-    - BASE=$CI_COMMIT_BEFORE_SHA
     - HEAD=$CI_COMMIT_SHA
-    - echo $BASE
-    - echo $HEAD
+    - BASE=$CI_COMMIT_BEFORE_SHA
+    - if [ "$BASE" == "0000000000000000000000000000000000000000" ]; then BASE="$HEAD~1"; fi
     - BASE_HEAD_ARGS="--base=$BASE --head=$HEAD"
-    - if [ "$BASE" == "0000000000000000000000000000000000000000" ]; then BASE_HEAD_ARGS=""; fi
+    - echo $BASE_HEAD_ARGS
     - npm i
 
 test:
