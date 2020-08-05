@@ -28,7 +28,7 @@ lint:
         - npm run lint
 
 e2e:
-    image: cypress/browsers:node12.14.1-chrome83-ff77
+    image: cypress/included
     stage: e2e
     script:
         - npm run e2e
