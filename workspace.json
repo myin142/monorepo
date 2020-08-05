@@ -10,7 +10,6 @@
                 "build": {
                     "builder": "@nrwl/web:build",
                     "options": {
-                        "baseHref": "/public/",
                         "outputPath": "dist/apps/public",
                         "index": "apps/public/src/index.html",
                         "main": "apps/public/src/main.ts",
@@ -22,6 +21,7 @@
                     },
                     "configurations": {
                         "production": {
+                            "baseHref": "/public/",
                             "fileReplacements": [
                                 {
                                     "replace": "apps/public/src/environments/environment.ts",
@@ -326,7 +326,7 @@
                     },
                     "configurations": {
                         "production": {
-                            "publicPath": "japanese",
+                            "publicPath": "/japanese",
                             "mode": "production",
                             "filenameHashing": true,
                             "productionSourceMap": true,
@@ -539,7 +539,7 @@
             "schematics": {},
             "architect": {
                 "package": {
-                    "builder": "@nx-plug/aws-cdk:package",
+                    "builder": "@myin/aws-cdk:package",
                     "options": {
                         "tsConfig": "libs/japanese/cloud/tsconfig.lib.json",
                         "entryFile": "libs/japanese/cloud/src/lib/kanji-report.ts",

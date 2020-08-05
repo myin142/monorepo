@@ -39,7 +39,7 @@ describe('Kanji Report', () => {
                 })
             );
 
-            event.body = '日本語';
+            event.body = '日本\n語';
             const { statusCode } = await createKanjiReport(event);
             expect(statusCode).toEqual(200);
 
@@ -53,6 +53,7 @@ describe('Kanji Report', () => {
                             total: 3,
                             grades: { [1]: 2, [2]: 2 },
                             jlpt: { [4]: 1, [3]: 3 },
+                            vocabulary: 2,
                         }),
                     })
                 ),
@@ -90,7 +91,7 @@ describe('Kanji Report', () => {
                 })
             );
 
-            event.body = '日本語';
+            event.body = '日\n本語';
             const { statusCode, body } = await createKanjiReport(event);
 
             expect(statusCode).toEqual(200);
@@ -101,6 +102,7 @@ describe('Kanji Report', () => {
                     total: 3,
                     grades: { [1]: 1, [2]: 2 },
                     jlpt: { [2]: 1, [3]: 2 },
+                    vocabulary: 2,
                 },
             });
         });

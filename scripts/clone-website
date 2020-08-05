@@ -1,0 +1,14 @@
+#!/bin/sh
+
+set -e
+
+TOKEN="$1"
+REPO_TARGET="${2:-ci-website}"
+REPO="https://$TOKEN@github.com/myin142/myin142.github.io.git"
+BRANCH="master"
+
+git config --global user.email "ci@gitlab.com"
+git config --global user.name "Gitlab CI"
+
+echo "Cloning repo to $REPO_TARGET"
+git clone --quiet --branch=master $REPO "$REPO_TARGET"

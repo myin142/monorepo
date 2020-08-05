@@ -1,4 +1,4 @@
-import { Stack, Construct, StackProps } from '@aws-cdk/core';
+import { Construct, StackProps } from '@aws-cdk/core';
 import { UserPool, UserPoolClientIdentityProvider, OAuthScope } from '@aws-cdk/aws-cognito';
 import { USERPOOL_DOMAIN } from '../../../libs/shared/interface/src';
 
@@ -24,6 +24,8 @@ export class AuthStack extends Construct {
                     'http://localhost:8080/login',
                     'http://localhost:4200/login',
                     'http://localhost:4300/login',
+                    'https://myin142.github.io/japanese/login',
+                    'https://myin142.github.io/admin/login',
                 ],
             },
         });

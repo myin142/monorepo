@@ -1,0 +1,46 @@
+image: node
+
+cache:
+    paths:
+        - node_modules/
+        - tmp/
+
+workflow:
+    rules:
+        - if: $CI_EXTERNAL_PULL_REQUEST_IID
+        - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+stages:
+    - test
+    - e2e
+    - deploy
+
+before_script:
+    - CYPRESS_CACHE_FOLDER=./tmp/Cypress npm i
+
+test:
+    stage: test
+    script:
+        - npm test
+
+lint:
+    stage: test
+    script:
+        - npm run lint
+
+e2e:
+    image: cypress/base
+    stage: e2e
+    script:
+        - CYPRESS_CACHE_FOLDER=./tmp/Cypress npm run e2e
+    rules:
+        - if: $CI_EXTERNAL_PULL_REQUEST_IID
+
+deploy:
+    stage: deploy
+    script:
+        - npm run build -- $BASE_HEAD_ARGS
+        - ./scripts/clone-website "$GITHUB_TOKEN" "ci-web"
+        - ./scripts/deploy-website ci-web
+    rules:
+        - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
