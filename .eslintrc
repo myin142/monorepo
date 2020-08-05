@@ -26,10 +26,6 @@
                 "allow": [],
                 "depConstraints": [
                     {
-                        "sourceTag": "type:app",
-                        "onlyDependOnLibsWithTags": ["type:feature"]
-                    },
-                    {
                         "sourceTag": "type:feature",
                         "onlyDependOnLibsWithTags": ["type:ui", "type:api", "type:utils"]
                     },
