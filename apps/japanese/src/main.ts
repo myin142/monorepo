@@ -43,7 +43,7 @@ const routes: Array<RouteConfig> = [
 
 const router = new VueRouter({
     mode: 'history',
-    base: '/japanese',
+    base: process.env.NODE_ENV === 'production' ? '/japanese' : '',
     routes,
 });
 

@@ -41,7 +41,7 @@ export default class Report extends Vue {
     async created() {
         this.allKanjiStats = await this.japaneseService.getAllKanjiStats();
         this.kanjiReports = await this.japaneseService.getKanjiReports();
-        this.selectedReport = this.kanjiReports[0];
+        this.selectedReport = this.kanjiReports[this.kanjiReports.length - 1];
     }
 
     async createReport(reportFile: File) {

@@ -42,7 +42,7 @@ export const createKanjiReport = async (
         total: kanjis.length,
         grades: {},
         jlpt: {},
-        // TODO: distribution of frequency?
+        vocabulary: ev.body.split('\n').length,
     };
 
     const items = await batchGet<KanjiAttribute>(
