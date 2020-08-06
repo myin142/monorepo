@@ -3,7 +3,7 @@ import { Construct } from '@aws-cdk/core';
 import { LambdaIntegration } from '@aws-cdk/aws-apigateway';
 import { Table, AttributeType } from '@aws-cdk/aws-dynamodb';
 import { Path } from '../../../libs/shared/utils/src';
-import { kanjiAttributes, kanjiReport } from '../../../libs/japanese/interface/src';
+import { kanjiAttributes, kanjiRadicals, kanjiReport } from '../../../libs/japanese/interface/src';
 import { defaultRestApi, AuthenticatedRestConstruct, defaultCognito } from './shared-stack';
 import { Function, Runtime, Code } from '@aws-cdk/aws-lambda';
 
@@ -34,6 +34,18 @@ export class JapaneseStack extends Construct {
             sortKey: {
                 name: kanjiReport.sort,
                 type: AttributeType.NUMBER,
+            },
+        });
+
+        const kanjiRadicalTable = new Table(this, kanjiRadicals.table, {
+            tableName: kanjiRadicals.table,
+            partitionKey: {
+                name: kanjiRadicals.key,
+                type: AttributeType.STRING,
+            },
+            sortKey: {
+                name: kanjiRadicals.sort,
+                type: AttributeType.STRING,
             },
         });
 

@@ -14,3 +14,9 @@ export const kanjiReport = {
     key: 'user',
     sort: 'created',
 };
+
+export const kanjiRadicals = {
+    table: 'KanjiRadicals',
+    key: 'radical',
+    sort: 'kanji',
+};
