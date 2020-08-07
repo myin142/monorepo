@@ -10,7 +10,7 @@ if (process.env.AWS_SAM_LOCAL) {
 export const dynamo = new DynamoDB(options);
 
 export class DynamoWrapper {
-    constructor(private dynamo: DynamoDB) {}
+    constructor(public dynamo: DynamoDB) { }
 
     async batchGet<T>(table: string, keys: object[]): Promise<T[]> {
         return Promise.all(
@@ -30,7 +30,7 @@ export class DynamoWrapper {
             .then((items) => fromAWSAttributeMapArray<T>(items));
     }
 
-    async query<T>(table: string, condition: string, values: object): Promise<T[]> {
+    async query<T>(table: string, condition: string, values: object, projection?: string): Promise<T[]> {
         const colonValues = {};
         Object.keys(values).forEach((k) => {
             const keyColon = !k.startsWith(':') ? `:${k}` : k;
@@ -43,6 +43,7 @@ export class DynamoWrapper {
                 TableName: table,
                 KeyConditionExpression: condition,
                 ExpressionAttributeValues: expressionValues,
+                ProjectionExpression: projection,
             })
             .promise();
 

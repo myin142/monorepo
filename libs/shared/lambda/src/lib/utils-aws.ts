@@ -1,4 +1,4 @@
-import {} from 'aws-sdk';
+import { } from 'aws-sdk';
 import { AttributeMap, AttributeValue } from 'aws-sdk/clients/dynamodb';
 
 class AWSAttributeMapAdapter {
@@ -11,6 +11,7 @@ class AWSAttributeMapAdapter {
             case 'number':
                 key = 'N';
                 break;
+            // TODO: add array types
         }
 
         return key ? { [key]: `${value}` } : null;
