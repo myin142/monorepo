@@ -6,6 +6,7 @@ import {
     dynamo,
     batchGet,
     fromAWSAttributeMapArray,
+    dynamoWrapper
 } from '../../../../shared/lambda/src';
 import { extractKanjis } from '../../../utils/src';
 import {
@@ -14,6 +15,7 @@ import {
     kanjiReport,
     KanjiAttribute,
     KanjiReport,
+    kanjiRadicals
 } from '../../../interface/src';
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 
@@ -102,3 +104,11 @@ export const getKanjiReports = async (ev: APIGatewayProxyEvent): Promise<APIGate
 
     return successAndBody(items);
 };
+
+
+export const getKanjisForRadical = async (ev: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
+    const radical = ev.queryStringParameters.radical;
+
+    const result = dynamoWrapper.query(kanjiRadicals.table, 'radical = :radical', { radical })
+    return successAndBody(result);
+}

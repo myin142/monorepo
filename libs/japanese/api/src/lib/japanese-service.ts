@@ -1,7 +1,7 @@
 import { ApiClient, Stage } from '@myin/shared/api';
 import { Radical } from './api-radical';
 import { Page, PageRequest, Query } from '@myin/shared/utils';
-import { AllKanjiStats, KanjiReport } from '@myin/japanese/interface';
+import { AllKanjiStats, KanjiReport, KanjiRadical } from '@myin/japanese/interface';
 
 const API_URL = 'https://312b71jv54.execute-api.eu-central-1.amazonaws.com';
 
@@ -18,6 +18,10 @@ export class JapaneseService {
 
     getRadicals(req: PageRequest): Promise<Page<Radical>> {
         return this.client.get(`/radical?${Query.create(req)}`);
+    }
+
+    getKanjisForRadical(radical: string): Promise<KanjiRadical> {
+        return this.client.get(`/radical/kanjis?radical=${radical}`);
     }
 
     getAllKanjiStats(): Promise<AllKanjiStats> {

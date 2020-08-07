@@ -1,15 +1,15 @@
 <style scoped>
 .radical-15 {
-    background-image: url(../../assets/radical-15.png);
+    background-image: url(../../../../../../apps/japanese/src/assets/radical-15.png);
 }
 .radical-50 {
-    background-image: url(../../assets/radical-50.png);
+    background-image: url(../../../../../../apps/japanese/src/assets/radical-50.png);
 }
 .radical-76 {
-    background-image: url(../../assets/radical-76.png);
+    background-image: url(../../../../../../apps/japanese/src/assets/radical-76.png);
 }
 .radical-239 {
-    background-image: url(../../assets/radical-239.png);
+    background-image: url(../../../../../../apps/japanese/src/assets/radical-239.png);
 }
 
 .radicals .selected {
@@ -41,12 +41,12 @@
     <div>
         <div class="row justify-content-center mb-3">
             <div class="col-9 col-md-4 col-lg-3">
-                <input class="w-100" v-model="tagSearch" ref="input" />
+                <v-text-field label="Radical Search" v-model="tagSearch" ref="input" />
             </div>
             <div class="col-3 col-md-1">
-                <button type="button" class="btn btn-light" @click="resetValues()">
+                <v-btn type="button" @click="resetValues()">
                     <i class="fas fa-redo">Reset</i>
-                </button>
+                </v-btn>
             </div>
         </div>
         <div class="radicals flex-items" :class="{ filtering: isFiltering }">
@@ -130,7 +130,7 @@ export default Vue.extend({
             if (this.tagSearchResult.includes(radical)) classes.push('highlight');
             if (this.nextRadicals.includes(radical)) classes.push('next-radical');
 
-            return classes.filter(x => x.trim() != '').join(' ');
+            return classes.filter((x) => x.trim() != '').join(' ');
         },
         resolveRadical(radical: string): string {
             const foundRadical = radicalMap[radical];
@@ -177,7 +177,7 @@ export default Vue.extend({
             this.$refs.input.focus();
         },
         radicalIncludesTag(radical: Radical, tag: string): boolean {
-            return radical.tags.some(t => t.trim() != '' && t.includes(tag));
+            return radical.tags.some((t) => t.trim() != '' && t.includes(tag));
         },
         isNextRadicalIfNotEmpty(radical: Radical): boolean {
             return this.nextRadicals.length == 0 || this.nextRadicals.includes(radical.radical);
@@ -195,11 +195,11 @@ export default Vue.extend({
 
             return this.radicals
                 .filter(
-                    r =>
+                    (r) =>
                         this.radicalIncludesTag(r, this.tagSearch) &&
                         this.isNextRadicalIfNotEmpty(r)
                 )
-                .map(r => r.radical);
+                .map((r) => r.radical);
         },
     },
 });

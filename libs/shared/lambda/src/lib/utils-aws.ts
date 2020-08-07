@@ -30,6 +30,8 @@ class AWSAttributeMapAdapter {
 }
 
 export const toAWSAttributeMap = <T>(obj: T): AttributeMap => {
+    if (obj == null) return null;
+
     const attributeMap = {};
 
     Object.keys(obj).forEach((key) => {

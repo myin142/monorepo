@@ -10,7 +10,7 @@ if (process.env.AWS_SAM_LOCAL) {
 export const dynamo = new DynamoDB(options);
 
 export class DynamoWrapper {
-    constructor(private dynamo: DynamoDB = dynamo) {}
+    constructor(private dynamo: DynamoDB) {}
 
     async batchGet<T>(table: string, keys: object[]): Promise<T[]> {
         return Promise.all(
@@ -31,11 +31,12 @@ export class DynamoWrapper {
     }
 
     async query<T>(table: string, condition: string, values: object): Promise<T[]> {
-        const expressionValues: ExpressionAttributeValueMap = toAWSAttributeMapArray(
-            Object.keys(values)
-                .map((k) => (!k.startsWith(':') ? `:${k}` : k))
-                .map((k) => ({ [k]: values[k] }))
-        );
+        const colonValues = {};
+        Object.keys(values).forEach((k) => {
+            const keyColon = !k.startsWith(':') ? `:${k}` : k;
+            colonValues[keyColon] = values[k];
+        });
+        const expressionValues: ExpressionAttributeValueMap = toAWSAttributeMap(colonValues);
 
         const response = await this.dynamo
             .query({
@@ -45,24 +46,11 @@ export class DynamoWrapper {
             })
             .promise();
 
-        response.Items;
+        return fromAWSAttributeMapArray(response.Items);
     }
 }
+export const dynamoWrapper = new DynamoWrapper(dynamo);
 
 export const batchGet = <T>(table: string, keys: object[]): Promise<T[]> => {
-    return Promise.all(
-        chunk(keys, 100).map(async (chunk) => {
-            const response = await dynamo
-                .batchGetItem({
-                    RequestItems: {
-                        [table]: { Keys: toAWSAttributeMapArray(chunk) },
-                    },
-                })
-                .promise();
-
-            return response.Responses[table];
-        })
-    )
-        .then((items) => items.reduce((prev, curr) => prev.concat(curr), []))
-        .then((items) => fromAWSAttributeMapArray<T>(items));
+    return dynamoWrapper.batchGet(table, keys);
 };

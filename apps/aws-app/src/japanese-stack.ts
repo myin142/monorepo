@@ -49,6 +49,14 @@ export class JapaneseStack extends Construct {
             },
         });
 
+        const getKanjisForRadical = new Function(this, 'getKanjisForRadical', {
+            runtime: Runtime.NODEJS_12_X,
+            code: Code.fromAsset(japanesePath()),
+            handler: 'japanese-cloud.getKanjisForRadical',
+        });
+
+        kanjiRadicalTable.grantReadData(getKanjisForRadical);
+
         const getKanjiReports = new Function(this, 'getKanjiReports', {
             runtime: Runtime.NODEJS_12_X,
             code: Code.fromAsset(japanesePath()),
@@ -82,5 +90,10 @@ export class JapaneseStack extends Construct {
 
         const kanjiAttributeResource = kanjiResource.addResource('attributes');
         kanjiAttributeResource.addMethod('GET', new LambdaIntegration(getAllKanjiStats), authOpt);
+
+        const radicalResource = japaneseApi.root.addResource('radical');
+
+        const radicalKanjiResource = radicalResource.addResource('kanjis');
+        radicalKanjiResource.addMethod('GET', new LambdaIntegration(getKanjisForRadical));
     }
 }
