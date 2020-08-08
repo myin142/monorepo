@@ -39,14 +39,14 @@
 
 <template>
     <div>
-        <v-row justify="center">
+        <v-row justify="center" align="center">
             <v-col cols="9" md="4" lg="3">
                 <v-text-field label="Radical Search" v-model="tagSearch" ref="input" />
             </v-col>
 
             <v-col cols="3" md="1">
-                <v-btn type="button" @click="resetValues()">
-                    <i class="fas fa-redo">Reset</i>
+                <v-btn flat text icon type="button" @click="resetValues()">
+                    <v-icon>fas fa-redo</v-icon>
                 </v-btn>
             </v-col>
         </v-row>

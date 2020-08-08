@@ -23,26 +23,6 @@
                 </v-btn>
             </v-col>
         </v-row>
-        <div class="row justify-content-center mb-3">
-            <div class="col-12 col-sm-8 col-xl-10"></div>
-            <!-- <div class="col-6 col-sm-2 col-xl-1">
-                <button type="button" class="tokenize btn btn-light" @click="tokenize()">
-                    Tokenize
-                </button>
-            </div> -->
-        </div>
-        <!-- <div class="row">
-            <div class="col-12">
-                <span
-                    class="token"
-                    v-for="token in tokens"
-                    :key="token.surface"
-                    @click="redirectJisho(token.surface)"
-                >
-                    {{ token.surface }}
-                </span>
-            </div>
-        </div> -->
     </div>
 </template>
 

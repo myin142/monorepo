@@ -7,7 +7,7 @@ const options = { region: 'eu-central-1' };
 if (process.env.AWS_SAM_LOCAL) {
     options['endpoint'] = 'http://localhost:8000';
 }
-export const dynamo = new DynamoDB(options);
+export const dynamodb = new DynamoDB(options);
 
 export class DynamoWrapper {
     constructor(public dynamo: DynamoDB) { }
@@ -50,7 +50,7 @@ export class DynamoWrapper {
         return fromAWSAttributeMapArray(response.Items);
     }
 }
-export const dynamoWrapper = new DynamoWrapper(dynamo);
+export const dynamoWrapper = new DynamoWrapper(dynamodb);
 
 export const batchGet = <T>(table: string, keys: object[]): Promise<T[]> => {
     return dynamoWrapper.batchGet(table, keys);
