@@ -135,12 +135,6 @@ export const updateRadical = async (query: APIGatewayProxyEvent): Promise<APIGat
     return successAndBody({});
 }
 
-export const getRadicals = async (request: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
-    await initMongoDB();
-    const queryParam = request.queryStringParameters || {};
-    return queryRadicalTags(queryParam, { _id: 0, stroke: 0 });
-};
-
 async function queryRadicalTags(queryParam, projection) {
     const page = parseInt(queryParam.page);
     const pageSize = parseInt(queryParam.pageSize) || 10;
@@ -163,3 +157,9 @@ async function queryRadicalTags(queryParam, projection) {
         total,
     });
 }
+
+export const getRadicals = async (request: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
+    await initMongoDB();
+    const queryParam = request.queryStringParameters || {};
+    return queryRadicalTags(queryParam, { _id: 0, stroke: 0 });
+};
