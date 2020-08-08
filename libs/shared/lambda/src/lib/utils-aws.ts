@@ -1,19 +1,21 @@
-import {} from 'aws-sdk';
+import { } from 'aws-sdk';
 import { AttributeMap, AttributeValue } from 'aws-sdk/clients/dynamodb';
 
 class AWSAttributeMapAdapter {
     static toAttributeValue(value: any): AttributeValue {
-        let key = null;
         switch (typeof value) {
             case 'string':
-                key = 'S';
-                break;
+                return { S: value };
             case 'number':
-                key = 'N';
-                break;
+                return { N: `${value}` };
+            case 'object':
+                if (Array.isArray(value) && value.length > 0) {
+                    switch (typeof value[0]) {
+                        case 'string': return { SS: value };
+                        case 'number': return { NS: value.map(n => `${n}`) };
+                    }
+                }
         }
-
-        return key ? { [key]: `${value}` } : null;
     }
 
     static fromAttributeValue(value: AttributeValue): any {
@@ -22,14 +24,17 @@ class AWSAttributeMapAdapter {
         const type = Object.keys(value)[0];
         switch (type) {
             case 'S':
+            case 'SS':
                 return value[type];
-            case 'N':
-                return parseInt(value[type]);
+            case 'N': return parseInt(value[type]);
+            case 'NS': return value[type].map(n => parseInt(n));
         }
     }
 }
 
 export const toAWSAttributeMap = <T>(obj: T): AttributeMap => {
+    if (obj == null) return null;
+
     const attributeMap = {};
 
     Object.keys(obj).forEach((key) => {
@@ -47,6 +52,8 @@ export const toAWSAttributeMapArray = (arr: Array<object>): AttributeMap[] => {
 };
 
 export const fromAWSAttributeMap = <T>(attributeMap: AttributeMap): T => {
+    if (attributeMap == null) return null;
+
     const result = {};
 
     Object.keys(attributeMap).forEach((key) => {

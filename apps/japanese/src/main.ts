@@ -39,6 +39,11 @@ const routes: Array<RouteConfig> = [
         component: () => import('@myin/japanese/feature/report'),
         beforeEnter: authGuard,
     },
+    {
+        path: '/radicals',
+        name: 'Radicals',
+        component: () => import('@myin/japanese/feature/radical-search'),
+    },
 ];
 
 const router = new VueRouter({

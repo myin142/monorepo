@@ -28,7 +28,10 @@
             "@myin/japanese/feature/report": ["libs/japanese/feature/report/src/index.ts"],
             "@myin/shared/interface": ["libs/shared/interface/src/index.ts"],
             "@myin/shared/tests": ["libs/shared/tests/src/index.ts"],
-            "@myin/shared/lambda": ["libs/shared/lambda/src/index.ts"]
+            "@myin/shared/lambda": ["libs/shared/lambda/src/index.ts"],
+            "@myin/japanese/feature/radical-search": [
+                "libs/japanese/feature/radical-search/src/index.ts"
+            ]
         }
     },
     "exclude": ["node_modules", "tmp"]

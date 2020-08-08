@@ -82,6 +82,9 @@
         },
         "shared-lambda": {
             "tags": ["scope:shared", "type:cloud"]
+        },
+        "japanese-feature-radical-search": {
+            "tags": ["scope:japanese", "type:feature"]
         }
     }
 }

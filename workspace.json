@@ -728,6 +728,36 @@
                     }
                 }
             }
+        },
+        "japanese-feature-radical-search": {
+            "root": "libs/japanese/feature/radical-search",
+            "sourceRoot": "libs/japanese/feature/radical-search/src",
+            "projectType": "library",
+            "schematics": {},
+            "architect": {
+                "lint": {
+                    "builder": "@nrwl/linter:lint",
+                    "options": {
+                        "linter": "eslint",
+                        "tsConfig": [
+                            "libs/japanese/feature/radical-search/tsconfig.lib.json",
+                            "libs/japanese/feature/radical-search/tsconfig.spec.json"
+                        ],
+                        "exclude": [
+                            "**/node_modules/**",
+                            "!libs/japanese/feature/radical-search/**/*"
+                        ]
+                    }
+                },
+                "test": {
+                    "builder": "@nrwl/jest:jest",
+                    "options": {
+                        "jestConfig": "libs/japanese/feature/radical-search/jest.config.js",
+                        "tsConfig": "libs/japanese/feature/radical-search/tsconfig.spec.json",
+                        "passWithNoTests": true
+                    }
+                }
+            }
         }
     },
     "cli": {

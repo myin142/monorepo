@@ -3,9 +3,10 @@ import {
     successAndBody,
     statusAndError,
     getSubjectFromToken,
-    dynamo,
+    dynamodb,
     batchGet,
     fromAWSAttributeMapArray,
+    dynamoWrapper,
 } from '../../../../shared/lambda/src';
 import { extractKanjis } from '../../../utils/src';
 import {
@@ -14,6 +15,7 @@ import {
     kanjiReport,
     KanjiAttribute,
     KanjiReport,
+    kanjiRadicals,
 } from '../../../interface/src';
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 
@@ -21,7 +23,7 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 // https://github.com/aws/jsii/issues/865
 
 export const getAllKanjiStats = async (): Promise<APIGatewayProxyResult> => {
-    const response = await dynamo
+    const response = await dynamodb
         .getItem({
             TableName: kanjiAttributes.table,
             Key: { kanji: { S: '@' } },
@@ -62,7 +64,7 @@ export const createKanjiReport = async (
     });
 
     const created = Date.now();
-    await dynamo
+    await dynamodb
         .putItem({
             TableName: kanjiReport.table,
             Item: {
@@ -84,7 +86,7 @@ export const createKanjiReport = async (
 export const getKanjiReports = async (ev: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
     const subject = getSubjectFromToken(ev.headers.Authorization as string);
 
-    const result = await dynamo
+    const result = await dynamodb
         .query({
             TableName: kanjiReport.table,
             KeyConditionExpression: `#${kanjiReport.key} = :u`,
@@ -101,4 +103,14 @@ export const getKanjiReports = async (ev: APIGatewayProxyEvent): Promise<APIGate
     items.forEach((i) => (i.counts = JSON.parse(i.counts)));
 
     return successAndBody(items);
+};
+
+export const getKanjisForRadical = async (ev: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
+    const radical = ev.queryStringParameters.radical;
+    const result = await dynamoWrapper.query(kanjiRadicals.table, 'radical = :radical',
+        { radical },
+        'kanji, otherRadicals'
+    );
+
+    return successAndBody({ radical, kanjis: result });
 };
