@@ -39,16 +39,17 @@
 
 <template>
     <div>
-        <div class="row justify-content-center mb-3">
-            <div class="col-9 col-md-4 col-lg-3">
+        <v-row justify="center">
+            <v-col cols="9" md="4" lg="3">
                 <v-text-field label="Radical Search" v-model="tagSearch" ref="input" />
-            </div>
-            <div class="col-3 col-md-1">
+            </v-col>
+
+            <v-col cols="3" md="1">
                 <v-btn type="button" @click="resetValues()">
                     <i class="fas fa-redo">Reset</i>
                 </v-btn>
-            </div>
-        </div>
+            </v-col>
+        </v-row>
         <div class="radicals flex-items" :class="{ filtering: isFiltering }">
             <span
                 v-for="item in radicals"

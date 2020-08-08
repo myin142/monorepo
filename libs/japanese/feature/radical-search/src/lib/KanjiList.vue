@@ -13,20 +13,23 @@
         <div class="kanjis flex-items">
             <span v-for="kanji in kanjis" :key="kanji" @click="addKanji(kanji)">{{ kanji }}</span>
         </div>
-        <div class="row justify-content-center mb-3">
-            <div class="col-12 col-sm-8 col-xl-10">
+        <v-row justify="center">
+            <v-col cols="12" sm="6" xl="10">
                 <v-text-field label="Search" v-model="search" />
-            </div>
+            </v-col>
+            <v-col cols="6" sm="2" xl="1">
+                <v-btn type="button" class="jisho btn btn-light" @click="redirectJisho()">
+                    Jisho
+                </v-btn>
+            </v-col>
+        </v-row>
+        <div class="row justify-content-center mb-3">
+            <div class="col-12 col-sm-8 col-xl-10"></div>
             <!-- <div class="col-6 col-sm-2 col-xl-1">
                 <button type="button" class="tokenize btn btn-light" @click="tokenize()">
                     Tokenize
                 </button>
             </div> -->
-            <div class="col-6 col-sm-2 col-xl-1">
-                <v-btn type="button" class="jisho btn btn-light" @click="redirectJisho()">
-                    Jisho
-                </v-btn>
-            </div>
         </div>
         <!-- <div class="row">
             <div class="col-12">
