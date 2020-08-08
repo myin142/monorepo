@@ -45,7 +45,7 @@
             </v-col>
 
             <v-col cols="3" md="1">
-                <v-btn flat text icon type="button" @click="resetValues()">
+                <v-btn text icon type="button" @click="resetValues()">
                     <v-icon>fas fa-redo</v-icon>
                 </v-btn>
             </v-col>
@@ -102,16 +102,11 @@ export default Vue.extend({
     props: {
         selectedRadicals: { type: Array, default: () => [] },
         nextRadicals: { type: Array, default: () => [] },
+        radicals: { type: Array, default: () => [] },
     },
     data: () => ({
-        radicals: [],
         tagSearch: '',
     }),
-    async created() {
-        const response = await fetch('/radicals.json');
-        const radicals: Radical[] = await response.json();
-        this.radicals = radicals.sort((r1, r2) => r1.stroke - r2.stroke);
-    },
     methods: {
         isSelectedRadical(radical: string): boolean {
             return this.selectedRadicals.indexOf(radical) !== -1;

@@ -6,6 +6,8 @@ import { Path } from '../../../libs/shared/utils/src';
 import { kanjiAttributes, kanjiRadicals, kanjiReport } from '../../../libs/japanese/interface/src';
 import { defaultRestApi, AuthenticatedRestConstruct, defaultCognito } from './shared-stack';
 import { Function, Runtime, Code } from '@aws-cdk/aws-lambda';
+import { } from '@aws-cdk/aws-ssm';
+import { Effect, PolicyStatement } from '@aws-cdk/aws-iam';
 
 const japanesePath = (path?: string): string => Path.join('../../dist/libs/japanese/cloud/', path);
 
@@ -91,7 +93,29 @@ export class JapaneseStack extends Construct {
         const kanjiAttributeResource = kanjiResource.addResource('attributes');
         kanjiAttributeResource.addMethod('GET', new LambdaIntegration(getAllKanjiStats), authOpt);
 
+        const ssmMongoDBRead = new PolicyStatement({
+            effect: Effect.ALLOW,
+            actions: ['ssm:GetParameter'],
+            resources: ['arn:aws:ssm:eu-central-1:841152197398:parameter/mongodb_*'],
+        });
+
+        const updateRadical = new Function(this, 'updateRadical', {
+            runtime: Runtime.NODEJS_12_X,
+            code: Code.fromAsset(japanesePath()),
+            handler: 'japanese-cloud.updateRadical',
+        });
+        updateRadical.addToRolePolicy(ssmMongoDBRead);
+
+        const getRadicals = new Function(this, 'getRadicals', {
+            runtime: Runtime.NODEJS_12_X,
+            code: Code.fromAsset(japanesePath()),
+            handler: 'japanese-cloud.getRadicals',
+        });
+        getRadicals.addToRolePolicy(ssmMongoDBRead);
+
         const radicalResource = japaneseApi.root.addResource('radical');
+        radicalResource.addMethod('POST', new LambdaIntegration(updateRadical), authOpt);
+        radicalResource.addMethod('GET', new LambdaIntegration(getRadicals));
 
         const radicalKanjiResource = radicalResource.addResource('kanjis');
         radicalKanjiResource.addMethod('GET', new LambdaIntegration(getKanjisForRadical));

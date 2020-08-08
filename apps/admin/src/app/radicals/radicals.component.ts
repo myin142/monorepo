@@ -10,9 +10,9 @@ import { Page } from '@myin/shared/utils';
 export class RadicalsComponent implements OnInit {
     radicals: Promise<Page<Radical>>;
 
-    constructor(private radicalService: RadicalService) {}
+    constructor(private radicalService: RadicalService) { }
 
     ngOnInit(): void {
-        this.radicals = this.radicalService.getRadicals();
+        this.radicals = this.radicalService.getRadicals({ page: 0, pageSize: 10 });
     }
 }

@@ -7,6 +7,8 @@ import {
     batchGet,
     fromAWSAttributeMapArray,
     dynamoWrapper,
+    initMongoDB,
+    db, RADICAL_TAG_COLLECTION
 } from '../../../../shared/lambda/src';
 import { extractKanjis } from '../../../utils/src';
 import {
@@ -22,6 +24,7 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 // ^^^ Importing using tsconfig paths not working
 // https://github.com/aws/jsii/issues/865
 
+// Kanji Reports
 export const getAllKanjiStats = async (): Promise<APIGatewayProxyResult> => {
     const response = await dynamodb
         .getItem({
@@ -105,6 +108,7 @@ export const getKanjiReports = async (ev: APIGatewayProxyEvent): Promise<APIGate
     return successAndBody(items);
 };
 
+// Kanji Radicals
 export const getKanjisForRadical = async (ev: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
     const radical = ev.queryStringParameters.radical;
     const result = await dynamoWrapper.query(kanjiRadicals.table, 'radical = :radical',
@@ -114,3 +118,48 @@ export const getKanjisForRadical = async (ev: APIGatewayProxyEvent): Promise<API
 
     return successAndBody({ radical, kanjis: result });
 };
+
+export const updateRadical = async (query: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
+    if (!query.body) return statusAndError(400, 'Empty body');
+
+    const data = JSON.parse(query.body);
+    const radical = data.radical;
+    if (!radical) return statusAndError(400, 'Invalid body');
+
+    delete data['_id'];
+
+    await initMongoDB();
+    await db.collection(RADICAL_TAG_COLLECTION)
+        .updateOne({ radical }, data, { upsert: true });
+
+    return successAndBody({});
+}
+
+export const getRadicals = async (request: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
+    await initMongoDB();
+    const queryParam = request.queryStringParameters || {};
+    return queryRadicalTags(queryParam, { _id: 0, stroke: 0 });
+};
+
+async function queryRadicalTags(queryParam, projection) {
+    const page = parseInt(queryParam.page);
+    const pageSize = parseInt(queryParam.pageSize) || 10;
+    const query = {};
+
+    let result = db.collection(RADICAL_TAG_COLLECTION)
+        .find(query)
+        .project(projection)
+
+    if (!isNaN(page)) {
+        result = result.skip(page * pageSize).limit(pageSize);
+    }
+
+    const total = await db.collection(RADICAL_TAG_COLLECTION).countDocuments(query);
+
+    return successAndBody({
+        content: await result.toArray(),
+        page,
+        pageSize,
+        total,
+    });
+}

@@ -3,6 +3,7 @@
         <radical-list
             :selectedRadicals="selectedRadicals"
             :nextRadicals="nextRadicals"
+            :radicals="radicals"
             @select-radical="selectRadical"
             @reset="resetRadicals()"
         />
@@ -29,7 +30,12 @@ export default Vue.extend({
         selectedRadicals: [],
         radicalMapCache: {},
         radicalPredictionMap: {},
+        radicals: [],
     }),
+    async created() {
+        const radicals = await this.japaneseService.getRadicals();
+        this.radicals = radicals.content.sort((r1, r2) => r1.stroke - r2.stroke);
+    },
     methods: {
         async selectRadical({ radical, selected }: SelectRadicalEvent) {
             if (this.radicalMapCache[radical] == null) {

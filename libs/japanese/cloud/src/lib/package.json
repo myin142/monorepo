@@ -5,6 +5,7 @@
     "dependencies": {
         "aws-sdk": "^2.715.0",
         "jsonwebtoken": "^8.5.1",
+        "mongodb": "^3.5.9",
         "lodash": "^4.17.19"
     }
 }

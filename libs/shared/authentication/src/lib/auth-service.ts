@@ -12,8 +12,8 @@ export class AuthService {
         this.token = sessionStorage.getItem(AuthService.TOKEN_KEY);
     }
 
-    login() {
-        const redirectUri = Path.join(document.baseURI);
+    login(prefix?: string) {
+        const redirectUri = Path.join(document.baseURI, prefix);
         const url = `https://${this.domain}.auth.eu-central-1.amazoncognito.com/login?client_id=${this.clientId}&redirect_uri=${redirectUri}&response_type=token&scope=email+openid`;
         window.location.href = url;
     }
