@@ -31,7 +31,8 @@
             "@myin/shared/lambda": ["libs/shared/lambda/src/index.ts"],
             "@myin/japanese/feature/radical-search": [
                 "libs/japanese/feature/radical-search/src/index.ts"
-            ]
+            ],
+            "@myin/japanese/feature/grammar": ["libs/japanese/feature/grammar/src/index.ts"]
         }
     },
     "exclude": ["node_modules", "tmp"]

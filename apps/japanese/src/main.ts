@@ -44,6 +44,11 @@ const routes: Array<RouteConfig> = [
         name: 'Radicals',
         component: () => import('@myin/japanese/feature/radical-search'),
     },
+    {
+        path: '/grammar',
+        name: 'Grammar',
+        component: () => import('@myin/japanese/feature/grammar'),
+    },
 ];
 
 const router = new VueRouter({

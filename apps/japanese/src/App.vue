@@ -6,6 +6,7 @@
                 <v-toolbar-title>
                     <v-btn text to="report">Report</v-btn>
                     <v-btn text to="radicals">Radicals</v-btn>
+                    <v-btn text to="grammar">Grammar</v-btn>
                 </v-toolbar-title>
             </v-app-bar>
             <v-main>

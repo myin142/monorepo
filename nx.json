@@ -85,6 +85,9 @@
         },
         "japanese-feature-radical-search": {
             "tags": ["scope:japanese", "type:feature"]
+        },
+        "japanese-feature-grammar": {
+            "tags": ["scope:japanese", "type:feature"]
         }
     }
 }
