@@ -23,4 +23,13 @@ export const grammars: Grammar[] = [
             'http://www.guidetojapanese.org/learn/grammar/causepass#Passive_Verbs',
         ],
     },
+    {
+        name: '~そう・Guessing outcome',
+        description: '食べそう・食べなさそう\n高そう・よさそう',
+        types: [GrammarType.Verb, GrammarType.Adjective],
+        tags: ['sou', 'そう', 'seem'],
+        resources: [
+            'http://www.guidetojapanese.org/learn/grammar/similarity#Guessing_at_an_outcome_using',
+        ],
+    },
 ];

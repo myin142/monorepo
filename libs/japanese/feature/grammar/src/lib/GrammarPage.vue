@@ -3,14 +3,14 @@
         <v-text-field label="Search Grammar" v-model="grammarSearch" @keyup="startSearch()" />
 
         <v-list v-if="grammarResult.length > 0">
-            <v-card v-for="(item, i) in grammarResult" :key="i">
+            <v-card v-for="(item, i) in grammarResult" :key="i" style="margin-bottom: 1em;">
                 <v-list-item>
                     <v-list-item-content>
                         <v-list-item-title>
                             {{ item.name }} ({{ grammarTypes(item) }})
                         </v-list-item-title>
                         <v-list-item-subtitle>
-                            {{ item.description }}
+                            <span v-html="item.description" style="white-space: pre;"></span>
                             <v-list>
                                 <v-list-item v-for="(link, i) in item.resources" :key="i">
                                     <v-list-item-content>
