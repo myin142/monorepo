@@ -1,14 +1,9 @@
-image: node
+include:
+    remote: 'https://github.com/myin142/gitlab-templates/raw/master/default-merge-js.yml'
 
 cache:
     paths:
-        - node_modules/
         - tmp/
-
-workflow:
-    rules:
-        - if: $CI_EXTERNAL_PULL_REQUEST_IID
-        - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 
 stages:
     - test
@@ -20,26 +15,30 @@ before_script:
 
 test:
     stage: test
+    extends: .prepare_nx_affected
     script:
-        - npm test
+        - npm test -- $NX_BASE_ARGS
 
 lint:
     stage: test
+    extends: .prepare_nx_affected
     script:
-        - npm run lint
+        - npm run lint -- $NX_BASE_ARGS
 
 e2e:
     image: cypress/base
     stage: e2e
+    extends: .prepare_nx_affected
     script:
-        - CYPRESS_CACHE_FOLDER=./tmp/Cypress npm run e2e
+        - CYPRESS_CACHE_FOLDER=./tmp/Cypress npm run e2e -- $NX_BASE_ARGS
     rules:
         - if: $CI_EXTERNAL_PULL_REQUEST_IID
 
 deploy:
     stage: deploy
+    extends: .prepare_nx_affected
     script:
-        - npm run build -- $BASE_HEAD_ARGS
+        - npm run build -- $NX_BASE_ARGS
         - ./scripts/clone-website "$GITHUB_TOKEN" "ci-web"
         - ./scripts/deploy-website ci-web
     rules:
