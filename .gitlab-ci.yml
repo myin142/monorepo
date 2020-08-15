@@ -3,6 +3,7 @@ include:
 
 cache:
     paths:
+        - node_modules/
         - tmp/
 
 stages:
