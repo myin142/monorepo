@@ -47,3 +47,4 @@ fi
 
 echo "Starting Application"
 sam local start-api --docker-network host
+
