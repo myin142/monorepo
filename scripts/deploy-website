@@ -15,8 +15,10 @@ if [ -d dist/apps ]; then
     npm run copy-apps -- --target $REPO_TARGET --exclude aws-app sync
 
     # Copy files for static hosting
-    echo "Copy required static files"
-    cp dist/apps/public/assets/* $REPO_TARGET -r
+    if [ -d dist/apps/public ]; then
+        echo "Copy required static files"
+        cp dist/apps/public/assets/* $REPO_TARGET -r
+    fi
 
     # Append redirect script to every app index file
     # needed for static hosting
