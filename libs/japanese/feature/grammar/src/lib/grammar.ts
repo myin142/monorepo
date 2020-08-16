@@ -16,11 +16,20 @@ export enum GrammarType {
 export const grammars: Grammar[] = [
     {
         name: 'Passive',
-        description: '食べられる・話される',
+        description: '食べられる・話される、一段',
         types: [GrammarType.Verb],
-        tags: ['られる', 'れる', 'rareru', 'reru'],
+        tags: ['られる', 'あれる', 'rareru', 'areru'],
         resources: [
             'http://www.guidetojapanese.org/learn/grammar/causepass#Passive_Verbs',
+        ],
+    },
+    {
+        name: 'Potential',
+        description: '食べられる・話せる、一段',
+        types: [GrammarType.Verb],
+        tags: ['られる', 'える', 'eru', 'rareru'],
+        resources: [
+            'www.guidetojapanese.org/learn/grammar/potential',
         ],
     },
     {
