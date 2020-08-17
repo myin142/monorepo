@@ -68,5 +68,15 @@ export const grammars: Grammar[] = [
             'http://www.guidetojapanese.org/learn/grammar/covered#_to_express_entirety',
         ],
     },
+    {
+        name: 'によって',
+        description: '理由・手段・それぞれ',
+        types: [GrammarType.Noun],
+        tags: ['niyotte', 'dependency', 'according', 'reason', 'method'],
+        resources: [
+            'http://www.guidetojapanese.org/learn/grammar/covered#_to_express_entirety',
+            'https://japanese-teacher.tanosuke.com/2019/03/02/niyotte/',
+        ],
+    },
 ];
 
