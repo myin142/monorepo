@@ -33,6 +33,24 @@ export const grammars: Grammar[] = [
         ],
     },
     {
+        name: 'Command',
+        description: '食べろ・話せ',
+        types: [GrammarType.Verb],
+        tags: ['ro'],
+        resources: [
+            'http://www.guidetojapanese.org/learn/grammar/requests#The_Command_Form',
+        ],
+    },
+    {
+        name: 'Negative Command',
+        description: '食べるな・話すな',
+        types: [GrammarType.Verb],
+        tags: ['na'],
+        resources: [
+            'http://www.guidetojapanese.org/learn/grammar/requests#Negative_Command',
+        ],
+    },
+    {
         name: '~そう・Guessing outcome',
         description: '食べそう・食べなさそう\n高そう・よさそう',
         types: [GrammarType.Verb, GrammarType.Adjective],
