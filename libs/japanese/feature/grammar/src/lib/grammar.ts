@@ -51,6 +51,24 @@ export const grammars: Grammar[] = [
         ],
     },
     {
+        name: 'めく',
+        description: '謎めく・五段',
+        types: [GrammarType.Noun],
+        tags: ['atmosphere', 'state', 'meku', 'meita', 'めいた'],
+        resources: [
+            'http://www.guidetojapanese.org/learn/grammar/signs#Using_to_indicate_an_atmosphere_of_a_state',
+        ],
+    },
+    {
+        name: '~がる',
+        description: '怖がる・嫌がる',
+        types: [GrammarType.Adjective],
+        tags: ['outward sign', 'emotion', 'appearance', 'act', 'garu'],
+        resources: [
+            'http://www.guidetojapanese.org/learn/grammar/signs#Showing_outward_signs_of_an_emotion_using',
+        ],
+    },
+    {
         name: '~そう・Guessing outcome',
         description: '食べそう・食べなさそう\n高そう・よさそう',
         types: [GrammarType.Verb, GrammarType.Adjective],
