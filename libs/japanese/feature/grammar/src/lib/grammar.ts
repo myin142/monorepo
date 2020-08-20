@@ -11,6 +11,7 @@ export enum GrammarType {
     Verb = 'Verb',
     Adjective = 'Adjective',
     Particle = 'Particle',
+    General = 'General',
 }
 
 export const grammars: Grammar[] = [
@@ -57,6 +58,15 @@ export const grammars: Grammar[] = [
         tags: ['bakari', 'bakka', 'just', 'completed', 'finished', 'past'],
         resources: [
             'http://www.guidetojapanese.org/learn/grammar/timeactions#Expressing_what_just_happened_with',
+        ],
+    },
+    {
+        name: 'ばかり・ばっかり・ばっか',
+        description: '漫画ばかり',
+        types: [GrammarType.General],
+        tags: ['bakari', 'bakkari', 'bakka', 'amount', 'too much', 'nothing else', 'only'],
+        resources: [
+            'http://www.guidetojapanese.org/learn/grammar/amount#Expressing_the_opposite_of_with',
         ],
     },
     {
