@@ -51,6 +51,15 @@ export const grammars: Grammar[] = [
         ],
     },
     {
+        name: 'ばかり・ばっか',
+        description: '食べたばかり',
+        types: [GrammarType.Verb],
+        tags: ['bakari', 'bakka', 'just', 'completed', 'finished', 'past'],
+        resources: [
+            'http://www.guidetojapanese.org/learn/grammar/timeactions#Expressing_what_just_happened_with',
+        ],
+    },
+    {
         name: 'めく',
         description: '謎めく・五段',
         types: [GrammarType.Noun],
