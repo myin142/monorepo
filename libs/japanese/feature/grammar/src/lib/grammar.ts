@@ -61,12 +61,21 @@ export const grammars: Grammar[] = [
         ],
     },
     {
+        name: 'ばかり',
+        description: '言わんばかり・言わないばかり',
+        types: [GrammarType.Verb],
+        tags: ['nbakari', 'might do', 'want to do', 'seem'],
+        resources: [
+            'http://www.guidetojapanese.org/learn/grammar/amount#Expressing_the_opposite_of_with',
+        ],
+    },
+    {
         name: 'ばかり・ばっかり・ばっか',
         description: '漫画ばかり',
         types: [GrammarType.General],
         tags: ['bakari', 'bakkari', 'bakka', 'amount', 'too much', 'nothing else', 'only'],
         resources: [
-            'http://www.guidetojapanese.org/learn/grammar/amount#Expressing_the_opposite_of_with',
+            'http://www.guidetojapanese.org/learn/grammar/signs#Using_to_act_as_if_one_might_do_something',
         ],
     },
     {
