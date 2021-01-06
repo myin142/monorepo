@@ -28,7 +28,7 @@
         "@angular/router": "^9.1.0",
         "@types/jsdom": "^16.2.3",
         "aws-sdk": "^2.715.0",
-        "axios": "^0.19.2",
+        "axios": "^0.21.1",
         "chart.js": "^2.9.3",
         "document-register-element": "1.13.1",
         "jsdom": "^16.3.0",
